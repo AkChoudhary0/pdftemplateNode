@@ -77,10 +77,33 @@ exports.loginUser = async (req, res) => {
 exportsconvertPdf = async (req, res) => {
     try {
         let data = req.body
+
+
+        const fs = require("fs");
+        const path = require("path");
+        const pdf = require("html-pdf-node");
+
+        async function htmlToPdf(htmlContent, fileName = "output.pdf") {
+            const filePath = path.join(process.cwd(), fileName);
+
+            let options = { format: "A4" };
+            let file = { content: htmlContent };
+
+            try {
+                const pdfBuffer = await pdf.generatePdf(file, options);
+                fs.writeFileSync(filePath, pdfBuffer);
+                console.log("✅ PDF saved at:", filePath);
+            } catch (err) {
+                console.error("❌ Error generating PDF:", err);
+            }
+        }
+
+
+
+        let fileName = data.name + "-" + new Date()
+
         if (data.type == "oneway") {
 
-
-            
             let html = `<!DOCTYPE html>
 <html>
 <head>
@@ -303,12 +326,9 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 </body>
 </html>
 `
-
+            htmlToPdf(html,fileName+".pdf");
 
         } else if (data.type == "roundtrip") {
-
-
-
 
             let html = `<!DOCTYPE html>
 <html>
@@ -858,10 +878,9 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 
 </html>
 `
+            htmlToPdf(html,fileName+".pdf");
 
         } else if (data.type == "hotel") {
-
-
 
             let html = `<!DOCTYPE html>
 <html>
@@ -1047,6 +1066,9 @@ Bed type is subjected to the availability</p>
 </body>
 </html>
 `
+            htmlToPdf(html,fileName+".pdf");
+
+
         } else {
             res.send({
                 code: constants.errorCode,
