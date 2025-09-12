@@ -1,8 +1,10 @@
 const userService = require("../../services/userService/userService")
 const constants = require("../../config/constants")
+const generatedPdfs = require("../../models/user/generatedPdfs")
 
 const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
+const { date } = require("joi")
 
 
 
@@ -74,7 +76,7 @@ exports.loginUser = async (req, res) => {
     }
 }
 
-exportsconvertPdf = async (req, res) => {
+exports.convertPdf = async (req, res) => {
     try {
         let data = req.body
 
@@ -84,12 +86,18 @@ exportsconvertPdf = async (req, res) => {
         const pdf = require("html-pdf-node");
 
         async function htmlToPdf(htmlContent, fileName = "output.pdf") {
-            const filePath = path.join(process.cwd(), fileName);
+            // Save in /uploads at project root
+            const filePath = path.join(process.cwd(), "uploads", fileName);
 
             let options = { format: "A4" };
             let file = { content: htmlContent };
 
             try {
+                // Ensure uploads folder exists
+                if (!fs.existsSync(path.join(process.cwd(), "uploads"))) {
+                    fs.mkdirSync(path.join(process.cwd(), "uploads"));
+                }
+
                 const pdfBuffer = await pdf.generatePdf(file, options);
                 fs.writeFileSync(filePath, pdfBuffer);
                 console.log("✅ PDF saved at:", filePath);
@@ -98,9 +106,15 @@ exportsconvertPdf = async (req, res) => {
             }
         }
 
-
-
-        let fileName = data.name + "-" + new Date()
+        // let fileName = data.name + "-" + new Date()
+        let fileName = `${data.name}-${Date.now()}.pdf`;
+        let saveObject = {
+            userId: data.userId,
+            pdfUrl: `/uploads/${fileName}`,
+            customerName: data.name,
+            fileName: fileName,
+            date: new Date()
+        }
 
         if (data.type == "oneway") {
 
@@ -326,7 +340,10 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 </body>
 </html>
 `
-            htmlToPdf(html,fileName+".pdf");
+            htmlToPdf(html, fileName + ".pdf");
+           
+            let saveData = await generatedPdfs(saveObject).save()
+            
 
         } else if (data.type == "roundtrip") {
 
@@ -878,7 +895,8 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 
 </html>
 `
-            htmlToPdf(html,fileName+".pdf");
+            htmlToPdf(html, fileName + ".pdf");
+            let saveData = await generatedPdfs(saveObject).save()
 
         } else if (data.type == "hotel") {
 
@@ -1066,8 +1084,8 @@ Bed type is subjected to the availability</p>
 </body>
 </html>
 `
-            htmlToPdf(html,fileName+".pdf");
-
+            htmlToPdf(html, fileName + ".pdf");
+            let saveData = await generatedPdfs(saveObject).save()
 
         } else {
             res.send({
@@ -1084,8 +1102,14 @@ Bed type is subjected to the availability</p>
     }
 }
 
-exports.convertPdf = async (req, res) => {
+exports.getPdfs = async (req, res) => {
     try {
+        let data = await generatedPdfs.find().sort({ createdAt: -1 })
+        res.send({
+            code: constants.successCode,
+            message: "Data found",
+            data: data
+        })
 
     } catch (err) {
         res.send({
