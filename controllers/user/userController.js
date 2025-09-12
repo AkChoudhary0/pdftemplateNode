@@ -80,6 +80,7 @@ exports.convertPdf = async (req, res) => {
     try {
         let data = req.body
 
+        console.log("📩 Payload received from frontend:", data);
 
         const fs = require("fs");
         const path = require("path");
@@ -341,9 +342,9 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 </html>
 `
             htmlToPdf(html, fileName + ".pdf");
-           
+
             let saveData = await generatedPdfs(saveObject).save()
-            
+
 
         } else if (data.type == "roundtrip") {
 
