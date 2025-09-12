@@ -8,6 +8,7 @@ router.post("/login", userController.loginUser);
 
 // PDF Operations
 router.post("/convert-pdf", userController.convertPdf);
-router.get("/pdfs", userController.getPdfs);
+router.get("/get-pdfs", userController.getPdfs);
 
 module.exports = router;
+    

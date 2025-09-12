@@ -110,12 +110,15 @@ exports.convertPdf = async (req, res) => {
         // let fileName = data.name + "-" + new Date()
         let fileName = `${data.name}-${Date.now()}.pdf`;
         let saveObject = {
-            userId: data.userId,
+            userId: data.userId || null,
+            type: data.type,           // save form type
+            name: data.name,           // use same key as frontend
+            price: data.price,         // save price
             pdfUrl: `/uploads/${fileName}`,
-            customerName: data.name,
             fileName: fileName,
-            date: new Date()
+            date: data.date || new Date()
         }
+
 
         if (data.type == "oneway") {
 
