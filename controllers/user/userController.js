@@ -347,7 +347,10 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
             htmlToPdf(html, fileName + ".pdf");
 
             let saveData = await generatedPdfs(saveObject).save()
-
+            res.send({
+                code: constants.successCode,
+                message: "PDF generated successfully",
+            })
 
         } else if (data.type == "roundtrip") {
 
@@ -901,7 +904,10 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 `
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
-
+            res.send({
+                code: constants.successCode,
+                message: "PDF generated successfully",
+            })
         } else if (data.type == "hotel") {
 
             let html = `<!DOCTYPE html>
@@ -1090,7 +1096,10 @@ Bed type is subjected to the availability</p>
 `
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
-
+            res.send({
+                code: constants.successCode,
+                message: "PDF generated successfully",
+            })
         } else {
             res.send({
                 code: constants.errorCode,
