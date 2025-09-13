@@ -190,6 +190,23 @@ exports.convertPdf = async (req, res) => {
             return `Ticket No: ${number}`;
         }
 
+        // Generate 13-digit confirmation number
+        function generateConfirmationNumber() {
+            return Math.floor(1e12 + Math.random() * 9e12).toString();
+        }
+
+        function generateBookingId(length = 5) {
+            const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            let id = "";
+            for (let i = 0; i < length; i++) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return id;
+        }
+
+
+
+
 
 
 
@@ -209,6 +226,12 @@ exports.convertPdf = async (req, res) => {
 
         let ticketNumber = generateTicketNumber();
         console.log(ticketNumber);
+
+        let confirmationNo = generateConfirmationNumber();
+        console.log(confirmationNo);
+
+        let bookingId = generateBookingId();
+        console.log(bookingId);
 
 
 
@@ -1031,12 +1054,12 @@ exports.convertPdf = async (req, res) => {
                             <td></td>
                     <td style="width: 40%;">
                         <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">Confirmation No :</p>
-                        <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">9081659829683</p>
+                        <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">{{confirmationNo}}</p>
                         <!-- <br/> -->
-                        <p style="font-size: 17px; margin: 20px 0px; line-height: 10px; font-weight: 700; color: #3a508a; ">Guest: MR PANKAJ KUMAR</p>
-                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Check in : SEP, 10 2025</p>
-                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Checkout : SEP, 25  2025</p>
-                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px; ">Booking Id : tpof3</p>
+                        <p style="font-size: 17px; margin: 20px 0px; line-height: 10px; font-weight: 700; color: #3a508a; ">Guest: {{name}}</p>
+                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Check in : {{checkIN}}</p>
+                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Checkout : {{checkOut}}  2025</p>
+                        <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px; ">Booking Id : {{bookingId}}</p>
                     </td>
                         </tr>
                     </table>
@@ -1053,11 +1076,11 @@ exports.convertPdf = async (req, res) => {
                 <table style="width: 100%; padding: 10px 25px;">
                    <!-- Guest Info -->
           <tr style="margin-top:20px;">
-            <th style="background-color:#eeeeee; text-align: left; padding: 3px 10px;">Homeland Hostel</th>
+            <th style="background-color:#eeeeee; text-align: left; padding: 3px 10px;">{{hotel}}</th>
           </tr>
           <tr>
             <td>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Address: Sheikh Zayed Rd - Al Barsha 1 - Dubai,</p>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Address: {{address}}</p>
               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Dubai, United Arab Emirates</p>
               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Phone No: 971-501232896
               </p>
@@ -1086,7 +1109,7 @@ exports.convertPdf = async (req, res) => {
           </tr>
          <tr>
             <td>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> 1.<strong style="color: #3a508a; font-size: 15px;">Mr PANKAJ KUMAR</strong>  (Adult)</p>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> 1.<strong style="color: #3a508a; font-size: 15px;">{{name}}</strong>  (Adult)</p>
             </td>
           </tr>
                 </table>
@@ -1162,15 +1185,15 @@ Bed type is subjected to the availability</p>
                 <table style="width: 100%;">
                     <tr style="padding: 5px 0px;">
                         <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">Base Rate </td>
-                        <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">Rs. 120009.58</td>
+                        <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">{{price}}</td>
                     </tr>
                     <tr>
                         <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">Taxes and Fees </td>
-                        <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">Rs. 115.42</td>
+                        <td style="padding-left: 10px; font-size: 13px; line-height: 13px; padding-bottom: 4px;">{{taxesAndFees}}</td>
                     </tr>
                     <tr>
                         <td style="padding-left: 10px; background-color:#eeeeee; font-size: 13px; line-height: 13px;"><strong> Total Price </strong></td>
-                        <td style="padding-left: 10px; background-color:#eeeeee; font-size: 13px; line-height: 13px;"><strong>Rs. 1,50,000.0 </strong></td>
+                        <td style="padding-left: 10px; background-color:#eeeeee; font-size: 13px; line-height: 13px;"><strong>{{total}}</strong></td>
                     </tr>
                 </table>
             </td>
@@ -1192,6 +1215,21 @@ Bed type is subjected to the availability</p>
 </body>
 </html>
 `
+            let hotelData = {
+                confirmationNo: confirmationNo,
+                name: data.guest,
+                checkIN: formatDate(data.checkin),
+                checkOut: formatDate(data.checkout),
+                bookingId: bookingId,
+                hotel: data.hotel,
+                address: data.address,
+                price: "Rs " + data.price,
+                taxesAndFees: "AED 115.42",
+                total: "Rs " + (Number(data.price) + 115.42),
+
+
+            }
+
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
