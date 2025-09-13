@@ -119,224 +119,213 @@ exports.convertPdf = async (req, res) => {
             date: data.date || new Date()
         }
 
+        function generatePnrCode() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let result = "R"; // fixed starting letter
+
+            for (let i = 0; i < 5; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            return result;
+        }
+        function generateBookingCode() {
+            const letters = "abcdefghijklmnopqrstuvwxyz";
+            const digits = "0123456789";
+
+            let result = "";
+
+            // generate 4 random lowercase letters
+            for (let i = 0; i < 4; i++) {
+                result += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+
+            // add 1 random digit at the end
+            result += digits.charAt(Math.floor(Math.random() * digits.length));
+
+            return result;
+        }
+
+        // Example usage:
+        let pnrNumber = generatePnrCode();
+        console.log(pnrNumber);
+
+
+        let bookingCode = generateBookingCode();
+
+
 
         if (data.type == "oneway") {
 
-            let html = `<!DOCTYPE html>
+           let html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>One Side Ticket Booking Confirmation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f4f4f4;">
   <table width="100%" cellspacing="0" cellpadding="0" border="0" style="padding:20px 0;">
     <tr>
       <td align="center">
-        <table width="750" cellspacing="0" cellpadding="0" border="0" style="background:#fff; width: 750px; font-family: 'Raleway', sans-serif;
-  font-optical-sizing: auto; border:1px solid #ddd; border-radius:6px; overflow:hidden;">
+        <table width="750" cellspacing="0" cellpadding="0" border="0" style="background:#fff; width: 750px; font-family: 'Raleway', sans-serif; font-optical-sizing: auto; border:1px solid #ddd; border-radius:6px; overflow:hidden;">
             <tr>
                 <td>
                     <table style="width: 100%;">
                         <tr>
                             <td></td>
-                    <td style="width: 40%;">
-                        <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">PNR: R5QQ8J
-</p>
-                       
-<p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px; ">Booking Id : tpof3</p>
-<p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : Wed 10 Sep 2025</p>
-                    </td>
+                            <td style="width: 40%;">
+                                <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a;">PNR: {{pnrCode}}</p>
+                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Booking Id : {{bookingId}}</p>
+                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : {{issueDate}}</p>
+                            </td>
                         </tr>
                     </table>
                 </td> 
             </tr>
-             <tr>
-            <td style=" padding: 20px ;"></td>
-           </tr>
-           <tr>
-            <td style="background-color: #374d88; height: 4px; margin-top: 30px;"></td>
-           </tr>
-           <tr>
-            <td>
-                <table style="width: 100%; padding: 10px 25px; border-bottom: 1px dashed;">
-                   <!-- Guest Info -->
-          <tr style="margin-top:20px;">
-            <th style=" text-align: left; padding: 13px 10px;">Traveller Details</th>
-          </tr>
-          <tr>
-            <td>
-                <table border="1px" style=" border-collapse: collapse; width: 100%;">
-                    <tr>
-                        <th style="border: 1px solid; background-color: #efefef;text-align: left;padding-left: 5px; font-size: 13px; line-height: 13px;">Passenger Name</th>
-                        <th style="border: 1px solid; background-color: #efefef; text-align: left; padding-left: 5px; font-size: 13px; line-height: 13px;">Ticket Number</th>
-                        <th style="border: 1px solid; background-color: #efefef; text-align: left; padding-left: 5px; font-size: 13px; line-height: 13px;">Frequent Flyer No.</th>
-                    </tr>
-                    <tr>
-                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> 1. Mr PANKAJ KUMAR</p></td>
-                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> R5QQ8J-1</p></td>
-                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"></p></td>
-                    </tr>
-                </table>
-            </td>
-          </tr>
-                </table>
-                <table style="width: 100%; padding: 0px 25px;">
-                    <tr>
-                        <td>
-                            <p><img src="./images/plane-taking-off.png" width="30px" /> DXB - DEL</p>
-                        </td>
-                    </tr>
-                    <tr>
-            <td style="background-color: #374d88; height: 1px; margin-top: 30px;"></td>
-           </tr>
-                </table>
-                <table style="width: 100%; padding: 0px 25px; border-bottom: 1px dashed;">
-                    <tr style="text-align: left;">
-                        <th style="border-bottom: 1px solid;">Flight</th>
-                        <th style="border-bottom: 1px solid;">Departure</th>
-                        <th style="border-bottom: 1px solid;">Arrival</th>
-                        <th style="border-bottom: 1px solid;">Status</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>IndiGo 6E 1462</strong> <br/>Economy Class</p>
-                        </td>
-                        <td>
-                             <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Dubai (DXB) <br/><strong>Dubai International Airport
-(DXB)</strong> <br/>Terminal 1</p>
-<p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>Wednesday <br/>
-24 Sep 2025<br/>
-11:50 AM</strong> </p>
-                        </td>
-                        <td>
-                               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Delhi (DEL)
- <br/><strong>Indira Gandhi International
-Airport (DEL)</strong> <br/>Terminal 1</p>
-<p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>Wednesday <br/>
-24 Sep 2025<br/>
-04:50 PM</strong> </p>
-                        </td>
-                        <td>
-                            <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong> CONFIRMED </strong> <br/>
-Airline PNR: R5QQ8J <br/>
-Baggage <br/>
-Adult: 30 Kg <br/>
-Refundable
-</p>
-                        </td>
-                    </tr>
-                </table>
-               
-
-                  <table style="width: 100%; padding: 10px 25px;">
-                   <!-- Guest Info -->
-          <tr style="margin-top:20px;">
-            <th style=" text-align: left; padding: 3px 10px;">Payment Details</th>
-          </tr>
-         <tr>
-            <td>
-                <table style="width: 100%; border: 1px solid; margin-bottom: 20px;">
-                    <tr>
-                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;">Base Fare</p></td>
-                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">Rs 4460.0</p></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;">Fee & Surcharge</p></td>
-                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;">Rs 4460.0</p></td>
-                    </tr>
-                    <tr style="background-color: #efefef;">
-                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;"><strong>Total Amount</strong></p></td>
-                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;"><strong>Rs 8560.0
-</strong></p></td>
-                    </tr>
-                </table>
-<p style="border-top: 1px dashed;"></p>
-                <table style="width: 100%; border: 1px solid; margin-top: 20px;border-collapse: collapse;">
-                    <tr style="background-color: #efefef;">
-                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Pax Name </p></th>
-                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Segments </p></th>
-                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Barcode </p></th>
-                    </tr>
-                    <tr>
-                        <td style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">PANKAJ KUMAR</p></td>
-                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;">DXB-DEL</p></td>
-                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;  margin: 1px;"></p></td>
-                    </tr>
-                   
-                </table>
-            </td>
-          </tr>
-                </table>
-            </td>
-           </tr>
-           <tr>
-            <td>
-                 <table style="width: 100%; padding: 10px 25px;">
-                   <!-- Guest Info -->
-           <tr>
+            <tr>
+                <td style="padding: 20px;"></td>
+            </tr>
+            <tr>
+                <td style="background-color: #374d88; height: 4px; margin-top: 30px;"></td>
+            </tr>
+            <tr>
                 <td>
-                    <table style="width: 100%; padding: 10px 25px;">
-                        <!-- Guest Info -->
+                    <table style="width: 100%; padding: 10px 25px; border-bottom: 1px dashed;">
                         <tr style="margin-top:20px;">
-                            <th style=" text-align: left; padding: 3px 10px;">
-                                Terms & Conditions</th>
+                            <th style="text-align: left; padding: 13px 10px;">Traveller Details</th>
                         </tr>
                         <tr>
-                            <td style="padding-bottom: 20px; border-bottom: 1px dashed;">
-                                <ul>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">All Passengers must carry a Valid Photo Identity Proof at the time of Check-in.</li>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Please
-                                        Re-check the passenger name(s) as per the passport/identity proof,
-                                        departure, arrival date,tim
-                                        e, flight number, terminal, baggage details etc.</li>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">This can include: Driving License, Passport, PAN Card, Voter ID Card or any other ID issued by the Government of India. For infant
-passengers, it is mandatory to carry the Date of Birth certificate.
-</li>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Reach the terminal at least 2 hours prior to the departure for domestic flight and 4 hours prior to the departure of international
-flight.
-</li>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Flight timings are subject to change without prior notice. Please recheck with the carrier prior to departure</li>
-                                    
-                                </ul>
-        
+                            <td>
+                                <table border="1px" style="border-collapse: collapse; width: 100%;">
+                                    <tr>
+                                        <th style="border: 1px solid; background-color: #efefef;text-align: left;padding-left: 5px; font-size: 13px; line-height: 13px;">Passenger Name</th>
+                                        <th style="border: 1px solid; background-color: #efefef; text-align: left; padding-left: 5px; font-size: 13px; line-height: 13px;">Ticket Number</th>
+                                        <th style="border: 1px solid; background-color: #efefef; text-align: left; padding-left: 5px; font-size: 13px; line-height: 13px;">Frequent Flyer No.</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">1. {{name}}</p></td>
+                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{ticketNumber}}</p></td>
+                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"></p></td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
-
-                         <tr style="margin-top:20px;">
-                            <th style=" text-align: left; padding: 3px 10px;">
-                               Baggage Information
-</th>
+                    </table>
+                    <table style="width: 100%; padding: 0px 25px;">
+                        <tr>
+                            <td>
+                                <p><img src="./images/plane-taking-off.png" width="30px" /> {{source}} - {{destination}}</p>
+                            </td>
                         </tr>
                         <tr>
-                            <td style="padding-bottom: 20px;">
-                                <ul>
-                                    <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Free Cabin Baggage Allowance: As per Bureau of Civil Aviation Security (BCAS) guidelines traveling passenger may carry maximum
-7 Kgs per person per flight (only one piece measuring not more than 55 cm x 35 cm x 25 cm, including laptops or duty free
-shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (62 inches) in overall dimensions (L + W + H).</li>
-                                    
-                                </ul>
-        
+                            <td style="background-color: #374d88; height: 1px; margin-top: 30px;"></td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%; padding: 0px 25px; border-bottom: 1px dashed;">
+                        <tr style="text-align: left;">
+                            <th style="border-bottom: 1px solid;">Flight</th>
+                            <th style="border-bottom: 1px solid;">Departure</th>
+                            <th style="border-bottom: 1px solid;">Arrival</th>
+                            <th style="border-bottom: 1px solid;">Status</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>IndiGo 6E 1462</strong> <br/>Economy Class</p>
+                            </td>
+                            <td>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{source}} <br/><strong>Dubai International Airport (DXB)</strong> <br/>Terminal 1</p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>{{departureDate}}<br/>{{departureTime}}</strong></p>
+                            </td>
+                            <td>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{destination}} <br/><strong>Indira Gandhi International Airport (DEL)</strong> <br/>Terminal 1</p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>{{arrivalDate}}<br/>{{arrivalTime}}</strong></p>
+                            </td>
+                            <td>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>CONFIRMED</strong> <br/>Airline PNR: {{pnrCode}} <br/>Baggage <br/>Adult: 30 Kg <br/>Refundable</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%; padding: 10px 25px;">
+                        <tr style="margin-top:20px;">
+                            <th style="text-align: left; padding: 3px 10px;">Payment Details</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table style="width: 100%; border: 1px solid; margin-bottom: 20px;">
+                                    <tr>
+                                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">Base Fare</p></td>
+                                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">{{baseFare}}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">Fee & Surcharge</p></td>
+                                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">{{feeAndSurcharge}}</p></td>
+                                    </tr>
+                                    <tr style="background-color: #efefef;">
+                                        <td style="width: 50%; border-right: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;"><strong>Total Amount</strong></p></td>
+                                        <td> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;"><strong>{{totalAmount}}</strong></p></td>
+                                    </tr>
+                                </table>
+                                <p style="border-top: 1px dashed;"></p>
+                                <table style="width: 100%; border: 1px solid; margin-top: 20px;border-collapse: collapse;">
+                                    <tr style="background-color: #efefef;">
+                                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Pax Name </p></th>
+                                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Segments </p></th>
+                                        <th style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Barcode </p></th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{pax-name}}</p></td>
+                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">{{segments}}</p></td>
+                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;"></p></td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-                </table>
-            
-            </td>
-           </tr>
-          
-
-       
-
-         <tr style="padding: 10px;">
-            <td style="background-color: #374d88; color: white; text-align: center; margin-top: 30px;padding: 10px 0px;"> Thank you for booking with us. Have a safe journey!</td>
-           </tr>
-
+            <tr>
+                <td>
+                    <table style="width: 100%; padding: 10px 25px;">
+                        <tr>
+                            <td>
+                                <table style="width: 100%; padding: 10px 25px;">
+                                    <tr style="margin-top:20px;">
+                                        <th style="text-align: left; padding: 3px 10px;">Terms & Conditions</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 20px; border-bottom: 1px dashed;">
+                                            <ul>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">All Passengers must carry a Valid Photo Identity Proof at the time of Check-in.</li>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Please re-check the passenger name(s) as per the passport/identity proof, departure, arrival date, time, flight number, terminal, baggage details etc.</li>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">This can include: Driving License, Passport, PAN Card, Voter ID Card or any other ID issued by the Government of India. For infant passengers, it is mandatory to carry the Date of Birth certificate.</li>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Reach the terminal at least 2 hours prior to the departure for domestic flight and 4 hours prior to the departure of international flight.</li>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Flight timings are subject to change without prior notice. Please recheck with the carrier prior to departure.</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr style="margin-top:20px;">
+                                        <th style="text-align: left; padding: 3px 10px;">Baggage Information</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 20px;">
+                                            <ul>
+                                                <li style="padding-left: 10px; font-size: 13px; line-height: 16px;">Free Cabin Baggage Allowance: As per Bureau of Civil Aviation Security (BCAS) guidelines traveling passenger may carry maximum 7 Kgs per person per flight (only one piece measuring not more than 55 cm x 35 cm x 25 cm, including laptops or duty free shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (62 inches) in overall dimensions (L + W + H).</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr style="padding: 10px;">
+                <td style="background-color: #374d88; color: white; text-align: center; margin-top: 30px;padding: 10px 0px;"> Thank you for booking with us. Have a safe journey!</td>
+            </tr>
         </table>
       </td>
     </tr>
@@ -344,6 +333,32 @@ shopping bags). The dimensions of the checked Baggage should not exceed 158 cm (
 </body>
 </html>
 `
+let totalAmount = Number(data.price) + 4460
+let onewayData = {
+    pnrCode: pnrNumber,
+    bookingId: bookingCode,
+    issueDate:new Date(),
+    name:data.name,
+    ticketNumber:pnrNumber+"-"+1,
+    source : data.source,
+    destination: data.destination,
+    baseFare: "Rs "+data.price,
+    feeAndSurcharge: "Rs 4460.0",
+    totalAmount: "Rs " + totalAmount,
+    "pax-name" :data.name,
+    segments: data.source + " - " + data.destination,
+    departureDate: data.date,
+    departureTime: "11:50 AM",
+    arrivalDate: data.date,
+    arrivalTime: "04:50 PM",
+
+}
+Object.keys(onewayData).forEach(key => {
+  let regex = new RegExp(`{{${key}}}`, "g");
+  html = html.replace(regex, onewayData[key]);
+});
+
+
             htmlToPdf(html, fileName + ".pdf");
 
             let saveData = await generatedPdfs(saveObject).save()
