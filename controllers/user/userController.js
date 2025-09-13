@@ -602,7 +602,7 @@ exports.convertPdf = async (req, res) => {
                     <table style="width: 95%; margin: 10px 25px; border: 1px solid  ;">
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
-                            <td><img src="./controllers/user/image/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="./controllers/user/images/exchange.png"  alt="airport"> Duba</td>
+                            <td><img src="http://localhost:3020/uploads/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="./controllers/user/images/exchange.png"  alt="airport"> Duba</td>
                             <td style="width: 40%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px;text-align: end;">
