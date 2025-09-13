@@ -145,19 +145,78 @@ exports.convertPdf = async (req, res) => {
 
             return result;
         }
+        function generateBookingRefCode() {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const randomLetters = Array.from({ length: 4 }, () =>
+                letters.charAt(Math.floor(Math.random() * letters.length))
+            ).join("");
+
+            const randomDigits = Math.floor(1000000 + Math.random() * 9000000);
+
+            return `${randomLetters}-F${randomDigits}`;
+        }
+
+        function generateTripId() {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const words = ["PORT", "CITY", "ZONE", "AREA", "PLACE", "STOP"]; // you can extend this
+
+            // 3 random letters
+            const part1 = Array.from({ length: 3 }, () =>
+                letters.charAt(Math.floor(Math.random() * letters.length))
+            ).join("");
+
+            // 5 random digits
+            const part2 = Math.floor(10000 + Math.random() * 90000);
+
+            // 3 random letters
+            const part3 = Array.from({ length: 3 }, () =>
+                letters.charAt(Math.floor(Math.random() * letters.length))
+            ).join("");
+
+            // pick random word
+            const word = words[Math.floor(Math.random() * words.length)];
+
+            // 4 random digits
+            const part4 = Math.floor(1000 + Math.random() * 9000);
+
+            return `${part1}${part2}${part3}${word}${part4}`;
+        }
+
+        function generateTicketNumber() {
+            // generate a 13-digit random number
+            const number = Math.floor(
+                1000000000000 + Math.random() * 9000000000000
+            );
+            return `Ticket No: ${number}`;
+        }
+
+
+
+
 
         // Example usage:
         let pnrNumber = generatePnrCode();
         console.log(pnrNumber);
 
-
         let bookingCode = generateBookingCode();
+        console.log(bookingCode);
+
+        let bookingReference = generateBookingRefCode();
+        console.log(bookingReference);
+
+        let tripId = generateTripId();
+        console.log(tripId);
+
+        let ticketNumber = generateTicketNumber();
+        console.log(ticketNumber);
+
+
 
 
 
         if (data.type == "oneway") {
 
-           let html = `<!DOCTYPE html>
+            let html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -333,30 +392,30 @@ exports.convertPdf = async (req, res) => {
 </body>
 </html>
 `
-let totalAmount = Number(data.price) + 4460
-let onewayData = {
-    pnrCode: pnrNumber,
-    bookingId: bookingCode,
-    issueDate:new Date(),
-    name:data.name,
-    ticketNumber:pnrNumber+"-"+1,
-    source : data.source,
-    destination: data.destination,
-    baseFare: "Rs "+data.price,
-    feeAndSurcharge: "Rs 4460.0",
-    totalAmount: "Rs " + totalAmount,
-    "pax-name" :data.name,
-    segments: data.source + " - " + data.destination,
-    departureDate: data.date,
-    departureTime: "11:50 AM",
-    arrivalDate: data.date,
-    arrivalTime: "04:50 PM",
+            let totalAmount = Number(data.price) + 4460
+            let onewayData = {
+                pnrCode: pnrNumber,
+                bookingId: bookingCode,
+                issueDate: new Date(),
+                name: data.name,
+                ticketNumber: pnrNumber + "-" + 1,
+                source: data.source,
+                destination: data.destination,
+                baseFare: "Rs " + data.price,
+                feeAndSurcharge: "Rs 4460.0",
+                totalAmount: "Rs " + totalAmount,
+                "pax-name": data.name,
+                segments: data.source + " - " + data.destination,
+                departureDate: data.date,
+                departureTime: "11:50 AM",
+                arrivalDate: data.date,
+                arrivalTime: "04:50 PM",
 
-}
-Object.keys(onewayData).forEach(key => {
-  let regex = new RegExp(`{{${key}}}`, "g");
-  html = html.replace(regex, onewayData[key]);
-});
+            }
+            Object.keys(onewayData).forEach(key => {
+                let regex = new RegExp(`{{${key}}}`, "g");
+                html = html.replace(regex, onewayData[key]);
+            });
 
 
             htmlToPdf(html, fileName + ".pdf");
@@ -404,10 +463,10 @@ Object.keys(onewayData).forEach(key => {
                             <td style="width: 40%;">
                                 <p
                                     style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">
-                                    05 SEP 2025</p>
+                                    {{issueDate}}</p>
                                 <p
                                     style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">
-                                    FRIDAY</p>
+                                     {{currentDay}}</p>
                             </td>
                         </tr>
                     </table>
@@ -415,7 +474,7 @@ Object.keys(onewayData).forEach(key => {
             </tr>
             <tr>
                 <td style=" padding: 20px ; text-align: center; font-size: 20px; line-height: 13px;">
-                    <strong>BOOKING RECEIPT </strong>
+                    <strong>BOOKING RECEIPT </strong> 
                 </td>
             </tr>
             <tr>
@@ -426,11 +485,11 @@ Object.keys(onewayData).forEach(key => {
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong>
                                         Dear</strong><br />
-                                    MR.PANKAJ KUMAR </p>
+                                    {{name}} </p>
                             </td>
                             <td style="width: 40%;">
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">
-                                    <strong>Booking Reference Flight: <span style="color: red;"> T3BR-F1457556
+                                    <strong>Booking Reference Flight: <span style="color: red;"> {{bookingReference}}
                                         </span> </strong>
                                 </p>
                             </td>
@@ -467,11 +526,11 @@ Object.keys(onewayData).forEach(key => {
                     <table style="width: 95%; margin: 10px 25px; border: 1px solid  ;">
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
-                            <td><img src="./images/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="./images/exchange.png"  alt="airport"> Duba</td>
+                            <td><img src="./controllers/user/image/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="./controllers/user/images/exchange.png"  alt="airport"> Duba</td>
                             <td style="width: 40%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px;text-align: end;">
-                                    Trip ID AGN27705WALTOPORT9905</p>
+                                    Trip ID : {{tripId}}</p>
                             </td>
                         </tr>
         
@@ -485,7 +544,7 @@ Object.keys(onewayData).forEach(key => {
                             <td style="width: 40%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px; text-align: end;">
-                                    Airline PNR: N84FG2</p>
+                                    Airline PNR: {{pnrCode}}</p>
                             </td>
                         </tr>
         
@@ -520,7 +579,7 @@ Object.keys(onewayData).forEach(key => {
                                     Economy Class</p>
                             </td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">10 SEP 2025
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{departureDate}}
                                     At<br />
                                     16:20<br />
                                     IndiraGandh<br />
@@ -528,9 +587,9 @@ Object.keys(onewayData).forEach(key => {
                                      <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
                             </td>
-                            <td><img src="./images/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
+                            <td><img src="./controller/user/images/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">10 SEP 2025
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{departureDate}}
                                     At 18:20 <br />
                                     DubaiInternational <br />
                                     Airport<br />
@@ -552,7 +611,7 @@ Object.keys(onewayData).forEach(key => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <p><img src="./images/plane-landing.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"><strong>Arrival</strong></p>
+                                <p><img src="./controllers/user/images/plane-landing.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"><strong>Arrival</strong></p>
                             </td>
                             <td style="width: 40%;">
         
@@ -590,7 +649,7 @@ Object.keys(onewayData).forEach(key => {
                                     Economy Class</p>
                             </td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">10 SEP 2025
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At<br />
                                     16:20<br />
                                     IndiraGandh<br />
@@ -600,7 +659,7 @@ Object.keys(onewayData).forEach(key => {
                             </td>
                             <td><img src="./images/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">10 SEP 2025
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At 18:20 <br />
                                     DubaiInternational <br />
                                     Airport<br />
@@ -622,7 +681,7 @@ Object.keys(onewayData).forEach(key => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <p><img src="./images/traveler-with-a-suitcase.png" width="30px" /><br/><strong>MR. PANKAJ KUMAR</strong></p>
+                                <p><img src="./controller/user/images/traveler-with-a-suitcase.png" width="30px" /><br/><strong>{{name}}</strong></p>
                             </td>
                             <td style="width: 40%;">
         
@@ -634,10 +693,10 @@ Object.keys(onewayData).forEach(key => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <img src="./images/person.png" width="30px" />
+                                <img src="./controller/userimages/person.png" width="30px" />
                             </td>
                             <td style="width: 40%; text-align: end;">
-                                <p><strong>Ticket No: 1765344874580</strong></p>
+                                <p><strong>Ticket No: {{ticketNumber}}</strong></p>
                             </td>
                         </tr>
         
@@ -675,8 +734,7 @@ Object.keys(onewayData).forEach(key => {
                             </td>
         
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>10
-                                        SEP 2025</strong></p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>{{issueDate}}</strong></p>
                             </td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">EconomyClass
@@ -778,7 +836,7 @@ Object.keys(onewayData).forEach(key => {
                     <table style="width: 100%; padding: 10px 25px;">
                         <!-- Guest Info -->
                         <tr style="margin-top:20px; ">
-                            <td colspan="2" style="border: 1px solid black; text-align: left; padding: 3px 10px;"><img src="./images/credit-cards-payment.png" style="margin-right: 10px;" width="30px" />Fare Details</td>
+                            <td colspan="2" style="border: 1px solid black; text-align: left; padding: 3px 10px;"><img src="./controller/user/images/credit-cards-payment.png" style="margin-right: 10px;" width="30px" />Fare Details</td>
                             
                         </tr>
         
@@ -797,7 +855,7 @@ Object.keys(onewayData).forEach(key => {
                             <td style="width: 20%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px; text-align: end; ">
-                                    AED 1,830.00</p>
+                                   {{price}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -808,7 +866,7 @@ Object.keys(onewayData).forEach(key => {
                             <td style="width: 20%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px; text-align: end; ">
-                                    AED 710.00</p>
+                                    {{taxAndFee}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -843,8 +901,8 @@ Object.keys(onewayData).forEach(key => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"></p>
                             </td>
                             <td style="width: 20%;">
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Total <strong
-                                        style="padding-left: 20px;"> AED 2840</strong> </p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Total: {{total}} <strong
+                                        style="padding-left: 20px;"> </strong> </p>
                             </td>
                         </tr>
                     </table>
@@ -917,6 +975,31 @@ Object.keys(onewayData).forEach(key => {
 
 </html>
 `
+
+            const formatDate = (date) => {
+                const options = { day: "2-digit", month: "short", year: "numeric" };
+                return new Date(date).toLocaleDateString("en-GB", options).replace(",", "");
+            };
+            const formatDay = (date) => {
+                const options = { weekday: "long" };
+                return new Date(date).toLocaleDateString("en-GB", options);
+            };
+
+            let roundtripData = {
+                currentDay: formatDay(new Day()),
+                issueDate: formatDate(new Date()),
+                name: data.name,
+                bookingReference: bookingReference,
+                tripId: tripId,
+                pnrCode: pnrNumber,
+                departureDate: formatDate(data.departureDate),
+                returnDate: formatDate(data.returnDate),
+                ticketNumber: ticketNumber,
+                price: "AED " + data.price,
+                taxAndFee: "AED 710.00",
+                total: "AED " + (Number(data.price) + 710),
+            }
+
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
