@@ -243,7 +243,7 @@ exports.convertPdf = async (req, res) => {
             const number = Math.floor(
                 1000000000000 + Math.random() * 9000000000000
             );
-            return `Ticket No: ${number}`;
+            return ` ${number}`;
         }
 
         // Generate 13-digit confirmation number
