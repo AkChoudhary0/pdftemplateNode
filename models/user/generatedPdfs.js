@@ -9,7 +9,13 @@ const generatedPdfs = new Schema({
     pdfUrl: {
         type: String,
     },
-    customerName: {
+    type: {
+        type: String,
+    },
+    name: {
+        type: String,
+    },
+     price: {
         type: String,
     },
     fileName: {
