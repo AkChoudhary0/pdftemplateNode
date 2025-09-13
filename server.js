@@ -19,7 +19,8 @@ app.get("/download/:file", (req, res) => {
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('./uploads/'))
+app.use('/uploads', express.static('./uploads/'));
+app.use("/images", express.static(path.join(__dirname, "controllers/user/images")));
 
 app.use(cors());
 
