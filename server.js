@@ -9,10 +9,16 @@ const userRoute = require("./routes/user/user")
 const cors = require("cors")
 const path = require("path")
 
+
+app.get("/download/:file", (req, res) => {
+  const fileName = req.params.file;
+  const filePath = path.join(__dirname, "uploads", fileName);
+  res.download(filePath); // 👈 forces download
+});
+
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use('/uploads', express.static('./uploads/'))
 app.use('/uploads', express.static('./uploads/'))
 
 app.use(cors());
