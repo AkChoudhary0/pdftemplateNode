@@ -497,7 +497,7 @@ exports.convertPdf = async (req, res) => {
             });
 
 
-            htmlToPdf(html, fileName + ".pdf");
+            htmlToPdf(html, fileName );
 
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
@@ -1076,7 +1076,7 @@ exports.convertPdf = async (req, res) => {
                 html = html.replace(regex, roundtripData[key]);
             });
 
-            htmlToPdf(html, fileName + ".pdf");
+            htmlToPdf(html, fileName );
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1297,7 +1297,7 @@ Bed type is subjected to the availability</p>
                 html = html.replace(regex, hotelData[key]);
             });
 
-            htmlToPdf(html, fileName + ".pdf");
+            htmlToPdf(html, fileName );
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
