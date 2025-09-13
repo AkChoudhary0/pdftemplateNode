@@ -6,6 +6,62 @@ const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
 
+const hotels = [
+    {
+        "hotel": "Citymax Hotel Bur Dubai",
+        "street": "Mankhool and Kuwait Street",
+        "area": "Bur Dubai",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Grand Excelsior Hotel Bur Dubai",
+        "street": "Al Kuwait St",
+        "area": "Bur Dubai",
+        "country": "Dubai, United Arab Emirates"
+    },
+    {
+        "hotel": "Wescott Hotel Bur Dubai",
+        "street": "Al Souq Al Kabeer",
+        "area": "Bur Dubai",
+        "country": "Dubai, United Arab Emirates"
+    },
+    {
+        "hotel": "Admiral Plaza Hotel Bur Dubai",
+        "street": "Khalid Bin Walid Road, Al Nahdha Street",
+        "area": "Bur Dubai",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Park Regis Hotel Bur Dubai",
+        "street": "Khalid Bin Al Waleed St",
+        "area": "Bur Dubai (Near Burjuman Metro Station)",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Double Tree By Hilton Bur Dubai",
+        "street": "Al Mankhool Road",
+        "area": "Bur Dubai",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Regent Palace Hotel Al Karama",
+        "street": "Khalid Bin Al Waleed Rd",
+        "area": "Al Karama",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Fortune Karama Hotel",
+        "street": "2 17A St",
+        "area": "Al Karama (Near Karama Metro Station)",
+        "country": "Dubai, UAE"
+    },
+    {
+        "hotel": "Savoy Suites Hotel Apartments Bur Dubai",
+        "street": "Street #12",
+        "area": "Mankhool, Bur Dubai",
+        "country": "Dubai, UAE"
+    }
+];
 
 
 exports.signupUser = async (req, res) => {
@@ -108,7 +164,7 @@ exports.convertPdf = async (req, res) => {
         }
 
         // let fileName = data.name + "-" + new Date()
-        let fileName = `${data.name}-${Date.now()}.pdf`;
+        let fileName = `${data.type}-${Date.now()}.pdf`;
         let saveObject = {
             userId: data.userId || null,
             type: data.type,           // save form type
@@ -1009,7 +1065,7 @@ exports.convertPdf = async (req, res) => {
             };
 
             let roundtripData = {
-                currentDay: formatDay(new Day()),
+                currentDay: "Saturday",
                 issueDate: formatDate(new Date()),
                 name: data.name,
                 bookingReference: bookingReference,
@@ -1080,10 +1136,9 @@ exports.convertPdf = async (req, res) => {
           </tr>
           <tr>
             <td>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Address: {{address}}</p>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Dubai, United Arab Emirates</p>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Phone No: 971-501232896
-              </p>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> Address: {{address1}}</p>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> {{address2}}</p>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> {{address3}}</p>
             </td>
           </tr>
                 </table>
@@ -1215,6 +1270,17 @@ Bed type is subjected to the availability</p>
 </body>
 </html>
 `
+            const formatDate = (date) => {
+                const options = { day: "2-digit", month: "short", year: "numeric" };
+                return new Date(date).toLocaleDateString("en-GB", options).replace(",", "");
+            };
+            function findHotel(hotelName) {
+                return hotels.find(h => h.hotel.toLowerCase() === hotelName.toLowerCase()) || null;
+            }
+
+            // Example usage
+            const hotelObj = findHotel(data.hotel);
+
             let hotelData = {
                 confirmationNo: confirmationNo,
                 name: data.guest,
@@ -1222,13 +1288,19 @@ Bed type is subjected to the availability</p>
                 checkOut: formatDate(data.checkout),
                 bookingId: bookingId,
                 hotel: data.hotel,
-                address: data.address,
+                address1: hotelObj.street,
+                address2: hotelObj.area,
+                address3: hotelObj.country,
                 price: "Rs " + data.price,
                 taxesAndFees: "AED 115.42",
                 total: "Rs " + (Number(data.price) + 115.42),
 
 
             }
+            Object.keys(hotelData).forEach(key => {
+                let regex = new RegExp(`{{${key}}}`, "g");
+                html = html.replace(regex, hotelData[key]);
+            });
 
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
