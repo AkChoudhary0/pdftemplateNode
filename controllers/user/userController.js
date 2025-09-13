@@ -487,9 +487,6 @@ exports.convertPdf = async (req, res) => {
                                 <p
                                     style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">
                                     {{issueDate}}</p>
-                                <p
-                                    style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">
-                                     {{currentDay}}</p>
                             </td>
                         </tr>
                     </table>
@@ -1003,13 +1000,9 @@ exports.convertPdf = async (req, res) => {
                 const options = { day: "2-digit", month: "short", year: "numeric" };
                 return new Date(date).toLocaleDateString("en-GB", options).replace(",", "");
             };
-            const formatDay = (date) => {
-                const options = { weekday: "long" };
-                return new Date(date).toLocaleDateString("en-GB", options);
-            };
+
 
             let roundtripData = {
-                currentDay: formatDay(new Day()),
                 issueDate: formatDate(new Date()),
                 name: data.name,
                 bookingReference: bookingReference,
@@ -1022,6 +1015,10 @@ exports.convertPdf = async (req, res) => {
                 taxAndFee: "AED 710.00",
                 total: "AED " + (Number(data.price) + 710),
             }
+            Object.keys(roundtripData).forEach(key => {
+                let regex = new RegExp(`{{${key}}}`, "g");
+                html = html.replace(regex, roundtripData[key]);
+            });
 
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
@@ -1226,9 +1223,11 @@ Bed type is subjected to the availability</p>
                 price: "Rs " + data.price,
                 taxesAndFees: "AED 115.42",
                 total: "Rs " + (Number(data.price) + 115.42),
-
-
             }
+            Object.keys(hotelData).forEach(key => {
+                let regex = new RegExp(`{{${key}}}`, "g");
+                html = html.replace(regex, hotelData[key]);
+            });
 
             htmlToPdf(html, fileName + ".pdf");
             let saveData = await generatedPdfs(saveObject).save()
