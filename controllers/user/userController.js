@@ -1115,7 +1115,7 @@ exports.convertPdf = async (req, res) => {
                         <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">Confirmation No :</p>
                         <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">{{confirmationNo}}</p>
                         <!-- <br/> -->
-                        <p style="font-size: 17px; margin: 20px 0px; line-height: 10px; font-weight: 700; color: #3a508a; ">Guest: {{name}}</p>
+                        <p style="font-size: 17px;  text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a; ">Guest: {{name}}</p>
                         <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Check in : {{checkIN}}</p>
                         <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Checkout : {{checkOut}}  2025</p>
                         <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px; ">Booking Id : {{bookingId}}</p>
@@ -1204,8 +1204,8 @@ cannot be guaranteed</li>
                 <li style="padding-left: 10px; font-size: 13px; line-height: 18px;">A tax is imposed by the city: Rs 15.00 per accommodation, per night</li>
              </ul>
               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> We have included all charges provided to us by the property.</p>
-               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong>Extra Guest Info</strong> </p>
-              <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> We don't guarantee an Extra Bed for Extra guests, it is subject to availability of the hotel and may be chargeable
+               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong>Extra Guest Info</strong> </p> <br/>
+              <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin-top: 10px"> We don't guarantee an Extra Bed for Extra guests, it is subject to availability of the hotel and may be chargeable
 as well.</p>
              
             </td>
@@ -1286,7 +1286,7 @@ Bed type is subjected to the availability</p>
 
             let hotelData = {
                 confirmationNo: confirmationNo,
-                name: data.guest,
+                name: data.name,
                 checkIN: formatDate(data.checkin),
                 checkOut: formatDate(data.checkout),
                 bookingId: bookingId,
