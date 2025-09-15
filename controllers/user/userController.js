@@ -318,7 +318,7 @@ exports.convertPdf = async (req, res) => {
                             <td style="width: 40%;">
                                 <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a;">PNR: {{pnrCode}}</p>
                                 <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Booking Id : {{bookingId}}</p>
-                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : {{issueDate}}</p><br />
+                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : {{issueDate}}</p>
                             </td>
                         </tr>
                     </table>
@@ -372,15 +372,15 @@ exports.convertPdf = async (req, res) => {
                         </tr>
                         <tr>
                             <td>
-                                 <img src="http://localhost:3020/uploads/Emirates_logo.svg" width="50px" height="40px" style="margin-right: 10px; margin-bottom: 10px;"  alt="airport"> <br />
+                                 <img src="http://localhost:3020/uploads/indigo.jpeg" width="50px" height="40px" style="margin-left: 10px; margin-top: 10px; border-radius:10px"  alt="airport"> <br />
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>IndiGo 6E 1462</strong> <br/>Economy Class</p>
                             </td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{source}} <br/><strong>Dubai International Airport (DXB)</strong> <br/>Terminal 1</p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Dubai (DXB) <br/><strong>Dubai International Airport (DXB)</strong> <br/>Terminal 1</p>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>{{departureDate}}<br/>{{departureTime}}</strong></p>
                             </td>
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{destination}} <br/><strong>Indira Gandhi International Airport (DEL)</strong> <br/>Terminal 1</p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">Delhi (DEL)<br/><strong>Indira Gandhi International Airport (DEL)</strong> <br/>Terminal 1</p>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>{{arrivalDate}}<br/>{{arrivalTime}}</strong></p>
                             </td>
                             <td>
@@ -418,8 +418,7 @@ exports.convertPdf = async (req, res) => {
                                     <tr>
                                         <td style="width: 50%; border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">{{pax-name}}</p></td>
                                         <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;">{{segments}}</p></td>
-                                        <td style="border: 1px solid;"> <p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;"></p></td>
-                                    </tr>
+<td style="border: 1px solid;"><p style="padding-left: 10px; font-size: 13px; line-height: 13px; margin: 1px;"> <img  src="http://localhost:3020/uploads/barcode.jpg"  alt="Barcode" style="width: 100px; height: auto;" /></p></td>                                    </tr>
                                 </table>
                             </td>
                         </tr>
@@ -487,7 +486,7 @@ exports.convertPdf = async (req, res) => {
                 feeAndSurcharge: "Rs 4460.0",
                 totalAmount: "Rs " + totalAmount,
                 "pax-name": data.name,
-                segments: data.source + " - " + data.destination,
+                segments: "Dubai (DXB) - Delhi (DEL)",
                 departureDate: data.date,
                 departureTime: "11:50 AM",
                 arrivalDate: data.date,
