@@ -318,7 +318,7 @@ exports.convertPdf = async (req, res) => {
                             <td style="width: 40%;">
                                 <p style="font-size: 17px; text-align: end; padding-right: 30px; line-height: 10px; font-weight: 700; color: #3a508a;">PNR: {{pnrCode}}</p>
                                 <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Booking Id : {{bookingId}}</p>
-                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : {{issueDate}}</p>
+                                <p style="font-size: 13px; text-align: end; padding-right: 40px; line-height: 10px;">Issued Date : {{issueDate}}</p><br />
                             </td>
                         </tr>
                     </table>
@@ -356,7 +356,7 @@ exports.convertPdf = async (req, res) => {
                     <table style="width: 100%; padding: 0px 25px;">
                         <tr>
                             <td>
-                                <p><img src="/images/plane-taking-off.png" width="40px" height="30px" alt="departure">{{source}} - {{destination}}</p>
+                                <p><img src="http://localhost:3020/uploads/plane-taking-off.png" width="40px" height="30px" alt="departure">{{source}} - {{destination}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -372,6 +372,7 @@ exports.convertPdf = async (req, res) => {
                         </tr>
                         <tr>
                             <td>
+                                 <img src="http://localhost:3020/uploads/Emirates_logo.svg" width="50px" height="40px" style="margin-right: 10px; margin-bottom: 10px;"  alt="airport"> <br />
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>IndiGo 6E 1462</strong> <br/>Economy Class</p>
                             </td>
                             <td>
@@ -497,7 +498,7 @@ exports.convertPdf = async (req, res) => {
             });
 
 
-            htmlToPdf(html, fileName );
+            htmlToPdf(html, fileName);
 
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
@@ -602,7 +603,7 @@ exports.convertPdf = async (req, res) => {
                     <table style="width: 95%; margin: 10px 25px; border: 1px solid  ;">
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
-                            <td><img src="http://localhost:3020/uploads/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="./controllers/user/images/exchange.png"  alt="airport"> Duba</td>
+                            <td><img src="http://localhost:3020/uploads/Vector.png" width="30px" height="20px" style="margin-right: 10px;"  alt="airport">New Delhi <img width="20px" height="20px" style="margin:0px 10px; opacity: 0.5;" src="http://localhost:3020/uploads/exchange.png"  alt="airport"> Dubai</td>
                             <td style="width: 40%;">
                                 <p
                                     style="padding-left: 10px; font-size: 13px; line-height: 13px;text-align: end;">
@@ -615,7 +616,7 @@ exports.convertPdf = async (req, res) => {
                         <!-- Guest Info -->
                         <tr>
                             <td>
-                                <p><img src="/images/plane-taking-off.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"> <strong>Departure</strong></p>
+                                <p><img src="http://localhost:3020/uploads/plane-taking-off.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"> <strong>Departure</strong></p>
                             </td>
                             <td style="width: 40%;">
                                 <p
@@ -647,9 +648,10 @@ exports.convertPdf = async (req, res) => {
                             </td>
         
                         </tr>
-                        <tr style="margin-top:20px;">
+                        <tr style="margin-top:20px;  src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'">
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">
+                                    <img src="http://localhost:3020/uploads/Emirates_logo.svg" width="50px" height="40px" style="margin-right: 10px; margin-bottom: 10px;"  alt="airport"> <br />
                                     Emirates<br />
                                     EK - 517<br />
                                     Economy Class</p>
@@ -658,17 +660,19 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{departureDate}}
                                     At<br />
                                     16:20<br />
-                                    IndiraGandh<br />
-                                    Terminal 3<br />
+                                    <br />
+                                    <strong><Indira Gandhi<br />
+                                    Terminal 3<br /></strong>
                                      <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
                             </td>
-                            <td><img src="/images/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
+                            <td><img src="http://localhost:3020/uploads/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{departureDate}}
                                     At 18:20 <br />
-                                    Dubai International <br />
-                                    Airport<br />
+                                    <br />
+                                     <strong>Dubai International <br />
+                                    Airport<br /> </strong>
                                     Terminal 3</p>
                             </td>
                             <td>
@@ -687,7 +691,7 @@ exports.convertPdf = async (req, res) => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <p><img src="/images/plane-landing.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"><strong>Arrival</strong></p>
+                                <p><img src="http://localhost:3020/uploads/plane-landing.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"><strong>Arrival</strong></p>
                             </td>
                             <td style="width: 40%;">
         
@@ -720,25 +724,27 @@ exports.convertPdf = async (req, res) => {
                         <tr style="margin-top:20px;">
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">
+                                    <img src="http://localhost:3020/uploads/Emirates_logo.svg" width="50px" height="40px" style="margin-right: 10px; margin-bottom: 10px;"  alt="airport"> <br />
                                     Emirates<br />
                                     EK - 517<br />
                                     Economy Class</p>
                             </td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
-                                    At<br />
-                                    16:20<br />
-                                    IndiraGandh<br />
-                                    Terminal 3<br />
+                                    At 16:20<br />
+                                    <br />
+                                     <strong>Dubai International <br />
+                                    Airport<br /> </strong>
                                     <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
                             </td>
-                            <td><img src="/images/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
+                            <td><img src="http://localhost:3020/uploads/arrow.png" width="40px" height="30px" style="margin-right: 10px;"  alt="airport"></td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At 18:20 <br />
-                                    DubaiInternational <br />
-                                    Airport<br />
+                                    <br />
+                                   <strong><Indira Gandhi<br />
+                                    Terminal 3<br /></strong>
                                     Terminal 3</p>
                             </td>
                             <td>
@@ -757,7 +763,7 @@ exports.convertPdf = async (req, res) => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <p><img src="/images/traveler-with-a-suitcase.png" width="30px" /><br/><strong>{{name}}</strong></p>
+                                <p><img src="http://localhost:3020/uploads/traveler-with-a-suitcase.png" width="30px" /><br/><strong>{{name}}</strong></p>
                             </td>
                             <td style="width: 40%;">
         
@@ -769,7 +775,7 @@ exports.convertPdf = async (req, res) => {
                         <!-- Guest Info -->
                         <tr style="margin-top:20px;">
                             <td>
-                                <img src="/images/person.png" width="30px" />
+                                <img src="http://localhost:3020/uploads/person.png" width="30px" />
                             </td>
                             <td style="width: 40%; text-align: end;">
                                 <p><strong>Ticket No: {{ticketNumber}}</strong></p>
@@ -810,7 +816,7 @@ exports.convertPdf = async (req, res) => {
                             </td>
         
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>{{issueDate}}</strong></p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>{{departureDate}}</strong></p>
                             </td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">EconomyClass
@@ -874,8 +880,7 @@ exports.convertPdf = async (req, res) => {
                             </td>
         
                             <td>
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>25
-                                        SEP 2025</strong></p>
+                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px; "><strong>{{returnDate}}</strong></p>
                             </td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">EconomyClass
@@ -912,7 +917,7 @@ exports.convertPdf = async (req, res) => {
                     <table style="width: 100%; padding: 10px 25px;">
                         <!-- Guest Info -->
                         <tr style="margin-top:20px; ">
-                            <td colspan="2" style="border: 1px solid black; text-align: left; padding: 3px 10px;"><img src="/images/credit-cards-payment.png" style="margin-right: 10px;" width="30px" />Fare Details</td>
+                            <td colspan="2" style="border: 1px solid black; text-align: left; padding: 3px 10px;"><img src="http://localhost:3020/uploads/credit-cards-payment.png" style="margin-right: 10px;" width="30px" />Fare Details</td>
                             
                         </tr>
         
@@ -953,7 +958,7 @@ exports.convertPdf = async (req, res) => {
                             <td style="width: 20%;">
                                 <p
                                     style="padding-left: 10px; text-align: end;  font-size: 13px; line-height: 13px;">
-                                    AED 0.00</p>
+                                    Rs. 0.00</p>
                             </td>
                         </tr>
                         <tr>
@@ -964,7 +969,7 @@ exports.convertPdf = async (req, res) => {
                             <td style="width: 20%;">
                                 <p
                                     style="padding-left: 10px; text-align: end; font-size: 13px; line-height: 13px; ">
-                                    AED 0.00</p>
+                                    Rs. 0.00</p>
                             </td>
                         </tr>
                         <tr>
@@ -1067,16 +1072,16 @@ exports.convertPdf = async (req, res) => {
                 departureDate: formatDate(data.departureDate),
                 returnDate: formatDate(data.returnDate),
                 ticketNumber: ticketNumber,
-                price: "AED " + data.price,
-                taxAndFee: "AED 710.00",
-                total: "AED " + (Number(data.price) + 710),
+                price: "Rs " + data.price,
+                taxAndFee: "Rs 710.00",
+                total: "Rs " + (Number(data.price) + 710),
             }
             Object.keys(roundtripData).forEach(key => {
                 let regex = new RegExp(`{{${key}}}`, "g");
                 html = html.replace(regex, roundtripData[key]);
             });
 
-            htmlToPdf(html, fileName );
+            htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1195,7 +1200,7 @@ cannot be guaranteed</li>
                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong>Mandatory Fee</strong> </p>
               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> You'll be asked to pay the following charges at the property. Fees may include applicable taxes:</p>
               <ul>
-                <li style="padding-left: 10px; font-size: 13px; line-height: 18px;">A tax is imposed by the city: AED 15.00 per accommodation, per night</li>
+                <li style="padding-left: 10px; font-size: 13px; line-height: 18px;">A tax is imposed by the city: Rs 15.00 per accommodation, per night</li>
              </ul>
               <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> We have included all charges provided to us by the property.</p>
                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"> <strong>Extra Guest Info</strong> </p>
@@ -1289,7 +1294,7 @@ Bed type is subjected to the availability</p>
                 address2: hotelObj.area,
                 address3: hotelObj.country,
                 price: "Rs " + data.price,
-                taxesAndFees: "AED 115.42",
+                taxesAndFees: "Rs 115.42",
                 total: "Rs " + (Number(data.price) + 115.42),
             }
             Object.keys(hotelData).forEach(key => {
@@ -1297,7 +1302,7 @@ Bed type is subjected to the availability</p>
                 html = html.replace(regex, hotelData[key]);
             });
 
-            htmlToPdf(html, fileName );
+            htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
