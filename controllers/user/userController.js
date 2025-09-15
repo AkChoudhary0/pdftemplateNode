@@ -473,10 +473,12 @@ exports.convertPdf = async (req, res) => {
 </html>
 `
             let totalAmount = Number(data.price) + 4460
+            let issueDate = new Date();
+            issueDate=issueDate.toDateString();
             let onewayData = {
                 pnrCode: pnrNumber,
                 bookingId: bookingCode,
-                issueDate: new Date(),
+                issueDate: issueDate,
                 name: data.name,
                 ticketNumber: pnrNumber + "-" + 1,
                 source: data.source,
