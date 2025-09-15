@@ -662,7 +662,7 @@ exports.convertPdf = async (req, res) => {
                                     At<br />
                                     16:20<br />
                                     <br />
-                                    <strong><Indira Gandhi<br />
+                                    <strong><Indira Gandhi<br /></strong>
                                     Terminal 3<br /></strong>
                                      <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
@@ -672,8 +672,8 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{departureDate}}
                                     At 18:20 <br />
                                     <br />
-                                     <strong>Dubai International <br />
-                                    Airport<br /> </strong>
+                                     <strong>Dubai International <br /></strong>
+                                    <strong>Airport<br /> </strong>
                                     Terminal 3</p>
                             </td>
                             <td>
@@ -734,8 +734,8 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At 16:20<br />
                                     <br />
-                                     <strong>Dubai International <br />
-                                    Airport<br /> </strong>
+                                     <strong>Dubai International <br /></strong>
+                                    <strong>Airport<br /> </strong>
                                     <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
                             </td>
@@ -744,8 +744,8 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At 18:20 <br />
                                     <br />
-                                   <strong><Indira Gandhi<br />
-                                    Terminal 3<br /></strong>
+                                   <strong><Indira Gandhi<br /></strong>
+                                    Terminal 3<br />
                                     Terminal 3</p>
                             </td>
                             <td>
