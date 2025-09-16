@@ -491,8 +491,7 @@ exports.convertPdf = async (req, res) => {
             });
 
 
-            htmlToPdf(html, fileName);
-
+           await htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1068,14 +1067,14 @@ exports.convertPdf = async (req, res) => {
                 price: "Rs " + data.price,
                 taxAndFee: "Rs 710.00",
                 total: "Rs " + (Number(data.price) + 710),
-                baseUrl: process.env.base_url
+                BaseUrl: process.env.base_url
             }
             Object.keys(roundtripData).forEach(key => {
                 let regex = new RegExp(`{{${key}}}`, "g");
                 html = html.replace(regex, roundtripData[key]);
             });
 
-            htmlToPdf(html, fileName);
+             await htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1290,7 +1289,7 @@ Bed type is subjected to the availability</p>
                 price: "Rs " + data.price,
                 taxesAndFees: "Rs 115.42",
                 total: "Rs " + (Number(data.price) + 115.42),
-                baseUrl: process.env.base_url
+                BaseUrl: process.env.base_url
 
             }
             Object.keys(hotelData).forEach(key => {
@@ -1298,7 +1297,9 @@ Bed type is subjected to the availability</p>
                 html = html.replace(regex, hotelData[key]);
             });
 
-            htmlToPdf(html, fileName);
+            await htmlToPdf(html, fileName);
+           
+            // saveObject.name = data.guest
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
