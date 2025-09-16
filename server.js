@@ -10,10 +10,24 @@ const cors = require("cors")
 const path = require("path")
 
 
-app.get("/download/:file", (req, res) => {
-  const fileName = req.params.file;
+// app.get("/download/:file", (req, res) => {
+//   const fileName = req.params.file;
+//   const filePath = path.join(__dirname, "uploads", fileName);
+//   res.download(filePath); // 👈 forces download
+// });
+
+app.get("/download/:file/:name", (req, res) => {
+  const fileName = req.params.file; // e.g., "12345.pdf"
+  const originalName = req.params.name + "-" + fileName; // optional: get from params
   const filePath = path.join(__dirname, "uploads", fileName);
-  res.download(filePath); // 👈 forces download
+  
+  // Force download with a custom name
+  res.download(filePath, originalName, (err) => {
+    if (err) {
+      console.error("Download error:", err);
+      res.status(500).send("Error downloading file");
+    }
+  });
 });
 
 // Middleware to parse JSON and form data
