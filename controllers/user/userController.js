@@ -347,7 +347,7 @@ exports.convertPdf = async (req, res) => {
                     <table style="width: 100%; padding: 0px 25px;">
                         <tr>
                             <td>
-                                <p><img src="{{BaseUrl}}uploads/plane-taking-off.png" width="40px" height="30px" alt="departure">{{source}} - {{destination}}</p>
+                                <p><img src="{{BaseUrl}}uploads/plane-taking-off.png" width="40px" height="30px" alt="departure">{{segments}}</p>
                             </td>
                         </tr>
                         <tr>
@@ -363,7 +363,7 @@ exports.convertPdf = async (req, res) => {
                         </tr>
                         <tr>
                             <td>
-                                 <img src="{{BaseUrl}}uploads/indigo.jpeg" width="50px" height="40px" style="margin-left: 10px; margin-top: 10px; border-radius:10px"  alt="airport"> <br />
+                                 <img src="{{BaseUrl}}uploads/indigo.jpeg" width="50px" height="25px" style="margin-left: 10px; margin-top: 10px; border-radius:10px"  alt="airport"> <br />
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;"><strong>IndiGo 6E 1462</strong> <br/>Economy Class</p>
                             </td>
                             <td>
@@ -653,7 +653,7 @@ exports.convertPdf = async (req, res) => {
                                     At<br />
                                     16:20<br />
                                     <br />
-                                    <strong><Indira Gandhi<br /></strong>
+                                    <strong>Indira Gandhi International Airport <br /></strong>
                                     Terminal 3<br /></strong>
                                      <br/>
                                     <span style="color: #785e60; margin-top: 10px;"> Confirmed </span></p>
@@ -735,9 +735,9 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">{{returnDate}}
                                     At 18:20 <br />
                                     <br />
-                                   <strong><Indira Gandhi<br /></strong>
+                                   <strong>Indira Gandhi International Airport <br /></strong>
                                     Terminal 3<br />
-                                    Terminal 3</p>
+                                </p>
                             </td>
                             <td>
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px; ">3h 30m</p>
