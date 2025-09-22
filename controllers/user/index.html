@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dubai Itinerary - Viz Travels</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .header img.hero {
+            width: 90%;
+            max-height: 200px;
+            object-fit: cover;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .logo {
+            text-align: center;
+            margin: 0;
+        }
+
+        .logo img {
+            max-width: 180px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #336666;
+            margin: 5px 0;
+        }
+
+        .details {
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0 0 15px 0;
+            color: #aaaaaa;
+            font-weight: 550;
+        }
+
+        .section, .container-section {
+  width: 190mm; /* match PDF width */
+  margin: auto;
+}
+
+        .section h2 {
+            text-align: center;
+            font-size: 20px;
+            color: #336666;
+            font-weight: 600;
+            /* border-bottom: 2px solid #336666; */
+            padding-bottom: 3px;
+            margin: 10px 0;
+        }
+
+        .hotel-card {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            align-items: center;
+            overflow: hidden;
+            gap: 14px;
+            margin-bottom: 15px;
+        }
+
+        .hotel-card img {
+            width: 140px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .hotel-info {
+            padding: 8px;
+            flex: 1;
+        }
+
+        .hotel-info h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .hotel-info h3 span {
+            color: red;
+        }
+
+        .hotel-info p {
+            margin: 2px 0;
+            font-size: 14px;
+        }
+
+        /* --- Itinerary Styles --- */
+        .day-label {
+            font-size: 14px;
+            color: #555;
+            font-weight: 500;
+            margin: 20px 0 10px 0;
+        }
+
+        .day-label span {
+            color: #f37a20;
+        }
+
+        .day-block {
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .day-block img {
+            width: 35%;
+            float: left;
+            margin-right: 20px;
+            border-radius: 4px;
+        }
+
+        .day-block h2 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .day-block .tag {
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0 0 15px 0;
+            color: #aaaaaa;
+            font-weight: 550;
+        }
+
+        .day-block p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 10px 0;
+        }
+
+        .day-block em {
+            font-size: 13px;
+            color: #555;
+        }
+
+        .detail-title {
+            text-align: left !important;
+        }
+
+
+        .section-title {
+            color: #006666;
+            margin-bottom: 30px;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .list-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .cancel-policy {
+            font-size: 14px;
+        }
+
+        .cancel-policy p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive for mobile */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .container-section {
+            width: 90%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .outer-section {
+            margin-bottom: 40px;
+        }
+
+        .footer-section {
+            width: 90%;
+            margin: auto;
+        }
+
+        .tours-title {
+            color: #ff6600;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .tours-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .tours-item {
+            margin-bottom: 8px;
+            font-weight: 550;
+            font-size: 14px;
+        }
+
+        .why-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        .icons-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .icon-box {
+            flex: 0 1 120px;
+        }
+
+        .icon-box img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 8px;
+        }
+
+        .icon-text {
+            font-size: 13px;
+        }
+
+        .note {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .note strong {
+            color: #000;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+
+            .footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Image -->
+    <div class="header">
+        <img src="http://localhost:3020/uploads/images/banner-image.jpeg" alt="Dubai" class="hero">
+    </div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="http://localhost:3020/uploads/images/logo.jpeg" alt="Viz Travels Logo">
+    </div>
+
+    <!-- Title -->
+    <div class="title">DUBAI</div>
+
+    <!-- Details -->
+    <div class="details">
+        Reference No.: #VT014753 <br>
+        Query Id.: #QID027404 <br>
+        7 Nights / 8 Days | For 4 Adults, 2 Child, 1 Infant <br>
+        Thu 25 to 01 Jan 2026
+    </div>
+
+    <!-- Destinations Covered -->
+    <div class="section">
+        <h2>DESTINATIONS COVERED</h2>
+        <p style="text-align:center;" class="details">UAE</p>
+    </div>
+
+    <!-- Hotel Section -->
+    <div class="section">
+        <div class="hotel-card">
+            <img src="http://localhost:3020/uploads/images/hotel.jpeg" alt="Golden Sands Hotel">
+            <div class="hotel-info">
+                <h3>Golden Sands Hotel / 2 Rooms <span>(3 Star)</span></h3>
+                <p><b>Staying Dates:</b> 25-12-2025, 27-12-2025, 28-12-2025, 29-12-2025, 30-12-2025, 31-12-2025</p>
+                <p><b>Destination:</b> Dubai</p>
+                <p><b>Meal Plan:</b> Breakfast</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Itinerary Section -->
+    <div class="section" id="itinerary">
+        <h2>DETAILED ITINERARY</h2>
+        <!-- Days will be injected here -->
+    </div>
+
+    <div class="container-section">
+        <!-- Left Column -->
+        <div>
+            <div class="outer-section">
+                <h2 class="section-title">Inclusions</h2>
+                <ul class="list">
+                    <li class="list-item">Transfers</li>
+                    <li class="list-item">Visafees</li>
+                    <li class="list-item">Two dinners</li>
+                    <li class="list-item">Sightseeing and accommodation with breakfast as per the above-mentioned
+                        itinerary</li>
+                    <li class="list-item">Assistance of the tour before the trip</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+            <div class="outer-section">
+                <h2 class="section-title">Exclusions</h2>
+                <ul class="list">
+                    <li class="list-item">Airfares</li>
+                    <li class="list-item">GST 5%</li>
+                    <li class="list-item">TCS 5% / 20%</li>
+                    <li class="list-item">Compulsory tips wherever applicable</li>
+                    <li class="list-item">Tourist City Tax which needs to be paid directly at Hotel by Customer</li>
+                    <li class="list-item">Anything not mentioned in the "Inclusions"</li>
+                    <li class="list-item">Expenses of personal nature such as laundry, mini-bar, telephone charges, food
+                        & drink not part of the package</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-section">
+        <div>
+            <div class="outer-section">
+                <h2 class="section-title">Important Notes</h2>
+                <ul class="list">
+                    <li class="list-item">Ensure you have all necessary travel documents including passports, flight
+                        tickets, visa, hotel vouchers, and travel insurance.</li>
+                    <li class="list-item">Check the local currency of your destination and exchange currency in advance.
+                    </li>
+                    <li class="list-item">Inform your bank about your travel dates to avoid any issues with your
+                        debit/credit cards.</li>
+                    <li class="list-item">Save our emergency contact number in your phone: +91 7042917770.</li>
+                    <li class="list-item">Carry necessary medications and prescriptions.</li>
+                    <li class="list-item">Check the weather forecast for your destination and pack accordingly.</li>
+                    <li class="list-item">Include appropriate clothing, especially for any specific activities.</li>
+                    <li class="list-item">Keep yourself updated on local news, travel advisories, and safety
+                        precautions.</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="outer-section cancel-policy">
+                <h2 class="section-title">Cancellation Policy</h2>
+                <p>
+                    For more interesting packages visit us at <strong>www.viztravels.com</strong>. Above rates are
+                    subject to availability. Cancellation charges as per company policies. In case we are not able to
+                    provide same hotels as mentioned, similar alternatives will be arranged, and any difference in price
+                    will be advised.
+                </p>
+                <p>
+                    Package price does not include expenses of personal nature such as laundry, telephone calls, room
+                    service, alcoholic beverages, camera fees, etc. Services not mentioned in inclusions will be charged
+                    extra.
+                </p>
+                <p>
+                    Hotel check-in and check-out times as per their policies. Guests must carry valid photo ID’s
+                    (Driving License, Passport, Voter Card).
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-section">
+        <h2 class="tours-title">Tours:</h2>
+        <ul class="tours-list">
+            <li class="tours-item">DHOW CRUISE DINNER - CREEK</li>
+            <li class="tours-item">DUBAI CITY TOURS</li>
+            <li class="tours-item">ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR</li>
+            <li class="tours-item">DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT</li>
+            <li class="tours-item">GLOBAL VILLAGE</li>
+            <li class="tours-item">DUBAI FRAME</li>
+            <li class="tours-item">ABU DHABI CITY TOURS</li>
+            <li class="tours-item">The View at The Palm Jumeirah Dubai</li>
+            <li class="tours-item">Day At Leisure</li>
+        </ul>
+    </div>
+
+    <!-- Why Section -->
+    <div class="footer-section">
+        <h2 class="why-title">WHY YOU SHOULD BOOK PACKAGES FROM VIZ TRAVELS?</h2>
+        <div class="icons-row">
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Best Price">
+                <div class="icon-text">Best Price Guaranteed</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Expert">
+                <div class="icon-text">Destination Experts</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="EMI">
+                <div class="icon-text">EMI Options</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Support">
+                <div class="icon-text">On Trip Support</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Customized">
+                <div class="icon-text">Customized Package</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Local Experts">
+                <div class="icon-text">Local Experts</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Booking">
+                <div class="icon-text">Hassle-free Booking</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="Review">
+                <div class="icon-text">Positive Review</div>
+            </div>
+            <div class="icon-box">
+                <img src="/images/logo1.png" alt="24 Hours">
+                <div class="icon-text">24/7 Support</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note -->
+    <div class="footer-section">
+        <p class="note"><strong>Note:</strong> Above give quote is based on current rate of exchange. If rate of
+            exchange
+            changes at the time of final billing, then package quote will change accordingly**.</p>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp"
+                viewBox="0 0 16 16">
+                <path
+                    d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+            </svg>
+            <span>7042917770</span>
+        </div>
+        <div class="footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp"
+                viewBox="0 0 16 16">
+                <path
+                    d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+            </svg>
+            <span>7042917770</span>
+        </div>
+        <div class="footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope"
+                viewBox="0 0 16 16">
+                <path
+                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+            </svg>
+            <span>info@viztravels.com</span>
+        </div>
+        <div class="footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-browser-chrome" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M16 8a8 8 0 0 1-7.022 7.94l1.902-7.098a3 3 0 0 0 .05-1.492A3 3 0 0 0 10.237 6h5.511A8 8 0 0 1 16 8M0 8a8 8 0 0 0 7.927 8l1.426-5.321a3 3 0 0 1-.723.255 3 3 0 0 1-1.743-.147 3 3 0 0 1-1.043-.7L.633 4.876A8 8 0 0 0 0 8m5.004-.167L1.108 3.936A8.003 8.003 0 0 1 15.418 5H8.066a3 3 0 0 0-1.252.243 2.99 2.99 0 0 0-1.81 2.59M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+            </svg>
+            <span>www.viztravels.com</span>
+        </div>
+    </div>
+
+    <script>
+        const itinerary = [
+            {
+                day: 1,
+                title: "DHOW CRUISE DINNER - CREEK",
+                tag: "SIC Sightseeing",
+                img: "http://localhost:3020/uploads/images/creek.jpeg",
+                description: [
+                    "The dhow cruise offers a unique way to explore Dubai Creek. Dhows are traditional Bedouin boats that have been transformed into floating restaurants, providing a blend of tradition and modern comfort.",
+                    "Upon arrival, guests are greeted with a welcome drink. As the dhow sets sail, you’ll be served delicious barbecued dishes, enhancing your dining experience on the water."
+                ],
+                note: "Hotel Pickup and Drop included"
+            },
+            {
+                day: 2,
+                title: "DUBAI CITY TOURS",
+                tag: "SIC Sightseeing",
+                img: "/images/city.jpeg",
+                description: [
+                    "Begin your tour at the iconic Zabeel Palace for a quick photo stop to capture its architectural marvel. Move on to the renowned Dubai Frame for timeless snapshots.",
+                    "Explore the charming Bastakiya neighborhood, delving into the history of Dubai through traditional architecture and alleyways. Board an Abra at the Abra Station for a delightful ride on Dubai Creek."
+                ],
+                note: null
+            },
+            {
+                day: 2,
+                title: "ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR",
+                tag: "SIC Sightseeing",
+                img: "/images/burj-khalifa.jpeg",
+                description: [
+                    "Dubai’s Burj Khalifa, the tallest building in the world, stands tall and proud amongst the other skyscrapers of the city.",
+                    "Visit the Observatory Deck on the 124th–125th floors. The highlight is a breathtaking 360° panoramic view of Dubai’s skyline. The fastest elevator ride adds an extra thrill."
+                ],
+                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
+            }, {
+                day: 3,
+                title: "DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT",
+                tag: "SIC Sightseeing",
+                img: "https://picsum.photos/400/220?random=4",
+                description: [
+                    "If you want to experience the life in Dubai or UAE before it became the city it is today, a desert safari trip is a must. Our desert safari trip includes spending a few hours time in a Bedouin-style tent, right in the middle of the desert.",
+                    "The tour begins with our vehicle picking you up from your home or hotel and driving you down to the outskirts of the desert. Here starts your exciting desert journey in a 4 X 4 Land Cruiser that would take you on a dune bashing ride. Experience your adrenaline going high up while the sand sweeps around your vehicle and you cascade on the steep sand dunes.",
+                    "Once you arrive at the desert campsite, you can enjoy your time by riding a camel, smoking a flavored shisha, drinking the traditional Arabic coffee, enjoying the captivating belly dance and Tanura dance. Do not miss the chance to take some breathtaking pictures of the desert in your camera, especially during sunset. The colors of the setting sun on the sands would leave you mesmerized."
+                ],
+                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
+            }, {
+                day: 4,
+                title: "DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT",
+                tag: "SIC Sightseeing",
+                img: "https://picsum.photos/400/220?random=4",
+                description: [
+                    "If you want to experience the life in Dubai or UAE before it became the city it is today, a desert safari trip is a must. Our desert safari trip includes spending a few hours time in a Bedouin-style tent, right in the middle of the desert.",
+                    "The tour begins with our vehicle picking you up from your home or hotel and driving you down to the outskirts of the desert. Here starts your exciting desert journey in a 4 X 4 Land Cruiser that would take you on a dune bashing ride. Experience your adrenaline going high up while the sand sweeps around your vehicle and you cascade on the steep sand dunes.",
+                    "Once you arrive at the desert campsite, you can enjoy your time by riding a camel, smoking a flavored shisha, drinking the traditional Arabic coffee, enjoying the captivating belly dance and Tanura dance. Do not miss the chance to take some breathtaking pictures of the desert in your camera, especially during sunset. The colors of the setting sun on the sands would leave you mesmerized."
+                ],
+                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
+            }
+        ];
+
+        const itineraryContainer = document.querySelector("#itinerary");
+
+        itinerary.forEach(item => {
+            // Create day label
+            const dayLabel = document.createElement("div");
+            dayLabel.className = "day-label";
+            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+
+            // Create day block
+            const dayBlock = document.createElement("div");
+            dayBlock.className = "day-block";
+            dayBlock.innerHTML = `
+        <img src="${item.img}" alt="${item.title}">
+        <h2 class="detail-title">${item.title}</h2>
+        <div class="tag">${item.tag}</div>
+        ${item.description.map(d => `<p>${d}</p>`).join("")}
+        ${item.note ? `<p><em>${item.note}</em></p>` : ""}
+      `;
+
+            itineraryContainer.appendChild(dayLabel);
+            itineraryContainer.appendChild(dayBlock);
+        });
+    </script>
+
+</body>
+
+</html>

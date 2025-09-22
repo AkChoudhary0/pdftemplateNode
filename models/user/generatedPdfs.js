@@ -15,6 +15,13 @@ const generatedPdfs = new Schema({
     name: {
         type: String,
     },
+    flightDate1:{
+        type: Date,
+    },
+    flightDate2:{
+        type: Date,
+        default: null
+    },
      price: {
         type: String,
     },
