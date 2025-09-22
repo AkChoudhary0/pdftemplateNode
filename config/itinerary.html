@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dubai Itinerary - Viz Travels</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #2c3e50;
+      background: #fff;
+    }
+    .header img.hero {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      margin-bottom: 5px;
+    }
+    .logo {
+      text-align: center;
+      margin: 0;
+    }
+    .logo img {
+      max-width: 80px;
+    }
+    .title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    .details {
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0 0 15px 0;
+    }
+    .section {
+      margin: 15px auto;
+      padding: 5px 15px;
+      max-width: 800px;
+    }
+    .section h2 {
+      text-align: center;
+      font-size: 16px;
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 3px;
+      margin: 10px 0;
+    }
+    .hotel-card {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    .hotel-card img {
+      width: 140px;
+      height: 100px;
+      object-fit: cover;
+    }
+    .hotel-info {
+      padding: 8px;
+      flex: 1;
+    }
+    .hotel-info h3 {
+      margin: 0;
+      font-size: 14px;
+    }
+    .hotel-info h3 span {
+      color: red;
+    }
+    .hotel-info p {
+      margin: 2px 0;
+      font-size: 12px;
+    }
+
+    /* --- Itinerary Styles --- */
+    .day-label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+      margin: 20px 0 10px 0;
+    }
+    .day-label span {
+      color: #f37a20;
+    }
+    .day-block {
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+      overflow: hidden;
+    }
+    .day-block img {
+      width: 35%;
+      float: left;
+      margin-right: 20px;
+      border-radius: 4px;
+    }
+    .day-block h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .day-block .tag {
+      font-size: 12px;
+      color: #888;
+      margin: 6px 0 12px 0;
+    }
+    .day-block p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 10px 0;
+    }
+    .day-block em {
+      font-size: 13px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Image -->
+  <div class="header">
+    <img src="file:///Users/anilchaudhary/Downloads/dubai4.jpg" alt="Dubai" class="hero">
+  </div>
+
+  <!-- Logo -->
+  <div class="logo">
+    <img src="file:///Users/anilchaudhary/Desktop/Screenshot%202025-09-20%20at%202.19.11%E2%80%AFPM.png" alt="Viz Travels Logo">
+  </div>
+
+  <!-- Title -->
+  <div class="title">DUBAI</div>
+
+  <!-- Details -->
+  <div class="details">
+    Reference No.: #VT014753 <br>
+    Query Id.: #QID027404 <br>
+    7 Nights / 8 Days | For 4 Adults, 2 Child, 1 Infant <br>
+    Thu 25 to 01 Jan 2026
+  </div>
+
+  <!-- Destinations Covered -->
+  <div class="section">
+    <h2>DESTINATIONS COVERED</h2>
+    <p style="text-align:center;">UAE</p>
+  </div>
+
+  <!-- Hotel Section -->
+  <div class="section">
+    <div class="hotel-card">
+      <img src="file:///Users/anilchaudhary/Downloads/futuristic-dubai-landscape.jpg" alt="Golden Sands Hotel">
+      <div class="hotel-info">
+        <h3>Golden Sands Hotel / 2 Rooms <span>(3 Star)</span></h3>
+        <p><b>Staying Dates:</b> 25-12-2025, 27-12-2025, 28-12-2025, 29-12-2025, 30-12-2025, 31-12-2025</p>
+        <p><b>Destination:</b> Dubai</p>
+        <p><b>Meal Plan:</b> Breakfast</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Itinerary Section -->
+  <div class="section" id="itinerary">
+    <h2>DETAILED ITINERARY</h2>
+    <!-- Days will be injected here -->
+  </div>
+
+  <script>
+    const itinerary = [
+      {
+        day: 1,
+        title: "DHOW CRUISE DINNER - CREEK",
+        tag: "SIC Sightseeing",
+        img: "https://picsum.photos/400/220?random=3",
+        description: [
+          "The dhow cruise offers a unique way to explore Dubai Creek. Dhows are traditional Bedouin boats that have been transformed into floating restaurants, providing a blend of tradition and modern comfort.",
+          "Upon arrival, guests are greeted with a welcome drink. As the dhow sets sail, you’ll be served delicious barbecued dishes, enhancing your dining experience on the water."
+        ],
+        note: "Hotel Pickup and Drop included"
+      },
+      {
+        day: 2,
+        title: "DUBAI CITY TOURS",
+        tag: "SIC Sightseeing",
+        img: "https://picsum.photos/400/220?random=2",
+        description: [
+          "Begin your tour at the iconic Zabeel Palace for a quick photo stop to capture its architectural marvel. Move on to the renowned Dubai Frame for timeless snapshots.",
+          "Explore the charming Bastakiya neighborhood, delving into the history of Dubai through traditional architecture and alleyways. Board an Abra at the Abra Station for a delightful ride on Dubai Creek."
+        ],
+        note: null
+      },
+      {
+        day: 3,
+        title: "ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR",
+        tag: "SIC Sightseeing",
+        img: "https://picsum.photos/400/220?random=4",
+        description: [
+          "Dubai’s Burj Khalifa, the tallest building in the world, stands tall and proud amongst the other skyscrapers of the city.",
+          "Visit the Observatory Deck on the 124th–125th floors. The highlight is a breathtaking 360° panoramic view of Dubai’s skyline. The fastest elevator ride adds an extra thrill."
+        ],
+        note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
+      },{
+        day: 3,
+        title: "ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR",
+        tag: "SIC Sightseeing",
+        img: "https://picsum.photos/400/220?random=4",
+        description: [
+          "Dubai’s Burj Khalifa, the tallest building in the world, stands tall and proud amongst the other skyscrapers of the city.",
+          "Visit the Observatory Deck on the 124th–125th floors. The highlight is a breathtaking 360° panoramic view of Dubai’s skyline. The fastest elevator ride adds an extra thrill."
+        ],
+        note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
+      }
+    ];
+
+    const itineraryContainer = document.querySelector("#itinerary");
+
+    itinerary.forEach(item => {
+      // Create day label
+      const dayLabel = document.createElement("div");
+      dayLabel.className = "day-label";
+      dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+
+      // Create day block
+      const dayBlock = document.createElement("div");
+      dayBlock.className = "day-block";
+      dayBlock.innerHTML = `
+        <img src="${item.img}" alt="${item.title}">
+        <h2>${item.title}</h2>
+        <div class="tag">${item.tag}</div>
+        ${item.description.map(d => `<p>${d}</p>`).join("")}
+        ${item.note ? `<p><em>${item.note}</em></p>` : ""}
+      `;
+
+      itineraryContainer.appendChild(dayLabel);
+      itineraryContainer.appendChild(dayBlock);
+    });
+  </script>
+
+</body>
+</html>

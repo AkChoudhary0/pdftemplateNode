@@ -464,7 +464,7 @@ exports.convertPdf = async (req, res) => {
 `
             let totalAmount = Number(data.price) + 4460
             let issueDate = new Date();
-            issueDate=issueDate.toDateString();
+            issueDate = issueDate.toDateString();
             let onewayData = {
                 pnrCode: pnrNumber,
                 bookingId: bookingCode,
@@ -491,7 +491,7 @@ exports.convertPdf = async (req, res) => {
             });
 
 
-           await htmlToPdf(html, fileName);
+            await htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1074,7 +1074,7 @@ exports.convertPdf = async (req, res) => {
                 html = html.replace(regex, roundtripData[key]);
             });
 
-             await htmlToPdf(html, fileName);
+            await htmlToPdf(html, fileName);
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
                 code: constants.successCode,
@@ -1298,7 +1298,7 @@ Bed type is subjected to the availability</p>
             });
 
             await htmlToPdf(html, fileName);
-           
+
             // saveObject.name = data.guest
             let saveData = await generatedPdfs(saveObject).save()
             res.send({
@@ -1329,6 +1329,69 @@ exports.getPdfs = async (req, res) => {
             data: data
         })
 
+    } catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
+
+exports.locations = async (req, res) => {
+    try {
+        let locations = [
+            { "key": "At The Top - Burj Khalifa", "value": "At The Top - Burj Khalifa" },
+            { "key": "Al Shindagha Museum", "value": "Al Shindagha Museum" },
+            { "key": "Atlantis Aquaventure", "value": "Atlantis Aquaventure" },
+            { "key": "Abu Dhabi City Tour", "value": "Abu Dhabi City Tour" },
+            { "key": "Aya Universe", "value": "Aya Universe" },
+            { "key": "Big Bus Tour", "value": "Big Bus Tour" },
+            { "key": "Bird Show - Creek Park", "value": "Bird Show - Creek Park" },
+            { "key": "Burj Al Arab - Inside Tour", "value": "Burj Al Arab - Inside Tour" },
+            { "key": "Butterfly Garden", "value": "Butterfly Garden" },
+            { "key": "Crocodile Park Dubai", "value": "Crocodile Park Dubai" },
+            { "key": "Desert Safari", "value": "Desert Safari" },
+            { "key": "Dhow Cruise", "value": "Dhow Cruise" },
+            { "key": "Dolphin show", "value": "Dolphin show" },
+            { "key": "Dubai Aquarium & Under Water Zoo", "value": "Dubai Aquarium & Under Water Zoo" },
+            { "key": "Dubai Balloon", "value": "Dubai Balloon" },
+            { "key": "Dubai City Tour", "value": "Dubai City Tour" },
+            { "key": "Dubai Frame", "value": "Dubai Frame" },
+            { "key": "Dubai Miracle Garden", "value": "Dubai Miracle Garden" },
+            { "key": "Dubai Park & Resorts", "value": "Dubai Park & Resorts" },
+            { "key": "Dubai Safari Park", "value": "Dubai Safari Park" },
+            { "key": "Ferrari World Abu Dhabi", "value": "Ferrari World Abu Dhabi" },
+            { "key": "Garden Glow Dubai", "value": "Garden Glow Dubai" },
+            { "key": "Global Village", "value": "Global Village" },
+            { "key": "Green Planet Dubai", "value": "Green Planet Dubai" },
+            { "key": "IMG Worlds of Adventure", "value": "IMG Worlds of Adventure" },
+            { "key": "La Perle", "value": "La Perle" },
+            { "key": "Lost Chambers Aquarium", "value": "Lost Chambers Aquarium" },
+            { "key": "Louvre Museum Abu Dhabi", "value": "Louvre Museum Abu Dhabi" },
+            { "key": "Madame Tussauds", "value": "Madame Tussauds" },
+            { "key": "Mono Rail", "value": "Mono Rail" },
+            { "key": "Museum of The Future", "value": "Museum of The Future" },
+            { "key": "Qasr Al Watan", "value": "Qasr Al Watan" },
+            { "key": "Sea World Abu Dhabi", "value": "Sea World Abu Dhabi" },
+            { "key": "Ski Dubai", "value": "Ski Dubai" },
+            { "key": "Sky Dive Dubai", "value": "Sky Dive Dubai" },
+            { "key": "Sky view Observatory", "value": "Sky view Observatory" },
+            { "key": "Sky View Edge Walk", "value": "Sky View Edge Walk" },
+            { "key": "Snow Park Abu Dhabi", "value": "Snow Park Abu Dhabi" },
+            { "key": "Storm Coaster Dubai", "value": "Storm Coaster Dubai" },
+            { "key": "View At The Palm", "value": "View At The Palm" },
+            { "key": "Warner Bros World - Abu Dhabi", "value": "Warner Bros World - Abu Dhabi" },
+            { "key": "Wild Wadi Water Park", "value": "Wild Wadi Water Park" },
+            { "key": "X-Line Marina", "value": "X-Line Marina" },
+            { "key": "Yas Water World - Abu Dhabi", "value": "Yas Water World - Abu Dhabi" }
+        ]
+
+        res.send({
+            code: constants.successCode,
+            message: "Success",
+            data: locations
+        })
     } catch (err) {
         res.send({
             code: constants.catchError,
