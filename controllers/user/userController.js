@@ -142,8 +142,6 @@ exports.convertPdf = async (req, res) => {
 
         console.log("📩 Payload received from frontend:", data);
 
-
-
         async function htmlToPdf(htmlContent, fileName = "output.pdf") {
             // Save in /uploads at project root
             const filePath = path.join(process.cwd(), "uploads", fileName);
@@ -172,6 +170,8 @@ exports.convertPdf = async (req, res) => {
             type: data.type,           // save form type
             name: data.name,           // use same key as frontend
             price: data.price,         // save price
+            flightDate1: data.date ? data.date : data.departureDate,
+            flightDate2: data.returnDate || null,
             pdfUrl: `/uploads/${fileName}`,
             fileName: fileName,
             date: data.date || new Date()
@@ -1338,6 +1338,23 @@ exports.getPdfs = async (req, res) => {
     }
 }
 
+exports.getGeneratedPdf = async (req, res) => {
+    try {
+       let getData = await generatedPdfs.find({name:{regex: req.params.name, $options: 'i'}}).sort({ createdAt: -1 })
+        res.send({
+            code: constants.successCode,
+            message: "Data found",
+            data: getData
+        })
+    }catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
+
 // exports.generateItinerary = async () => {
 //   try {
 //     // Read your HTML file
@@ -1372,41 +1389,36 @@ exports.getPdfs = async (req, res) => {
 const puppeteer = require("puppeteer");
 
 exports.generateItinerary = async () => {
-  try {
-    // Read your HTML file
-    const htmlPath = path.join(__dirname, "index.html");
-    const htmlContent = fs.readFileSync(htmlPath, "utf-8");
+    try {
+        // Read your HTML file
+        const htmlPath = path.join(__dirname, "index.html");
+        const htmlContent = fs.readFileSync(htmlPath, "utf-8");
 
-    // Launch headless browser
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
+        // Launch headless browser
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
 
-    // Set HTML content
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+        // Set HTML content
+        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
-    // Generate PDF
-    const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-    await page.pdf({
-      path: outputPath,
-      format: "A4",
-      printBackground: true,
-      margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
-    });
+        // Generate PDF
+        const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
+        await page.pdf({
+            path: outputPath,
+            format: "A4",
+            printBackground: true,
+            margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
+        });
 
-    await browser.close();
+        await browser.close();
 
-    console.log(`PDF generated at: ${outputPath}`);
-    return outputPath;
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    throw error;
-  }
+        console.log(`PDF generated at: ${outputPath}`);
+        return outputPath;
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        throw error;
+    }
 };
-
-
-
-
-
 
 exports.locations = async (req, res) => {
     try {
