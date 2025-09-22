@@ -1338,6 +1338,48 @@ exports.getPdfs = async (req, res) => {
     }
 }
 
+exports.generateItinerary = async (req, res) => {
+    try {
+        let data = req.body;
+
+        async function htmlToPdf(htmlContent, fileName = "output.pdf") {
+            // Save in /uploads at project root
+            const filePath = path.join(process.cwd(), "uploads", fileName);
+
+            let options = { format: "A4" };
+            let file = { content: htmlContent };
+
+            try {
+                // Ensure uploads folder exists
+                if (!fs.existsSync(path.join(process.cwd(), "uploads"))) {
+                    fs.mkdirSync(path.join(process.cwd(), "uploads"));
+                }
+
+                const pdfBuffer = await pdf.generatePdf(file, options);
+                fs.writeFileSync(filePath, pdfBuffer);
+                console.log("✅ PDF saved at:", filePath);
+            } catch (err) {
+                console.error("❌ Error generating PDF:", err);
+            }
+        }
+
+        // let fileName = data.name + "-" + new Date()
+        let fileName = `${data.type}-${Date.now()}.pdf`;
+
+        
+
+
+
+    } catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
+
+
 exports.locations = async (req, res) => {
     try {
         let locations = [
