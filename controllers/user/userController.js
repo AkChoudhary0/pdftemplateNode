@@ -5,6 +5,7 @@ const generatedPdfs = require("../../models/user/generatedPdfs")
 const fs = require("fs");
 const path = require("path");
 const pdf = require("html-pdf-node");
+const itineraryLocations = require("./location")
 const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
@@ -1906,7 +1907,7 @@ Bed type is subjected to the availability</p>
         ];
 </body>
 </html>`;
-            
+
 
             // let hotelData = {
             //     confirmationNo: confirmationNo,
@@ -1937,20 +1938,20 @@ Bed type is subjected to the availability</p>
                 code: constants.successCode,
                 message: "PDF generated successfully",
             })
-        
-    } else {
+
+        } else {
+            res.send({
+                code: constants.errorCode,
+                message: "Invalid type"
+            })
+        }
+    } catch (err) {
         res.send({
-            code: constants.errorCode,
-            message: "Invalid type"
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
         })
     }
-} catch (err) {
-    res.send({
-        code: constants.catchError,
-        message: err.message,
-        stack: err.stack
-    })
-}
 }
 
 exports.getPdfs = async (req, res) => {
@@ -1973,13 +1974,13 @@ exports.getPdfs = async (req, res) => {
 
 exports.getGeneratedPdf = async (req, res) => {
     try {
-       let getData = await generatedPdfs.find({name:{regex: req.params.name, $options: 'i'}}).sort({ createdAt: -1 })
+        let getData = await generatedPdfs.find({ name: { regex: req.params.name, $options: 'i' } }).sort({ createdAt: -1 })
         res.send({
             code: constants.successCode,
             message: "Data found",
             data: getData
         })
-    }catch (err) {
+    } catch (err) {
         res.send({
             code: constants.catchError,
             message: err.message,
@@ -2030,6 +2031,26 @@ exports.generateItinerary = async () => {
         // Launch headless browser
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
+        let array = ["Yas Water World - Abu Dhabi", "X-Line Marina"];
+
+        let itineraryData = itineraryLocations.filter(item =>
+            data.locations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
+        );
+
+        console.log(itineraryData);
+
+        htmlContent = htmlContent.replace(
+            "{{itineraryData}}",
+            JSON.stringify(itineraryData, null, 2) // inject array as JSON
+        );
+
+        // Replace other payload keys if needed
+        Object.entries(payload).forEach(([key, value]) => {
+            if (key !== "itinerary") {
+                const regex = new RegExp(`{{${key}}}`, "g");
+                htmlContent = htmlContent.replace(regex, value);
+            }
+        });
 
         // Set HTML content
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });

@@ -19,8 +19,8 @@
         }
 
         .header img.hero {
-            width: 90%;
-            max-height: 200px;
+            width: 100%;
+            max-height: 490px;
             object-fit: cover;
             margin: auto;
             display: flex;
@@ -319,10 +319,10 @@
 
     <!-- Details -->
     <div class="details">
-        Reference No.: #VT014753 <br>
-        Query Id.: #QID027404 <br>
-        7 Nights / 8 Days | For 4 Adults, 2 Child, 1 Infant <br>
-        Thu 25 to 01 Jan 2026
+        Guest Name: {{name}} <br>
+        <!-- Query Id.: #QID027404 <br> -->
+        {{night}} / {{day}} | For {{adult}} Adults,{{child}} Child, {{infant}} Infant <br>
+        {{checkin}} to {{checkout}} 2026
     </div>
 
     <!-- Destinations Covered -->
@@ -337,7 +337,7 @@
             <img src="http://localhost:3020/uploads/images/hotel.jpeg" alt="Golden Sands Hotel">
             <div class="hotel-info">
                 <h3>Golden Sands Hotel / 2 Rooms <span>(3 Star)</span></h3>
-                <p><b>Staying Dates:</b> 25-12-2025, 27-12-2025, 28-12-2025, 29-12-2025, 30-12-2025, 31-12-2025</p>
+                <p><b>Staying Dates:</b> {{checkin}} - {{checkout}}</p>
                 <p><b>Destination:</b> Dubai</p>
                 <p><b>Meal Plan:</b> Breakfast</p>
             </div>
@@ -527,63 +527,7 @@
     </div>
 
     <script>
-        const itinerary = [
-            {
-                day: 1,
-                title: "DHOW CRUISE DINNER - CREEK",
-                tag: "SIC Sightseeing",
-                img: "http://localhost:3020/uploads/images/creek.jpeg",
-                description: [
-                    "The dhow cruise offers a unique way to explore Dubai Creek. Dhows are traditional Bedouin boats that have been transformed into floating restaurants, providing a blend of tradition and modern comfort.",
-                    "Upon arrival, guests are greeted with a welcome drink. As the dhow sets sail, you’ll be served delicious barbecued dishes, enhancing your dining experience on the water."
-                ],
-                note: "Hotel Pickup and Drop included"
-            },
-            {
-                day: 2,
-                title: "DUBAI CITY TOURS",
-                tag: "SIC Sightseeing",
-                img: "/images/city.jpeg",
-                description: [
-                    "Begin your tour at the iconic Zabeel Palace for a quick photo stop to capture its architectural marvel. Move on to the renowned Dubai Frame for timeless snapshots.",
-                    "Explore the charming Bastakiya neighborhood, delving into the history of Dubai through traditional architecture and alleyways. Board an Abra at the Abra Station for a delightful ride on Dubai Creek."
-                ],
-                note: null
-            },
-            {
-                day: 2,
-                title: "ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR",
-                tag: "SIC Sightseeing",
-                img: "/images/burj-khalifa.jpeg",
-                description: [
-                    "Dubai’s Burj Khalifa, the tallest building in the world, stands tall and proud amongst the other skyscrapers of the city.",
-                    "Visit the Observatory Deck on the 124th–125th floors. The highlight is a breathtaking 360° panoramic view of Dubai’s skyline. The fastest elevator ride adds an extra thrill."
-                ],
-                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
-            }, {
-                day: 3,
-                title: "DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT",
-                tag: "SIC Sightseeing",
-                img: "https://picsum.photos/400/220?random=4",
-                description: [
-                    "If you want to experience the life in Dubai or UAE before it became the city it is today, a desert safari trip is a must. Our desert safari trip includes spending a few hours time in a Bedouin-style tent, right in the middle of the desert.",
-                    "The tour begins with our vehicle picking you up from your home or hotel and driving you down to the outskirts of the desert. Here starts your exciting desert journey in a 4 X 4 Land Cruiser that would take you on a dune bashing ride. Experience your adrenaline going high up while the sand sweeps around your vehicle and you cascade on the steep sand dunes.",
-                    "Once you arrive at the desert campsite, you can enjoy your time by riding a camel, smoking a flavored shisha, drinking the traditional Arabic coffee, enjoying the captivating belly dance and Tanura dance. Do not miss the chance to take some breathtaking pictures of the desert in your camera, especially during sunset. The colors of the setting sun on the sands would leave you mesmerized."
-                ],
-                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
-            }, {
-                day: 4,
-                title: "DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT",
-                tag: "SIC Sightseeing",
-                img: "https://picsum.photos/400/220?random=4",
-                description: [
-                    "If you want to experience the life in Dubai or UAE before it became the city it is today, a desert safari trip is a must. Our desert safari trip includes spending a few hours time in a Bedouin-style tent, right in the middle of the desert.",
-                    "The tour begins with our vehicle picking you up from your home or hotel and driving you down to the outskirts of the desert. Here starts your exciting desert journey in a 4 X 4 Land Cruiser that would take you on a dune bashing ride. Experience your adrenaline going high up while the sand sweeps around your vehicle and you cascade on the steep sand dunes.",
-                    "Once you arrive at the desert campsite, you can enjoy your time by riding a camel, smoking a flavored shisha, drinking the traditional Arabic coffee, enjoying the captivating belly dance and Tanura dance. Do not miss the chance to take some breathtaking pictures of the desert in your camera, especially during sunset. The colors of the setting sun on the sands would leave you mesmerized."
-                ],
-                note: "NOTE: NON PRIME HOURS TICKET 124-125 FLOOR"
-            }
-        ];
+        const itinerary = '{{itineraryData}}'
 
         const itineraryContainer = document.querySelector("#itinerary");
 
@@ -591,7 +535,7 @@
             // Create day label
             const dayLabel = document.createElement("div");
             dayLabel.className = "day-label";
-            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+            dayLabel.innerHTML = `<span>&#9733;</span> LOCATION ${item.day} <span>&#9654;</span>`;
 
             // Create day block
             const dayBlock = document.createElement("div");
