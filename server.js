@@ -42,7 +42,7 @@ app.use("/api-v1/users", userRoute);
 app.use("/api-v1/hotels", hotelRoute); 
 
 // Start the server
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.port ; 
 app.listen(PORT, () => {
   console.log(` Server running at http://localhost:${PORT}`);
 });
