@@ -2033,10 +2033,11 @@ exports.generateItinerary = async (req, res) => {
         let htmlContent = fs.readFileSync(htmlPath, "utf-8");
 
         // Launch headless browser
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: true , args: ["--no-sandbox", "--disable-setuid-sandbox"]});
         const page = await browser.newPage();
         let array = ["Yas Water World - Abu Dhabi", "X-Line Marina"];
-        let selectedLocations = data.locations.map(item => item.locations)
+        let selectedLocations = data.locations.map(item => item.location)
+        console.log(data.locations);
         let itineraryData = itineraryLocations.filter(item =>
             selectedLocations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
         );
@@ -2076,7 +2077,7 @@ exports.generateItinerary = async (req, res) => {
 
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-        let fileName = `itinerary/${data.hostName}-${Date.now()}.pdf`
+        let fileName = `itinerary/${Date.now()}.pdf`
         const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
         await page.pdf({
             path: outputPath,
