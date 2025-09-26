@@ -2022,11 +2022,12 @@ exports.getGeneratedPdf = async (req, res) => {
 
 const puppeteer = require("puppeteer");
 
-exports.generateItinerary = async (req,res) => {
+exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
 
-       
+
+
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
         let htmlContent = fs.readFileSync(htmlPath, "utf-8");
@@ -2035,9 +2036,9 @@ exports.generateItinerary = async (req,res) => {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         let array = ["Yas Water World - Abu Dhabi", "X-Line Marina"];
-
+        let selectedLocations = data.locations.map(item => item.locations)
         let itineraryData = itineraryLocations.filter(item =>
-            data.locations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
+            selectedLocations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
         );
         // itineraryData = JSON.stringify(itineraryData);
         console.log(itineraryData);
@@ -2049,24 +2050,24 @@ exports.generateItinerary = async (req,res) => {
         //     "{{itineraryData}}",
         //     JSON.stringify(itineraryData, null, 2) // inject array as JSON
         // );
-         let dataToUpdate = {
-            adult:data.persons.adults,
-            hostName:data.hostName,
-            child:data.persons.children,
-            infant:data.persons.infants,
-            night:data.nights,
-            day:data.days,
-            checkin:data.dates.to,
-            checkout:data.dates.from,
-            hotel:data.hotel,
-            itineraryData:JSON.stringify(itineraryData)
+        let dataToUpdate = {
+            adult: data.persons.adults,
+            hostName: data.hostName,
+            child: data.persons.children,
+            infant: data.persons.infants,
+            night: data.nights,
+            day: data.days,
+            checkin: data.dates.to,
+            checkout: data.dates.from,
+            hotel: data.hotel,
+            itineraryData: JSON.stringify(itineraryData)
         }
 
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
             // if (key !== "itineraryData") {
-                const regex = new RegExp(`{{${key}}}`, "g");
-                htmlContent = htmlContent.replace(regex, value);
+            const regex = new RegExp(`{{${key}}}`, "g");
+            htmlContent = htmlContent.replace(regex, value);
             // }
         });
 
@@ -2074,7 +2075,9 @@ exports.generateItinerary = async (req,res) => {
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
         // Generate PDF
-        const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
+        // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
+        let fileName = `itinerary/${data.hostName}-${Date.now()}.pdf`
+        const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
         await page.pdf({
             path: outputPath,
             format: "A4",
@@ -2083,12 +2086,31 @@ exports.generateItinerary = async (req,res) => {
         });
 
         await browser.close();
-
+        let saveObject = {
+            type: data.type,           // save form type
+            name: data.hostName,           // use same key as frontend
+            price: data.price,         // save price
+            flightDate1: data.dates.from,
+            flightDate2: data.dates.to,
+            pdfUrl: `/uploads/itinerary/${fileName}`,
+            fileName: fileName,
+            date: data.date || new Date()
+        }
+            let saveData = await generatedPdfs(saveObject).save()
         console.log(`PDF generated at: ${outputPath}`);
-        return outputPath;
+        res.send({
+            code: constants.successCode,
+            message: "PDF generated successfully",
+            data: saveData
+        })
+        //
+        // return outputPath;
     } catch (error) {
-        console.error("Error generating PDF:", error);
-        throw error;
+       res.send({
+            code: constants.catchError,
+            message: error.message,
+            stack: error.stack
+        })  
     }
 };
 
