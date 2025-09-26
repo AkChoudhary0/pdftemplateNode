@@ -2093,7 +2093,7 @@ exports.generateItinerary = async (req, res) => {
             price: data.price,         // save price
             flightDate1: data.dates.from,
             flightDate2: data.dates.to,
-            pdfUrl: `/uploads/itinerary/${fileName}`,
+            pdfUrl: `/uploads/${fileName}`,
             fileName: fileName,
             date: data.date || new Date()
         }
