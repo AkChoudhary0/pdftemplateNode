@@ -9,7 +9,7 @@ router.post("/login", userController.loginUser);
 // PDF Operations
 router.post("/convert-pdf", userController.convertPdf);
 router.get("/get-pdfs", userController.getPdfs);
-router.get("/generateItinerary", userController.generateItinerary);
+router.post("/generateItinerary", userController.generateItinerary);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
 
 module.exports = router;

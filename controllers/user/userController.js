@@ -2022,11 +2022,14 @@ exports.getGeneratedPdf = async (req, res) => {
 
 const puppeteer = require("puppeteer");
 
-exports.generateItinerary = async () => {
+exports.generateItinerary = async (req,res) => {
     try {
+        let data = req.body
+
+       
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
-        const htmlContent = fs.readFileSync(htmlPath, "utf-8");
+        let htmlContent = fs.readFileSync(htmlPath, "utf-8");
 
         // Launch headless browser
         const browser = await puppeteer.launch({ headless: true });
@@ -2036,20 +2039,35 @@ exports.generateItinerary = async () => {
         let itineraryData = itineraryLocations.filter(item =>
             data.locations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
         );
-
+        // itineraryData = JSON.stringify(itineraryData);
         console.log(itineraryData);
-
-        htmlContent = htmlContent.replace(
-            "{{itineraryData}}",
-            JSON.stringify(itineraryData, null, 2) // inject array as JSON
-        );
+        // res.send({
+        //     htmlContent:htmlContent
+        // })
+        // return
+        // htmlContent = htmlContent.replace(
+        //     "{{itineraryData}}",
+        //     JSON.stringify(itineraryData, null, 2) // inject array as JSON
+        // );
+         let dataToUpdate = {
+            adult:data.persons.adults,
+            hostName:data.hostName,
+            child:data.persons.children,
+            infant:data.persons.infants,
+            night:data.nights,
+            day:data.days,
+            checkin:data.dates.to,
+            checkout:data.dates.from,
+            hotel:data.hotel,
+            itineraryData:JSON.stringify(itineraryData)
+        }
 
         // Replace other payload keys if needed
-        Object.entries(payload).forEach(([key, value]) => {
-            if (key !== "itinerary") {
+        Object.entries(dataToUpdate).forEach(([key, value]) => {
+            // if (key !== "itineraryData") {
                 const regex = new RegExp(`{{${key}}}`, "g");
                 htmlContent = htmlContent.replace(regex, value);
-            }
+            // }
         });
 
         // Set HTML content
