@@ -15,7 +15,7 @@ const path = require("path")
 // });
 
 // File download route (PDF or Images)
-app.get("/download/", (req, res) => {
+app.get("/download", (req, res) => {
   const fileName = req.query.fileName; 
   const originalName = req.query.name + "-" + fileName; 
   const filePath = path.join(__dirname, "uploads", fileName);
