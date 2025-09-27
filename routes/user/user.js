@@ -11,6 +11,12 @@ router.post("/convert-pdf", userController.convertPdf);
 router.get("/get-pdfs", userController.getPdfs);
 router.post("/generateItinerary", userController.generateItinerary);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
+router.post("/addUser", userController.addUser);
+router.get("/getUsers", userController.getUsers);
+router.get("/getUserById/:userId", userController.getUserById);
+router.delete("/deleteUser/:userId", userController.deleteUser);
+router.put("/changePassword/:userId", userController.updatePassword);
+router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
 
 module.exports = router;
     

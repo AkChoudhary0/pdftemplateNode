@@ -47,6 +47,15 @@ module.exports = class userService {
         }
     }
 
+     static async deleteUserHard(query) {
+        try {
+            let updatedUser = await USER.deleteOne(query);
+            return updatedUser;
+        } catch (err) {
+            return `Could not delete user: ${err}: service error`;
+        }
+    }
+
     static async aggregateUser(query){
         try {
             let aggregatedUser = await USER.aggregate(query);

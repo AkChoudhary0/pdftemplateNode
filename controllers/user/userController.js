@@ -141,6 +141,7 @@ exports.addUser = async (req, res) => {
     try {
         let data = req.body
         data.password = await bcrypt.hash(data.password, 10)
+        data.role = "user"
         let createUser = await userService.createUser(data)
         if (!createUser) {
             res.send({
@@ -179,9 +180,34 @@ exports.getUsers = async (req, res) => {
     }
 }
 
-exports.editUsers = async (req, res) => {
+exports.getUserById = async (req, res) => {
     try {
-        let userId = req.params.id
+        let userId = req.params.userId
+        let user = await userService.findOneUser({_id:userId})
+        if (!user) {
+            res.send({
+                code: constants.userNotFound,
+                message: "User not found"
+            })
+        } else {
+            res.send({
+                code: constants.successCode,
+                message: "User retrieved successfully",
+                data: user
+            })
+        }
+    } catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
+
+exports.editUser = async (req, res) => {
+    try {
+        let userId = req.params.userId
         let data = req.body
         let updateUser = await userService.updateUser({_id:userId}, data)
         if (!updateUser) {
@@ -204,9 +230,33 @@ exports.editUsers = async (req, res) => {
     }
 }
 
+exports.deleteUser = async (req, res) => {
+    try {
+        let userId = req.params.userId
+        let deleteUser = await userService.deleteUserHard({_id:userId})
+        if (!deleteUser) {
+            res.send({
+                code: constants.dataDeleteError,
+                message: "Unable to delete the user,please try again"
+            })
+        } else {
+            res.send({
+                code: constants.successCode,
+                message: "User deleted successfully"
+            })
+        }
+    } catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
+
 exports.updatePassword = async(req,res)=>{
     try{
-        let userId = req.params.id
+        let userId = req.params.userId
         let data = req.body
         data.password = await bcrypt.hash(data.password, 10)
         let updateUser = await userService.updateUser({_id:userId}, data)
