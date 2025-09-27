@@ -14,6 +14,7 @@ router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
 router.post("/addUser", userController.addUser);
 router.get("/getUsers", userController.getUsers);
 router.get("/getUserById/:userId", userController.getUserById);
+router.put("/editUser/:userId", userController.editUser);
 router.delete("/deleteUser/:userId", userController.deleteUser);
 router.put("/changePassword/:userId", userController.updatePassword);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);

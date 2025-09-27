@@ -71,71 +71,81 @@ const hotels = [
 
 exports.signupUser = async (req, res) => {
     try {
-        let data = req.body
-        data.email = "tajgateway2@gmail.com"
-        data.name = "Sakshi"
-        data.phone = "9371000044"
-        let hashedPassword = await bcrypt.hash("Sakshi@123", 10)
-        data.password = hashedPassword
-        let createUser = await userService.createUser(data)
+        let data = req.body;
+        data.email = "tajgateway2@gmail.com";
+        data.name = "Sakshi";
+        data.phone = "9371000044";
+        data.role = "admin";
+        let hashedPassword = await bcrypt.hash("Sakshi@123", 10);
+        data.password = hashedPassword;
+        let createUser = await userService.createUser(data);
         if (!createUser) {
             res.send({
                 code: constants.dataInsertError,
-                message: "Unable to create the user,please try again"
-            })
+                message: "Unable to create the user, please try again"
+            });
         } else {
             res.send({
                 code: constants.successCode,
-                message: "User created successfully"
-            })
+                message: "Admin created successfully"
+            });
         }
     } catch (err) {
         res.send({
             code: constants.catchError,
             message: err.message,
             stack: err.stack
-        })
+        });
     }
-}
+};
+
 
 exports.loginUser = async (req, res) => {
     try {
-        let data = req.body
-        let user = await userService.findOneUser({ email: data.email })
+        let data = req.body;
+        let user = await userService.findOneUser({ email: data.email });
+
         if (!user) {
-            res.send({
+            return res.send({
                 code: constants.userNotFound,
                 message: "User not found"
-            })
-            return;
+            });
         }
 
-        let isMatch = await bcrypt.compare(data.password, user.password)
+        let isMatch = await bcrypt.compare(data.password, user.password);
         if (!isMatch) {
-            res.send({
+            return res.send({
                 code: constants.invalidCredentials,
                 message: "Invalid credentials"
-            })
-            return;
+            });
         }
 
-        let token = jwtToken.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
+        let token = jwtToken.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+        // ✅ Explicitly return the role
         res.send({
             code: constants.successCode,
             message: "Login successful",
             data: {
-                user,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role || "user"
+                },
                 token
             }
-        })
+        });
+
     } catch (err) {
         res.send({
             code: constants.catchError,
             message: err.message,
             stack: err.stack
-        })
+        });
     }
-}
+};
+
 
 exports.addUser = async (req, res) => {
     try {
@@ -165,7 +175,7 @@ exports.addUser = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     try {
-        let users = await userService.findAllUsers({role:"user"})
+        let users = await userService.findAllUsers({ role: "user" })
         res.send({
             code: constants.successCode,
             message: "Users retrieved successfully",
@@ -183,7 +193,7 @@ exports.getUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try {
         let userId = req.params.userId
-        let user = await userService.findOneUser({_id:userId})
+        let user = await userService.findOneUser({ _id: userId })
         if (!user) {
             res.send({
                 code: constants.userNotFound,
@@ -209,7 +219,7 @@ exports.editUser = async (req, res) => {
     try {
         let userId = req.params.userId
         let data = req.body
-        let updateUser = await userService.updateUser({_id:userId}, data)
+        let updateUser = await userService.updateUser({ _id: userId }, data)
         if (!updateUser) {
             res.send({
                 code: constants.dataUpdateError,
@@ -233,7 +243,7 @@ exports.editUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try {
         let userId = req.params.userId
-        let deleteUser = await userService.deleteUserHard({_id:userId})
+        let deleteUser = await userService.deleteUserHard({ _id: userId })
         if (!deleteUser) {
             res.send({
                 code: constants.dataDeleteError,
@@ -254,12 +264,12 @@ exports.deleteUser = async (req, res) => {
     }
 }
 
-exports.updatePassword = async(req,res)=>{
-    try{
+exports.updatePassword = async (req, res) => {
+    try {
         let userId = req.params.userId
         let data = req.body
         data.password = await bcrypt.hash(data.password, 10)
-        let updateUser = await userService.updateUser({_id:userId}, data)
+        let updateUser = await userService.updateUser({ _id: userId }, data)
         if (!updateUser) {
             res.send({
                 code: constants.dataUpdateError,
@@ -271,7 +281,7 @@ exports.updatePassword = async(req,res)=>{
                 message: "User updated successfully"
             })
         }
-    }catch(err){
+    } catch (err) {
         res.send({
             code: constants.catchError,
             message: err.message,
@@ -2176,7 +2186,7 @@ exports.generateItinerary = async (req, res) => {
         let htmlContent = fs.readFileSync(htmlPath, "utf-8");
 
         // Launch headless browser
-        const browser = await puppeteer.launch({ headless: true , args: ["--no-sandbox", "--disable-setuid-sandbox"]});
+        const browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] });
         const page = await browser.newPage();
         let array = ["Yas Water World - Abu Dhabi", "X-Line Marina"];
         let selectedLocations = data.locations.map(item => item.location)
@@ -2240,7 +2250,7 @@ exports.generateItinerary = async (req, res) => {
             fileName: fileName,
             date: data.date || new Date()
         }
-            let saveData = await generatedPdfs(saveObject).save()
+        let saveData = await generatedPdfs(saveObject).save()
         console.log(`PDF generated at: ${outputPath}`);
         res.send({
             code: constants.successCode,
@@ -2250,11 +2260,11 @@ exports.generateItinerary = async (req, res) => {
         //
         // return outputPath;
     } catch (error) {
-       res.send({
+        res.send({
             code: constants.catchError,
             message: error.message,
             stack: error.stack
-        })  
+        })
     }
 };
 
