@@ -11,6 +11,11 @@ const users = new Schema({
     name:{
         type:String,
     },
+    role:{
+        type:String,
+        enum:["user","admin"],
+        default:"user"
+    },
     phone:{
         type:String,
     }
