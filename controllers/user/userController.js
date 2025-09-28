@@ -2175,7 +2175,7 @@ exports.generateItinerary = async (req, res) => {
             isSic: data.isAirportDropSic ? "SIC" : "PVT vehicle",
             checkout: data.dates.from,
             hotelName: getHotel.name,
-            hotelImage: getHotel.image,
+            hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData)
         }
 
