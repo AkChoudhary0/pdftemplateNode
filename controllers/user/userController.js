@@ -2178,6 +2178,7 @@ exports.generateItinerary = async (req, res) => {
             hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData)
         }
+        console.log(getHotel);
 
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
