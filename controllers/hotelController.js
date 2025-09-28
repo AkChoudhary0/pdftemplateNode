@@ -3,7 +3,7 @@ const Hotel = require('../models/user/hotelModel');
 const path = require('path');
 const fs = require('fs');
 
-const uploadsPath = path.join('uploads');
+const uploadsPath = path.join('uploads/hotelImage');
 
 exports.createHotel = async (req, res) => {
   try {
