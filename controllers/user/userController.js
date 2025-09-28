@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const pdf = require("html-pdf-node");
 const itineraryLocations = require("./location")
+let HOTEL = require("../../models/user/hotelModel")
 const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
@@ -2142,44 +2143,11 @@ exports.getGeneratedPdf = async (req, res) => {
     }
 }
 
-// exports.generateItinerary = async () => {
-//   try {
-//     // Read your HTML file
-//     const htmlPath = path.join(__dirname, "index.html");
-//     const htmlContent = fs.readFileSync(htmlPath, "utf-8");
-
-//     // Define PDF options
-//    const options = {
-//   width: "210mm",  // A4 width
-//   height: "297mm", // A4 height
-//   margin: { top: "0mm", right: "0mm", bottom: "0mm", left: "0mm" },
-//   printBackground: true,
-// };
-
-
-//     // Create a PDF file
-//     const file = { content: htmlContent };
-//     const pdfBuffer = await pdf.generatePdf(file, options);
-
-//     const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-//     fs.writeFileSync(outputPath, pdfBuffer);
-
-//     console.log(`PDF generated at: ${outputPath}`);
-//     return outputPath; // optionally return the path
-//   } catch (error) {
-//     console.error("Error generating PDF:", error);
-//     throw error;
-//   }
-// };
-
-
 const puppeteer = require("puppeteer");
 
 exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
-
-
 
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
@@ -2194,16 +2162,8 @@ exports.generateItinerary = async (req, res) => {
         let itineraryData = itineraryLocations.filter(item =>
             selectedLocations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
         );
-        // itineraryData = JSON.stringify(itineraryData);
         console.log(itineraryData);
-        // res.send({
-        //     htmlContent:htmlContent
-        // })
-        // return
-        // htmlContent = htmlContent.replace(
-        //     "{{itineraryData}}",
-        //     JSON.stringify(itineraryData, null, 2) // inject array as JSON
-        // );
+        let getHotel = await HOTEL.findOne({ name: data.hotel })
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2212,8 +2172,10 @@ exports.generateItinerary = async (req, res) => {
             night: data.nights,
             day: data.days,
             checkin: data.dates.to,
+            isSic: data.isAirportDropSic ? "SIC" : "PVT vehicle",
             checkout: data.dates.from,
-            hotel: data.hotel,
+            hotelName: getHotel.name,
+            hotelImage: getHotel.image,
             itineraryData: JSON.stringify(itineraryData)
         }
 
