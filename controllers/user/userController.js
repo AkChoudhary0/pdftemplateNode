@@ -2176,7 +2176,10 @@ exports.generateItinerary = async (req, res) => {
             checkout: data.dates.from,
             hotelName: getHotel.name,
             hotelImage: "http://localhost:3020" + getHotel.image,
-            itineraryData: JSON.stringify(itineraryData)
+            itineraryData: JSON.stringify(itineraryData),
+            aed: data.price,
+            dollar: data.price * 0.27,
+            inr: (data.price * 24.15)+1
         }
         // http://localhost:3020/uploads/hotelImage/1759041189996-69368886.jpg
         console.log(getHotel);
