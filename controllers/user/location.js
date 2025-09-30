@@ -17,7 +17,7 @@ module.exports = [
     title: "Al Shindagha Museum",
     tag: "SIC Sightseeing",
     img: "http://localhost:3020/uploads/images/Shindagha.jpg",
-    img1: "http://localhost:3020/uploads/images/Shindagha1.avif",
+    img1: "http://localhost:3020/uploads/images/Shindagha1.jpg",
     img2: "http://localhost:3020/uploads/images/Shindagha2.jpeg",
     description: [
       "The Al Shindagha Museum showcases Dubai’s cultural heritage in the heart of the historic Al Shindagha district. Visitors explore interactive exhibits, multimedia presentations, and traditional Emirati artifacts that trace the emirate’s history.",
@@ -30,8 +30,8 @@ module.exports = [
     title: "Atlantis Aquaventure",
     tag: "SIC Sightseeing",
     img: "http://localhost:3020/uploads/images/atlantis.jpg",
-    img1: "http://localhost:3020/uploads/images/atlantis.avif",
-    img2: "http://localhost:3020/uploads/images/atlantis.jpg",
+    img1: "http://localhost:3020/uploads/images/atlantis1.jpg",
+    img2: "http://localhost:3020/uploads/images/atlantis2.jpg",
     description: [
       "Atlantis Aquaventure is the Middle East’s largest waterpark, located at the iconic Atlantis The Palm. Featuring thrilling slides like the Leap of Faith, wave pools, lazy rivers, and family-friendly areas, it is a must for adventure seekers.",
       "Guests can also relax on pristine beaches and enjoy marine encounters, making it perfect for both excitement and leisure."
