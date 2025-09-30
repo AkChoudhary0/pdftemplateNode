@@ -15,7 +15,7 @@ exports.createHotel = async (req, res) => {
     let imagePath = null;
     if (req.file) {
       // store relative path => /uploads/filename.jpg
-      imagePath = `/${uploadsPath}/${req.file.filename}`;
+      imagePath = `${uploadsPath}/${req.file.filename}`;
     }
 
     const hotel = await Hotel.create({ name, address, image: imagePath });
