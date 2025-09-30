@@ -30,7 +30,7 @@ module.exports = [
         title: "Atlantis Aquaventure",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/atlantis.jpg",
-        img1: "http://localhost:3020/uploads/images/atlantis1.avif",
+        img1: "http://localhost:3020/uploads/images/atlantis1.jpg",
         img2: "http://localhost:3020/uploads/images/atlantis2.jpg",
         description: [
             "Atlantis Aquaventure is the Middle East’s largest waterpark, located at the iconic Atlantis The Palm. Featuring thrilling slides like the Leap of Faith, wave pools, lazy rivers, and family-friendly areas, it is a must for adventure seekers.",
@@ -43,8 +43,8 @@ module.exports = [
         title: "Abu Dhabi City Tour",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/citytour.jpg",
-        img1: "http://localhost:3020/uploads/images/citytour.jpeg",
-        img2: "http://localhost:3020/uploads/images/citytour.jpg",
+        img1: "http://localhost:3020/uploads/images/citytour1.jpeg",
+        img2: "http://localhost:3020/uploads/images/citytour2.jpg",
         description: [
             "The Abu Dhabi City Tour introduces visitors to the UAE’s elegant capital, blending modernity with cultural charm. Stops include the majestic Sheikh Zayed Grand Mosque, the scenic Corniche, and iconic landmarks such as Emirates Palace.",
             "Travelers also explore bustling souks, heritage villages, and Qasr Al Watan for a comprehensive city experience."
@@ -121,8 +121,8 @@ module.exports = [
         title: "Crocodile Park Dubai",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/crocodile.avif",
-        img1: "http://localhost:3020/uploads/images/crocodile.jpeg",
-        img2: "http://localhost:3020/uploads/images/crocodile.jpg",
+        img1: "http://localhost:3020/uploads/images/crocodile1.jpeg",
+        img2: "http://localhost:3020/uploads/images/crocodile2.jpg",
         description: [
             "Crocodile Park Dubai offers a chance to see over 250 Nile crocodiles in a naturalistic environment. The park includes underwater viewing areas, educational exhibits, and feeding sessions.",
             "It’s an exciting mix of adventure and learning, suitable for visitors of all ages."
@@ -134,8 +134,8 @@ module.exports = [
         title: "Desert Safari",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/desertSafari.webp",
-        img1: "http://localhost:3020/uploads/images/desertSafari.jpg",
-        img2: "http://localhost:3020/uploads/images/desertSafari.avif",
+        img1: "http://localhost:3020/uploads/images/desertSafari1.jpg",
+        img2: "http://localhost:3020/uploads/images/desertSafari2.avif",
         description: [
             "The Desert Safari is one of Dubai’s most popular adventures, combining thrill and tradition. Experience exhilarating dune bashing in a 4x4 vehicle, followed by sandboarding and camel rides.",
             "In the evening, relax at a Bedouin-style camp with live entertainment, including belly dancing, Tanoura shows, and a barbecue dinner under the stars."
@@ -147,8 +147,8 @@ module.exports = [
         title: "Dhow Cruise",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/dhowcruize.jpg",
-        img1: "http://localhost:3020/uploads/images/dhowcruize.jpg",
-        img2: "http://localhost:3020/uploads/images/dhowcruize.avif",
+        img1: "http://localhost:3020/uploads/images/dhowcruize1.jpg",
+        img2: "http://localhost:3020/uploads/images/dhowcruize2.avif",
         description: [
             "The Dhow Cruise offers a unique way to enjoy Dubai’s skyline from the water. Traditional wooden dhows are transformed into floating restaurants, offering an authentic yet modern dining experience.",
             "Guests are welcomed with refreshing drinks before enjoying a buffet dinner, live entertainment, and stunning night views of the city."
@@ -173,8 +173,8 @@ module.exports = [
         title: "Dubai Aquarium & Under Water Zoo",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/aquarium.jpeg",
-        img1: "http://localhost:3020/uploads/images/aquarium.webp",
-        img2: "http://localhost:3020/uploads/images/aquarium.webp",
+        img1: "http://localhost:3020/uploads/images/aquarium1.webp",
+        img2: "http://localhost:3020/uploads/images/aquarium2.webp",
         description: [
             "Located inside Dubai Mall, the Dubai Aquarium & Underwater Zoo is one of the world’s largest indoor aquariums. It houses thousands of aquatic animals including sharks, rays, and exotic fish.",
             "Visitors can walk through a 48-meter tunnel offering 270-degree views or enjoy experiences such as shark dives and glass-bottom boat rides."
@@ -394,8 +394,8 @@ module.exports = [
         title: "Museum of The Future",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/MuseumFuture.webp",
-        img1: "http://localhost:3020/uploads/images/MuseumFuture.jpg",
-        img2: "http://localhost:3020/uploads/images/MuseumFuture.webp",
+        img1: "http://localhost:3020/uploads/images/MuseumFuture1.jpg",
+        img2: "http://localhost:3020/uploads/images/MuseumFuture2.webp",
         description: [
             "The Museum of the Future is one of Dubai’s most iconic landmarks, designed as a torus-shaped building with stunning architecture. Inside, it offers futuristic exhibits on AI, space exploration, and sustainability.",
             "It’s an inspiring destination for innovation lovers, blending science, technology, and imagination."
@@ -433,7 +433,7 @@ module.exports = [
         title: "Ski Dubai",
         tag: "SIC Sightseeing",
         img: "http://localhost:3020/uploads/images/skidubai.jpeg",
-        img1: "http://localhost:3020/uploads/images/skidubai1.avif",
+        img1: "http://localhost:3020/uploads/images/skidubai1.jpg",
         img2: "http://localhost:3020/uploads/images/skidubai2.webp",
         description: [
             "Ski Dubai is the Middle East’s first indoor ski resort, located inside Mall of the Emirates. The facility includes ski slopes, snowboarding zones, and a snow park with fun activities for all ages.",
