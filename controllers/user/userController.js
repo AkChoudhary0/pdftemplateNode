@@ -2184,7 +2184,7 @@ exports.generateItinerary = async (req, res) => {
             dollar: data.price * 0.27,
             inr: (data.price * 24.15) + 1,
             toursList: toursListHtml,
-            price: data.price
+            price: data.isPrice
                 ? `
         <div class="section">
             <div
@@ -2199,7 +2199,7 @@ exports.generateItinerary = async (req, res) => {
         </div>
       `
                 : "",
-            logo: data.logo ? `<div class="logo">
+            logo: data.isLogo ? `<div class="logo">
         <img src="http://localhost:3020/uploads/images/logo.jpeg" alt="Taj Royal Travels Logo">
     </div>`: ""
         }
