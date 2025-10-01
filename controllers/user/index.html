@@ -366,9 +366,10 @@
     </div>
 
     <!-- Logo -->
-    <div class="logo">
+    <!-- <div class="logo">
         <img src="http://localhost:3020/uploads/images/logo.jpeg" alt="Taj Royal Travels Logo">
-    </div>
+    </div> -->
+    {{logo}}
 
     <!-- Title -->
     <div class="title">DUBAI</div>
@@ -422,8 +423,7 @@
             </div>
 
             <div class="quotation-image">
-                <img src="http://localhost:3020/uploads/images/car1.webp"
-                    alt="Cab" />
+                <img src="http://localhost:3020/uploads/images/car1.webp" alt="Cab" />
             </div>
 
 
@@ -454,7 +454,7 @@
 
         <div class="quotation-footer"></div>
     </div>
-     <div class="section">
+    <!-- <div class="section">
         <div
             style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:15px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
 
@@ -466,7 +466,8 @@
                 ${{dollar}}, AED {{aed}}, INR {{inr}}
             </span>
         </div>
-    </div>
+    </div> -->
+    {{price}}
     <div class="container-section">
         <!-- Left Column -->
         <div>
@@ -545,19 +546,11 @@
     </div>
 
     <div class="footer-section">
-        <h2 class="tours-title">Tours:</h2>
-        <ul class="tours-list">
-            <li class="tours-item">DHOW CRUISE DINNER - CREEK</li>
-            <li class="tours-item">DUBAI CITY TOURS</li>
-            <li class="tours-item">ENJOY AT THE TOP BURJ KHALIFA – 124TH FLOOR</li>
-            <li class="tours-item">DESERT SAFARI WITH BBQ DINNER AND LIVE ENTERTAINMENT</li>
-            <li class="tours-item">GLOBAL VILLAGE</li>
-            <li class="tours-item">DUBAI FRAME</li>
-            <li class="tours-item">ABU DHABI CITY TOURS</li>
-            <li class="tours-item">The View at The Palm Jumeirah Dubai</li>
-            <li class="tours-item">Day At Leisure</li>
-        </ul>
-    </div>
+    <h2 class="tours-title">Tours:</h2>
+    <ul class="tours-list">
+        {{toursList}}
+    </ul>
+</div>
 
     <!-- Why Section -->
     <div class="footer-section">

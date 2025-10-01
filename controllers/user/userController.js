@@ -2164,6 +2164,8 @@ exports.generateItinerary = async (req, res) => {
         );
         console.log(itineraryData);
         let getHotel = await HOTEL.findOne({ name: data.hotel })
+        let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
+
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2180,8 +2182,28 @@ exports.generateItinerary = async (req, res) => {
             itineraryData: JSON.stringify(itineraryData),
             aed: data.price,
             dollar: data.price * 0.27,
-            inr: (data.price * 24.15)+1
+            inr: (data.price * 24.15) + 1,
+            toursList: toursListHtml,
+            price: data.price
+                ? `
+        <div class="section">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:15px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
+                <h3 style="margin:0; font-size:1.2rem; font-weight:600; color:#336666;">
+                    Total Net Price
+                </h3>
+                <span style="font-size:1.2rem; font-weight:bold; color:#000;">
+                    $${data.price * 0.27}, AED ${data.price}, INR ${(data.price * 24.15) + 1}
+                </span>
+            </div>
+        </div>
+      `
+                : "",
+            logo: data.logo ? `<div class="logo">
+        <img src="http://localhost:3020/uploads/images/logo.jpeg" alt="Taj Royal Travels Logo">
+    </div>`: ""
         }
+
         // http://localhost:3020/uploads/hotelImage/1759041189996-69368886.jpg
         console.log(getHotel);
 
