@@ -2164,6 +2164,7 @@ exports.generateItinerary = async (req, res) => {
         );
         console.log(itineraryData);
         let getHotel = await HOTEL.findOne({ name: data.hotel })
+        console.log("hotel data +++++++++++++++",getHotel)
         let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
 
         let dataToUpdate = {
