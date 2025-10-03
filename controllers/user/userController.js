@@ -2163,7 +2163,7 @@ exports.generateItinerary = async (req, res) => {
             selectedLocations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
         );
         console.log(itineraryData);
-        let getHotel = await HOTEL.findOne({ name: data.hotel })
+        let getHotel = await HOTEL.findOne({ name: data.hotel[0].name })
         console.log("hotel data +++++++++++++++",getHotel)
         let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
 
