@@ -2148,7 +2148,7 @@ const puppeteer = require("puppeteer");
 exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
-
+        data.locations = data.locationsArray
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
         let htmlContent = fs.readFileSync(htmlPath, "utf-8");
@@ -2166,6 +2166,7 @@ exports.generateItinerary = async (req, res) => {
         let getHotel = await HOTEL.findOne({ name: data.hotels[0]?.name })
         console.log("hotel data +++++++++++++++", getHotel)
         let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
+        let inclusions = data.inclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
 
         let dataToUpdate = {
             adult: data.persons.adults,
@@ -2182,9 +2183,11 @@ exports.generateItinerary = async (req, res) => {
             hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             aed: data.price,
+            pickupSic:data.isAirportPickupSic ? "SIC" : "PVT vehicle",
             dollar: data.price * 0.27,
             inr: (data.price * 24.15) + 1,
             toursList: toursListHtml,
+            inclusions:inclusions,
             price: data.isPrice
                 ? `
         <div class="section">
