@@ -1,5 +1,18 @@
 module.exports = [
     {
+        day: 3,
+        title: "Day at Leisure",
+        tag: "Relax & Explore",
+        img: "http://localhost:3020/uploads/images/leisure.jpg",
+        img1: "http://localhost:3020/uploads/images/leisure1.jpg",
+        img2: "http://localhost:3020/uploads/images/leisure2.jpg",
+        description: [
+            "Spend the day at your own pace, relaxing at the hotel or exploring the city independently.",
+            "You may enjoy shopping, try local cuisines, or opt for optional tours and activities upon request."
+        ],
+        note: "No scheduled activities. Optional tours available on request."
+    },
+    {
         day: 1,
         title: "At The Top - Burj Khalifa",
         tag: "SIC Sightseeing",
@@ -129,7 +142,7 @@ module.exports = [
         ],
         note: "Hotel Pickup and Drop included"
     },
-       {
+    {
         day: 11,
         title: "Desert Safari",
         tag: "SIC Sightseeing",
