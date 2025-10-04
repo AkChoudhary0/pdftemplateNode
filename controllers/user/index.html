@@ -58,7 +58,7 @@
 
         .section,
         .container-section {
-            width: 190mm;
+            width: 90%;
             /* match PDF width */
             margin: auto;
         }
@@ -355,6 +355,30 @@
                 gap: 15px;
             }
         }
+
+        .tours-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 columns */
+            gap: 8px;
+            /* space between items */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tours-item {
+            background-color: #f7f7f7;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .hotel-outer {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 cards per row */
+            gap: 20px;
+        }
     </style>
 </head>
 
@@ -382,28 +406,49 @@
         {{checkin}} to {{checkout}} 2026
     </div>
 
+
+    <div class="footer-section">
+        <h2 class="tours-title">Tours:</h2>
+        <ul class="tours-list">
+            {{toursList}}
+        </ul>
+    </div>
+
     <!-- Destinations Covered -->
     <div class="section">
-        <h2>DESTINATIONS COVERED</h2>
+        <h2>HOTELS</h2>
         <p style="text-align:center;" class="details">UAE</p>
     </div>
 
     <!-- Hotel Section -->
     <div class="section">
-        <div class="hotel-card">
-            <img src={{hotelImage}} alt="{{hotelName}}">
-            <div class="hotel-info">
-                <h3>{{hotelName}} <span>({{hotelStar}}Star)</span></h3>
-                <p><b>Staying Dates:</b> {{checkin}} - {{checkout}}</p>
-                <p><b>Destination:</b> Dubai</p>
-                <p><b>Meal Plan:</b> Breakfast</p>
+        <div class="hotel-outer">
+            <div class="hotel-card">
+                <img src={{hotelImage}} alt="{{hotelName}}">
+                <div class="hotel-info">
+                    <h3>{{hotelName}} <span>({{hotelStar}}Star)</span></h3>
+                    <p><b>Staying Dates:</b> {{checkin}} - {{checkout}}</p>
+                    <p><b>Destination:</b> Dubai</p>
+                    <p><b>Meal Plan:</b> Breakfast</p>
+                </div>
             </div>
+
+            <div class="hotel-card">
+                <img src="{{hotelImage}}" alt="{{hotelName}}">
+                <div class="hotel-info">
+                    <h3>{{hotelName}} <span>({{hotelStar}} Star)</span></h3>
+                    <p><b>Staying Dates:</b> {{checkin}} - {{checkout}}</p>
+                    <p><b>Destination:</b> Dubai</p>
+                    <p><b>Meal Plan:</b> Breakfast</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- Itinerary Section -->
     <div class="section" id="itinerary">
-        <h2>DETAILED ITINERARY</h2>
+        <h2>DESTINATIONS</h2>
         <!-- Days will be injected here -->
         <div class="quotation-card">
             <div class="quotation-body">
@@ -545,12 +590,6 @@
         </div>
     </div>
 
-    <div class="footer-section">
-    <h2 class="tours-title">Tours:</h2>
-    <ul class="tours-list">
-        {{toursList}}
-    </ul>
-</div>
 
     <!-- Why Section -->
     <div class="footer-section">

@@ -2164,7 +2164,7 @@ exports.generateItinerary = async (req, res) => {
         );
         console.log(itineraryData);
         let getHotel = await HOTEL.findOne({ name: data.hotels[0]?.name })
-        console.log("hotel data +++++++++++++++",getHotel)
+        console.log("hotel data +++++++++++++++", getHotel)
         let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
 
         let dataToUpdate = {
@@ -2262,6 +2262,7 @@ exports.generateItinerary = async (req, res) => {
 exports.locations = async (req, res) => {
     try {
         let locations = [
+            { "key": "Day at Leisure", "value": "Day at Leisure" },
             { "key": "At The Top - Burj Khalifa", "value": "At The Top - Burj Khalifa" },
             { "key": "Al Shindagha Museum", "value": "Al Shindagha Museum" },
             { "key": "Atlantis Aquaventure", "value": "Atlantis Aquaventure" },
