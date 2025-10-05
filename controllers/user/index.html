@@ -414,7 +414,7 @@
         </ul>
     </div>
 
-     {{price}}
+    {{price}}
 
     <!-- Destinations Covered -->
     <div class="section">
@@ -424,6 +424,9 @@
 
     <!-- Hotel Section -->
     <div class="section">
+        <div class="hotel-outer" id="hotelContainer"></div>
+    </div>
+    <!-- <div class="section">
         <div class="hotel-outer">
             <div class="hotel-card">
                 <img src={{hotelImage}} alt="{{hotelName}}">
@@ -446,7 +449,7 @@
             </div>
 
         </div>
-    </div>
+    </div> -->
 
     <!-- Itinerary Section -->
     <div class="section" id="itinerary">
@@ -456,7 +459,7 @@
             <div class="quotation-body">
 
                 <div class="quotation-info">
-                    <h2 class="title">DUBAI AIRPORT PICK UP</h2>
+                    <h2 class="title">{{airportPickup}} PICK UP</h2>
                     <p class="subtitle">{{pickupSic}}</p>
                     <h3>Cab</h3>
                     <p>
@@ -481,7 +484,7 @@
         <div class="quotation-body">
 
             <div class="quotation-info">
-                <h2 class="title">DUBAI AIRPORT DROP</h2>
+                <h2 class="title">DUBAI {{airportDrop}}</h2>
                 <p class="subtitle">{{isSic}}</p>
                 <h3>Cab</h3>
                 <p>
@@ -514,14 +517,14 @@
             </span>
         </div>
     </div> -->
-   
+
     <div class="container-section">
         <!-- Left Column -->
         <div>
             <div class="outer-section">
                 <h2 class="section-title">Inclusions</h2>
                 <ul class="list">
-                   {{inclusions}}
+                    {{inclusions}}
                 </ul>
             </div>
         </div>
@@ -683,7 +686,7 @@
             // Create day label
             const dayLabel = document.createElement("div");
             dayLabel.class = "day-label";
-            dayLabel.innerHTML = `<span>&#9733;</span> LOCATION ${item.day} <span>&#9654;</span>`;
+            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
 
             // Create day block
             const dayBlock = document.createElement("div");
@@ -705,6 +708,28 @@
             itineraryContainer.appendChild(dayLabel);
             itineraryContainer.appendChild(dayBlock);
         });
+
+        // --- HOTEL SECTION ---
+        const hotels = JSON.parse(`{{hotelData}}`);
+
+        const hotelContainer = document.getElementById("hotelContainer");
+        hotels.forEach(hotel => {
+            let Breakfast = hotel.isBreakfastIncluded ? "Breakfast" : null;
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            card.innerHTML = `
+      <img src="http://localhost:3020/${hotel._doc.image}" alt="${hotel._doc.name}">
+      <div class="hotel-info">
+        <h3>${hotel._doc.name} <span>(${hotel._doc.star} Star)</span></h3>
+        <p><b>Staying Dates:</b> ${hotel.checkIn || "-"} - ${hotel.checkOut || "-"}</p>
+        <p><b>Destination:</b> ${hotel._doc.address}</p>
+        <p><b>Meal Plan:</b> ${Breakfast}</p>
+      </div>
+    `;
+            hotelContainer.appendChild(card);
+        });
+
+
     </script>
 
 </body>

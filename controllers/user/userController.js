@@ -2157,17 +2157,29 @@ exports.generateItinerary = async (req, res) => {
         const browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] });
         const page = await browser.newPage();
         let array = ["Yas Water World - Abu Dhabi", "X-Line Marina"];
-        let selectedLocations = data.locations.map(item => item.location)
-        console.log(data.locations);
-        let itineraryData = itineraryLocations.filter(item =>
-            selectedLocations.some(title => title.trim().toLowerCase() === item.title.trim().toLowerCase())
-        );
-        console.log(itineraryData);
-        let getHotel = await HOTEL.findOne({ name: data.hotels[0]?.name })
-        console.log("hotel data +++++++++++++++", getHotel)
-        let toursListHtml = selectedLocations.map(item => `<li class="tours-item">${item}</li>`).join("");
+        let itineraryData = data.locationsArray.sort((a, b) => a.day - b.day);
+        // console.log(itineraryData);
+        let hotelName = data.hotels.map(item => item.name)
+        let getHotel = await HOTEL.find({ name: { $in: hotelName } })
+        const mergedHotels = getHotel.map(hotel => {
+            const match = data.hotels.find(sel => sel.name === hotel.name);
+            let hotelCheckIn = new Date(match?.checkIn)
+            let hotelCheckOut = new Date(match?.checkOut)
+            console.log("hotelCheckIn, hotelCheckOut", hotelCheckIn, hotelCheckOut)
+            return {
+                ...hotel,
+                checkIn: hotelCheckIn.toLocaleDateString('en-GB') || null,
+                checkOut: hotelCheckOut.toLocaleDateString('en-GB') || null,
+                isBreakfastIncluded: match?.breakfastIncluded || false
+            };
+        });
+        console.log("hotel data +++++++++++++++", mergedHotels)
+        let toursListHtml = data.locationsArray.map(item => `<li class="tours-item">${item.title}</li>`).join("");
+        data.inclusions = data.inclusions || ["Transfers", "Visafees", "Sightseeing and accommodation with breakfast as per the above-mentioned itinerary", "Assistance of the tour before the trip"]
         let inclusions = data.inclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
-
+        let updatedCheckin = new Date(data.dates.from)
+        let updatedCheckout = new Date(data.dates.to)
+        let nights = Math.floor((updatedCheckout - updatedCheckin) / (1000 * 60 * 60 * 24));
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2175,19 +2187,22 @@ exports.generateItinerary = async (req, res) => {
             infant: data.persons.infants,
             night: data.nights,
             day: data.days,
-            checkin: data.dates.to.toLocaleDateString('en-GB'),
+            checkin: updatedCheckout.toLocaleDateString('en-GB'),
             isSic: data.isAirportDropSic ? "SIC" : "PVT vehicle",
-            checkout: data.dates.from.toLocaleDateString('en-GB'),
-            hotelName: getHotel.name,
-            hotelStar: Number(getHotel.star),
-            hotelImage: "http://localhost:3020/" + getHotel.image,
+            checkout: updatedCheckin.toLocaleDateString('en-GB'),
+            hotelData: JSON.stringify(mergedHotels),
+            // hotelName: getHotel.name,
+            // hotelStar: Number(getHotel.star),
+            // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             aed: data.price,
-            pickupSic:data.isAirportPickupSic ? "SIC" : "PVT vehicle",
+            pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
             dollar: data.price * 0.27,
             inr: (data.price * 24.15) + 1,
             toursList: toursListHtml,
-            inclusions:inclusions,
+            inclusions: inclusions,
+            airportPickup: data.airportPickupLocation,
+            airportDrop: data.airportDropLocation,
             price: data.isPrice
                 ? `
         <div class="section">
@@ -2209,7 +2224,7 @@ exports.generateItinerary = async (req, res) => {
         }
 
         // http://localhost:3020/uploads/hotelImage/1759041189996-69368886.jpg
-        console.log(getHotel);
+        // console.log(getHotel);
 
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
