@@ -2190,6 +2190,7 @@ exports.generateItinerary = async (req, res) => {
         let nights = Math.floor((updatedCheckout - updatedCheckin) / (1000 * 60 * 60 * 24));
         let convertedDollar = data.price * rateUSD
         let convertedInr = (data.price * rateINR) + 1
+        console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2206,9 +2207,9 @@ exports.generateItinerary = async (req, res) => {
             // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
-            dollar: convertedDollar.toFixed(2),
-            aed: data.price.toFixed(2),
-            inr: convertedInr.toFixed(2),
+            dollar: convertedDollar,
+            aed: data.price,
+            inr: convertedInr,
             toursList: toursListHtml,
             inclusions: inclusions,
             airportPickup: data.airportPickupLocation,
