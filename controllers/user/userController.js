@@ -105,11 +105,11 @@ exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
- const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
+        const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
         const rateINR = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.INR;
         let convertedDollar = 1000 * rateUSD
         let convertedInr = (1000 * rateINR) + 1
-        console.log("reates", rateUSD, rateINR,convertedDollar,convertedInr)
+        console.log("reates", rateUSD, rateINR, convertedDollar, convertedInr)
 
         if (!user) {
             return res.send({
@@ -2179,7 +2179,7 @@ exports.generateItinerary = async (req, res) => {
             };
         });
 
-       const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
+        const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
         const rateINR = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.INR;
 
         let toursListHtml = data.locationsArray.map(item => `<li class="tours-item">${item.title}</li>`).join("");
@@ -2207,9 +2207,9 @@ exports.generateItinerary = async (req, res) => {
             // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
-            dollar: convertedDollar,
-            aed: data.price,
-            inr: convertedInr,
+            dollar: convertedDollar.toFixed(2),
+            aed: data.price.toFixed(2),
+            inr: convertedInr.toFixed(2),
             toursList: toursListHtml,
             inclusions: inclusions,
             airportPickup: data.airportPickupLocation,
@@ -2223,7 +2223,7 @@ exports.generateItinerary = async (req, res) => {
                     Total Net Price
                 </h3>
                 <span style="font-size:1.2rem; font-weight:bold; color:#000;">
-                    $${data.price * 0.27}, AED ${data.price}, INR ${(data.price * 24.15) + 1}
+                    AED ${data.price.toFixed(2)}, $${convertedDollar.toFixed(2)}, INR ${convertedInr.toFixed(2)}
                 </span>
             </div>
         </div>
