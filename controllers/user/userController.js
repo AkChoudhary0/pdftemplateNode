@@ -106,6 +106,8 @@ exports.loginUser = async (req, res) => {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
 
+        console.log("reates", rateUSD, rateINR)
+
         if (!user) {
             return res.send({
                 code: constants.userNotFound,
@@ -2173,7 +2175,10 @@ exports.generateItinerary = async (req, res) => {
                 isBreakfastIncluded: match?.breakfastIncluded || false
             };
         });
-        console.log("hotel data +++++++++++++++", mergedHotels)
+
+       const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
+        const rateINR = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.INR;
+
         let toursListHtml = data.locationsArray.map(item => `<li class="tours-item">${item.title}</li>`).join("");
         data.inclusions = data.inclusions || ["Transfers", "Visafees", "Sightseeing and accommodation with breakfast as per the above-mentioned itinerary", "Assistance of the tour before the trip"]
         let inclusions = data.inclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
@@ -2196,9 +2201,9 @@ exports.generateItinerary = async (req, res) => {
             // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
-            dollar: (data.price * 0.27).toFixed(2),
+            dollar: (data.price * rateUSD).toFixed(2),
             aed: data.price.toFixed(2),
-            inr: ((data.price * 24.15) + 1).toFixed(2),
+            inr: ((data.price * rateINR) + 1).toFixed(2),
             toursList: toursListHtml,
             inclusions: inclusions,
             airportPickup: data.airportPickupLocation,
