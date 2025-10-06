@@ -105,8 +105,11 @@ exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
-
-        console.log("reates", rateUSD, rateINR)
+ const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
+        const rateINR = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.INR;
+        let convertedDollar = 1000 * rateUSD
+        let convertedInr = (1000 * rateINR) + 1
+        console.log("reates", rateUSD, rateINR,convertedDollar,convertedInr)
 
         if (!user) {
             return res.send({
@@ -2185,6 +2188,8 @@ exports.generateItinerary = async (req, res) => {
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
         let nights = Math.floor((updatedCheckout - updatedCheckin) / (1000 * 60 * 60 * 24));
+        let convertedDollar = data.price * rateUSD
+        let convertedInr = (data.price * rateINR) + 1
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2201,9 +2206,9 @@ exports.generateItinerary = async (req, res) => {
             // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
-            dollar: (data.price * rateUSD).toFixed(2),
+            dollar: convertedDollar.toFixed(2),
             aed: data.price.toFixed(2),
-            inr: ((data.price * rateINR) + 1).toFixed(2),
+            inr: convertedInr.toFixed(2),
             toursList: toursListHtml,
             inclusions: inclusions,
             airportPickup: data.airportPickupLocation,
