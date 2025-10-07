@@ -1,8 +1,8 @@
-import Location from "../models/Location.js";
-import path from "path";
+const Location = require("../models/user/Location");
+const path = require("path");
 
 // 📍 Get all locations
-export const getLocations = async (req, res) => {
+const getLocations = async (req, res) => {
     try {
         const locations = await Location.find();
         res.status(200).json(locations);
@@ -12,7 +12,7 @@ export const getLocations = async (req, res) => {
 };
 
 // 📍 Get single location by ID
-export const getLocationById = async (req, res) => {
+const getLocationById = async (req, res) => {
     try {
         const location = await Location.findById(req.params.id);
         if (!location) return res.status(404).json({ message: "Location not found" });
@@ -23,31 +23,40 @@ export const getLocationById = async (req, res) => {
 };
 
 // ➕ Add new location
-export const addLocation = async (req, res) => {
+const addLocation = async (req, res) => {
     try {
-        const files = req.files || [];
-        const filePaths = files.map((file) => `/uploads/${path.basename(file.path)}`);
+        const filesObj = req.files || {};
+        const filePaths = [
+            filesObj.img?.[0],
+            filesObj.img2?.[0],
+            filesObj.img3?.[0]
+        ].map(file => file ? `http://localhost:3020/uploads/image/${path.basename(file.path)}` : null);
 
         const newLocation = new Location({
             ...req.body,
-            img: filePaths[0] || null,
-            img2: filePaths[1] || null,
-            img3: filePaths[2] || null,
+            img: filePaths[0],
+            img2: filePaths[1],
+            img3: filePaths[2],
         });
 
         await newLocation.save();
         res.status(201).json(newLocation);
-    } catch (error) {
-        res.status(500).json({ message: "Error adding location", error });
+    } catch (err) {
+        console.error("Error adding location:", err);
+        res.status(500).json({ message: "Error adding location", error: err.message });
     }
 };
 
+
 // ✏️ Update existing location
-export const updateLocation = async (req, res) => {
+const updateLocation = async (req, res) => {
     try {
-        const { id } = req.params;
-        const files = req.files || [];
-        const filePaths = files.map((file) => `/uploads/${path.basename(file.path)}`);
+        const filesObj = req.files || {};
+        const filePaths = [
+            filesObj.img?.[0],
+            filesObj.img2?.[0],
+            filesObj.img3?.[0]
+        ].map(file => file ? `http://localhost:3020/uploads/image/${path.basename(file.path)}` : null);
 
         const updatedData = {
             ...req.body,
@@ -56,16 +65,18 @@ export const updateLocation = async (req, res) => {
             ...(filePaths[2] && { img3: filePaths[2] }),
         };
 
-        const updated = await Location.findByIdAndUpdate(id, updatedData, { new: true });
+        const updated = await Location.findByIdAndUpdate(req.params.id, updatedData, { new: true });
         if (!updated) return res.status(404).json({ message: "Location not found" });
         res.status(200).json(updated);
     } catch (error) {
-        res.status(500).json({ message: "Error updating location", error });
+        console.error("Error updating location:", error);
+        res.status(500).json({ message: "Error updating location", error: error.message });
     }
 };
 
+
 // ❌ Delete location
-export const deleteLocation = async (req, res) => {
+const deleteLocation = async (req, res) => {
     try {
         const { id } = req.params;
         const deleted = await Location.findByIdAndDelete(id);
@@ -74,4 +85,12 @@ export const deleteLocation = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error deleting location", error });
     }
+};
+
+module.exports = {
+    getLocations,
+    getLocationById,
+    addLocation,
+    updateLocation,
+    deleteLocation
 };

@@ -4,6 +4,7 @@ const app = express();
 const db = require('./db')
 const userRoute = require("./routes/user/user")
 const hotelRoute = require("./routes/user/hotel")
+const locationRoute = require("./routes/user/location")
 const cors = require("cors")
 const path = require("path")
 
@@ -40,6 +41,7 @@ app.use("/images", express.static(path.join(__dirname, "controllers/user/images"
 // Routes
 app.use("/api-v1/users", userRoute);
 app.use("/api-v1/hotels", hotelRoute); 
+app.use("/api-v1/locations",locationRoute);
 
 // Start the server
 const PORT = process.env.port ; 
