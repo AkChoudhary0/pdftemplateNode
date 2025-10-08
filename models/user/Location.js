@@ -9,10 +9,10 @@ const locationSchema = new mongoose.Schema(
     img: { type: String },
     img1: { type: String },
     img2: { type: String },
-    SIC_price: { type: Number },
-    PVT_price: { type: Number },
+    sic_price: { type: Number },
+    pvt_price: { type: Number },
     transfer_price: { type: Number },
-    VIP_price: { type: Number },
+    vip_price: { type: Number },
   },
   { timestamps: true }
 );

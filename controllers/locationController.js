@@ -28,15 +28,15 @@ const addLocation = async (req, res) => {
         const filesObj = req.files || {};
         const filePaths = [
             filesObj.img?.[0],
-            filesObj.img2?.[0],
-            filesObj.img3?.[0]
+            filesObj.img1?.[0],
+            filesObj.img2?.[0]
         ].map(file => file ? `http://localhost:3020/uploads/images/${path.basename(file.path)}` : null);
 
         const newLocation = new Location({
             ...req.body,
             img: filePaths[0],
-            img2: filePaths[1],
-            img3: filePaths[2],
+            img1: filePaths[1],
+            img2: filePaths[2],
         });
         console.log("New Location Data:", newLocation);
         await newLocation.save();
@@ -54,15 +54,15 @@ const updateLocation = async (req, res) => {
         const filesObj = req.files || {};
         const filePaths = [
             filesObj.img?.[0],
-            filesObj.img2?.[0],
-            filesObj.img3?.[0]
-        ].map(file => file ? `http://localhost:3020/uploads/image/${path.basename(file.path)}` : null);
+            filesObj.img1?.[0],
+            filesObj.img2?.[0]
+        ].map(file => file ? `http://localhost:3020/uploads/images/${path.basename(file.path)}` : null);
 
         const updatedData = {
             ...req.body,
             ...(filePaths[0] && { img: filePaths[0] }),
-            ...(filePaths[1] && { img2: filePaths[1] }),
-            ...(filePaths[2] && { img3: filePaths[2] }),
+            ...(filePaths[1] && { img1: filePaths[1] }),
+            ...(filePaths[2] && { img2: filePaths[2] }),
         };
 
         const updated = await Location.findByIdAndUpdate(req.params.id, updatedData, { new: true });
