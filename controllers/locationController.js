@@ -30,7 +30,7 @@ const addLocation = async (req, res) => {
             filesObj.img?.[0],
             filesObj.img2?.[0],
             filesObj.img3?.[0]
-        ].map(file => file ? `http://localhost:3020/uploads/image/${path.basename(file.path)}` : null);
+        ].map(file => file ? `http://localhost:3020/uploads/images/${path.basename(file.path)}` : null);
 
         const newLocation = new Location({
             ...req.body,
@@ -38,7 +38,7 @@ const addLocation = async (req, res) => {
             img2: filePaths[1],
             img3: filePaths[2],
         });
-
+        console.log("New Location Data:", newLocation);
         await newLocation.save();
         res.status(201).json(newLocation);
     } catch (err) {

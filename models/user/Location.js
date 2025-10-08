@@ -17,4 +17,4 @@ const locationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.models?.Location || mongoose.model("Location", locationSchema);
+module.exports = mongoose.models?.Location || mongoose.model("location", locationSchema);

@@ -105,11 +105,20 @@ exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
-        const rateUSD = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.USD;
-        const rateINR = (await (await fetch("https://open.er-api.com/v6/latest/AED")).json()).rates.INR;
-        let convertedDollar = 1000 * rateUSD
-        let convertedInr = (1000 * rateINR) + 1
-        console.log("reates", rateUSD, rateINR, convertedDollar, convertedInr)
+        
+        // let updatedLocation = []
+        // for(let i=0;i<itineraryLocations.length;i++){
+        //     let location = itineraryLocations[i];
+        //     location.SIC_price = 100,
+        //     location.PVT_price = 200,
+        //     location.transfer_price = 300,
+        //     location.VIP_price = 400,
+        //     updatedLocation.push(location);
+        // }
+        
+        // res.send({
+        //     data:updatedLocation
+        // })
 
         if (!user) {
             return res.send({
