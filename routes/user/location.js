@@ -11,6 +11,8 @@ const {
 
 const router = express.Router();
 
+
+
 // CRUD routes
 router.get("/", getLocations);
 router.get("/:id", getLocationById);
