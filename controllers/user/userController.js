@@ -106,19 +106,19 @@ exports.loginUser = async (req, res) => {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
         
-        // let updatedLocation = []
-        // for(let i=0;i<itineraryLocations.length;i++){
-        //     let location = itineraryLocations[i];
-        //     location.SIC_price = 100,
-        //     location.PVT_price = 200,
-        //     location.transfer_price = 300,
-        //     location.VIP_price = 400,
-        //     updatedLocation.push(location);
-        // }
+        let updatedLocation = []
+        for(let i=0;i<itineraryLocations.length;i++){
+            let location = itineraryLocations[i];
+            location.sir_price = 100,
+            location.pvt_price = 200,
+            location.transfer_price = 300,
+            location.vip_price = 400,
+            updatedLocation.push(location);
+        }
         
-        // res.send({
-        //     data:updatedLocation
-        // })
+        res.send({
+            data:updatedLocation
+        })
 
         if (!user) {
             return res.send({
@@ -1250,7 +1250,7 @@ exports.convertPdf = async (req, res) => {
                 message: "PDF generated successfully",
             })
         } else if (data.type == "hotel") {
-
+            console.log("in hotel")
             let html = `<!DOCTYPE html>
 <html>
 <head>
