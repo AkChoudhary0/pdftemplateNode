@@ -11,6 +11,8 @@ const locationSchema = new mongoose.Schema(
     img2: { type: String },
     sic_price: { type: Number },
     pvt_price: { type: Number },
+    child_price: { type: Number },
+    adult_price: { type: Number },
     transfer_price: { type: Number },
     vip_price: { type: Number },
   },
