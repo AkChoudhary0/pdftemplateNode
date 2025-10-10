@@ -2194,6 +2194,7 @@ exports.generateItinerary = async (req, res) => {
         let toursListHtml = data.locationsArray.map(item => `<li class="tours-item">${item.title}</li>`).join("");
         data.inclusions = data.inclusions || ["Transfers", "Visafees", "Sightseeing and accommodation with breakfast as per the above-mentioned itinerary", "Assistance of the tour before the trip"]
         let inclusions = data.inclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
+        let exclusions = data.exclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
         let nights = Math.floor((updatedCheckout - updatedCheckin) / (1000 * 60 * 60 * 24));
@@ -2221,6 +2222,7 @@ exports.generateItinerary = async (req, res) => {
             inr: convertedInr.toFixed(2),
             toursList: toursListHtml,
             inclusions: inclusions,
+            exclusions:exclusions,
             airportPickup: data.airportPickupLocation,
             airportDrop: data.airportDropLocation,
             price: data.isPrice
