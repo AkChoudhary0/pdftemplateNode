@@ -678,79 +678,36 @@
 
     <script>
         // Injected from server-side (make sure it's stringified JSON!)
-        // const itinerary = JSON.parse('{{itineraryData}}')
+        const itinerary = JSON.parse('{{itineraryData}}')
 
-        // const itineraryContainer = document.querySelector("#itinerary");
+        const itineraryContainer = document.querySelector("#itinerary");
 
-        // itinerary.forEach(item => {
-        //     // Create day label
-        //     const dayLabel = document.createElement("div");
-        //     dayLabel.class = "day-label";
-        //     dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+        itinerary.forEach(item => {
+            // Create day label
+            const dayLabel = document.createElement("div");
+            dayLabel.class = "day-label";
+            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
 
-        //     // Create day block
-        //     const dayBlock = document.createElement("div");
-        //     dayBlock.class = "day-block";
-        //     dayBlock.innerHTML = `
+            // Create day block
+            const dayBlock = document.createElement("div");
+            dayBlock.class = "day-block";
+            dayBlock.innerHTML = `
            
-        //     <h2 class="detail-title">${item.title}</h2>
-        //     <div class="tag">${item.tag}</div>
-        //     ${item.description.map(d => `<p>${d}</p>`).join("")}
-        //     <div class="images-section">
-        //       <img src="${item.img}" alt="${item.title}">
-        //       <img src="${item.img1}" alt="${item.title}">
-        //       <img src="${item.img2}" alt="${item.title}">
-        //     </div>
-        //     <br>
-        //     ${item.note ? `<p><em>${item.note}</em></p>` : ""}
-        // `;
+            <h2 class="detail-title">${item.title}</h2>
+            <div class="tag">${item.tag}</div>
+            ${item.description.map(d => `<p>${d}</p>`).join("")}
+            <div class="images-section">
+              <img src="${item.img}" alt="${item.title}">
+              <img src="${item.img1}" alt="${item.title}">
+              <img src="${item.img2}" alt="${item.title}">
+            </div>
+            <br>
+            ${item.note ? `<p><em>${item.note}</em></p>` : ""}
+        `;
 
-        //     itineraryContainer.appendChild(dayLabel);
-        //     itineraryContainer.appendChild(dayBlock);
-        // });
-
-        
-
-        const itinerary = JSON.parse('{{itineraryData}}');
-  const itineraryContainer = document.querySelector("#itinerary");
-
-  // Group by day
-  const groupedItinerary = itinerary.reduce((acc, item) => {
-      if (!acc[item.day]) acc[item.day] = [];
-      acc[item.day].push(item);
-      return acc;
-  }, {});
-
-  // Render each day
-  Object.keys(groupedItinerary).sort((a, b) => a - b).forEach(day => {
-      const items = groupedItinerary[day];
-
-      const dayLabel = document.createElement("div");
-      dayLabel.className = "day-label";
-      dayLabel.innerHTML = `<span>&#9733;</span> DAY ${day} <span>&#9654;</span>`;
-      itineraryContainer.appendChild(dayLabel);
-
-      const dayBlock = document.createElement("div");
-      dayBlock.className = "day-block";
-
-      items.forEach(item => {
-          const block = `
-              <h2 class="detail-title">${item.title}</h2>
-              <div class="tag">${item.tag}</div>
-              ${item.description.map(d => `<p>${d}</p>`).join("")}
-              <div class="images-section">
-                  <img src="${item.img}" alt="${item.title}">
-                  <img src="${item.img1}" alt="${item.title}">
-                  <img src="${item.img2}" alt="${item.title}">
-              </div>
-              ${item.note ? `<p><em>${item.note}</em></p>` : ""}
-              <br>
-          `;
-          dayBlock.innerHTML += block;
-      });
-
-      itineraryContainer.appendChild(dayBlock);
-  });
+            itineraryContainer.appendChild(dayLabel);
+            itineraryContainer.appendChild(dayBlock);
+        });
 
         // --- HOTEL SECTION ---
         const hotels = JSON.parse(`{{hotelData}}`);
