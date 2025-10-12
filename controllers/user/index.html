@@ -379,6 +379,27 @@
             /* 2 cards per row */
             gap: 20px;
         }
+
+        .quotation-row {
+            display: flex;
+            justify-content: space-between;
+            /* space between the two cards */
+            gap: 20px;
+            /* spacing between cards */
+            flex-wrap: wrap;
+            /* allow stacking on smaller screens */
+        }
+
+        .quotation-card {
+            flex: 1;
+            /* make both cards equal width */
+            min-width: 300px;
+            /* prevent cards from getting too small */
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
     </style>
 </head>
 
@@ -455,55 +476,58 @@
     <div class="section" id="itinerary">
         <h2>DESTINATIONS</h2>
         <!-- Days will be injected here -->
-        <div class="quotation-card">
-            <div class="quotation-body">
+        <div class="quotation-row">
+            <div class="quotation-card">
+                <div class="quotation-body">
 
-                <div class="quotation-info">
-                    <h2 class="title">{{airportPickup}} PICK UP</h2>
-                    <p class="subtitle">{{pickupSic}}</p>
-                    <h3>Cab</h3>
-                    <p>
-                        <strong>No. Of Vehicle:</strong> 1
-                    </p>
-                    <p>
-                        <strong>Start Date:</strong> {{checkin}}
-                    </p>
-                    <p>Dubai airport to Hotel transfer</p>
+                    <div class="quotation-info">
+                        <h2 class="title">{{airportPickup}} PICK UP</h2>
+                        <p class="subtitle">{{pickupSic}}</p>
+                        <h3>Cab</h3>
+                        <p>
+                            <strong>No. Of Vehicle:</strong> 1
+                        </p>
+                        <p>
+                            <strong>Start Date:</strong> {{checkin}}
+                        </p>
+                        <p>Dubai airport to Hotel transfer</p>
+                    </div>
                 </div>
+
+                <div class="quotation-image">
+                    <img src="http://localhost:3020/uploads/images/car1.webp" alt="Cab" />
+                </div>
+
+
+                <div class="quotation-footer"></div>
             </div>
+            <div class="quotation-card">
+                <div class="quotation-body">
 
-            <div class="quotation-image">
-                <img src="http://localhost:3020/uploads/images/car1.webp" alt="Cab" />
+                    <div class="quotation-info">
+                        <h2 class="title">DUBAI {{airportDrop}}</h2>
+                        <p class="subtitle">{{isSic}}</p>
+                        <h3>Cab</h3>
+                        <p>
+                            <strong>No. Of Vehicle:</strong> 1
+                        </p>
+                        <p>
+                            <strong>Start Date:</strong> 25-12-2025
+                        </p>
+                        <p>Hotel to Dubai airport transfer</p>
+                    </div>
+                </div>
+
+                <div class="quotation-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyZlW3xp-nOee3fslZNUKOGBKoDhQmlBBYeA&s"
+                        alt="Cab" />
+                </div>
+
+                <div class="quotation-footer"></div>
             </div>
-
-
-            <div class="quotation-footer"></div>
         </div>
     </div>
-    <div class="quotation-card section">
-        <div class="quotation-body">
 
-            <div class="quotation-info">
-                <h2 class="title">DUBAI {{airportDrop}}</h2>
-                <p class="subtitle">{{isSic}}</p>
-                <h3>Cab</h3>
-                <p>
-                    <strong>No. Of Vehicle:</strong> 1
-                </p>
-                <p>
-                    <strong>Start Date:</strong> 25-12-2025
-                </p>
-                <p>Hotel to Dubai airport transfer</p>
-            </div>
-        </div>
-
-        <div class="quotation-image">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyZlW3xp-nOee3fslZNUKOGBKoDhQmlBBYeA&s"
-                alt="Cab" />
-        </div>
-
-        <div class="quotation-footer"></div>
-    </div>
     <!-- <div class="section">
         <div
             style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:15px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
@@ -534,14 +558,7 @@
             <div class="outer-section">
                 <h2 class="section-title">Exclusions</h2>
                 <ul class="list">
-                    <li class="list-item">Airfares</li>
-                    <li class="list-item">GST 5%</li>
-                    <li class="list-item">TCS 5% / 20%</li>
-                    <li class="list-item">Compulsory tips wherever applicable</li>
-                    <li class="list-item">Tourist City Tax which needs to be paid directly at Hotel by Customer</li>
-                    <li class="list-item">Anything not mentioned in the "Inclusions"</li>
-                    <li class="list-item">Expenses of personal nature such as laundry, mini-bar, telephone charges, food
-                        & drink not part of the package</li>
+                    {{exclusions}}
                 </ul>
             </div>
         </div>
