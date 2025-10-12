@@ -699,32 +699,80 @@
 
         const itineraryContainer = document.querySelector("#itinerary");
 
-        itinerary.forEach(item => {
-            // Create day label
+        // First, group all items by day
+        const groupedByDay = itinerary.reduce((acc, item) => {
+            if (!acc[item.day]) acc[item.day] = [];
+            acc[item.day].push(item);
+            return acc;
+        }, {});
+
+        // Then, iterate through each group (day)
+        Object.keys(groupedByDay).sort((a, b) => a - b).forEach(day => {
+            const items = groupedByDay[day];
+
+            // Create single label for the day
             const dayLabel = document.createElement("div");
-            dayLabel.class = "day-label";
-            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+            dayLabel.className = "day-label";
+            dayLabel.innerHTML = `<span>&#9733;</span> DAY ${day} <span>&#9654;</span>`;
 
-            // Create day block
+            // Create container for all items of this day
             const dayBlock = document.createElement("div");
-            dayBlock.class = "day-block";
-            dayBlock.innerHTML = `
-           
-            <h2 class="detail-title">${item.title}</h2>
-            <div class="tag">${item.tag}</div>
-            ${item.description.map(d => `<p>${d}</p>`).join("")}
-            <div class="images-section">
-              <img src="${item.img}" alt="${item.title}">
-              <img src="${item.img1}" alt="${item.title}">
-              <img src="${item.img2}" alt="${item.title}">
-            </div>
-            <br>
-            ${item.note ? `<p><em>${item.note}</em></p>` : ""}
-        `;
+            dayBlock.className = "day-block";
 
+            // Loop through each location in the same day
+            items.forEach(item => {
+                const section = document.createElement("div");
+                section.className = "location-section";
+                section.innerHTML = `
+      <h2 class="detail-title">${item.title}</h2>
+      <div class="tag">${item.tag}</div>
+      ${item.description.map(d => `<p>${d}</p>`).join("")}
+      <div class="images-section">
+        <img src="${item.img}" alt="${item.title}">
+        <img src="${item.img1}" alt="${item.title}">
+        <img src="${item.img2}" alt="${item.title}">
+      </div>
+      ${item.note ? `<p><em>${item.note}</em></p>` : ""}
+      <hr>
+    `;
+                dayBlock.appendChild(section);
+            });
+
+            // Append both to container
             itineraryContainer.appendChild(dayLabel);
             itineraryContainer.appendChild(dayBlock);
         });
+
+
+
+
+
+        // itinerary.forEach(item => {
+        //     // Create day label
+        //     const dayLabel = document.createElement("div");
+        //     dayLabel.class = "day-label";
+        //     dayLabel.innerHTML = `<span>&#9733;</span> DAY ${item.day} <span>&#9654;</span>`;
+
+        //     // Create day block
+        //     const dayBlock = document.createElement("div");
+        //     dayBlock.class = "day-block";
+        //     dayBlock.innerHTML = `
+
+        //     <h2 class="detail-title">${item.title}</h2>
+        //     <div class="tag">${item.tag}</div>
+        //     ${item.description.map(d => `<p>${d}</p>`).join("")}
+        //     <div class="images-section">
+        //       <img src="${item.img}" alt="${item.title}">
+        //       <img src="${item.img1}" alt="${item.title}">
+        //       <img src="${item.img2}" alt="${item.title}">
+        //     </div>
+        //     <br>
+        //     ${item.note ? `<p><em>${item.note}</em></p>` : ""}
+        // `;
+
+        //     itineraryContainer.appendChild(dayLabel);
+        //     itineraryContainer.appendChild(dayBlock);
+        // });
 
         // --- HOTEL SECTION ---
         const hotels = JSON.parse(`{{hotelData}}`);
