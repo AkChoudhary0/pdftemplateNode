@@ -30,7 +30,7 @@ const addLocation = async (req, res) => {
             filesObj.img?.[0],
             filesObj.img1?.[0],
             filesObj.img2?.[0]
-        ].map(file => file ? `http://localhost:3020/uploads/images/${path.basename(file.path)}` : null);
+        ].map(file => file ? `https://api.pdf.tajgateways.com/uploads/images/${path.basename(file.path)}` : null);
 
         const newLocation = new Location({
             ...req.body,
@@ -56,7 +56,7 @@ const updateLocation = async (req, res) => {
             filesObj.img?.[0],
             filesObj.img1?.[0],
             filesObj.img2?.[0]
-        ].map(file => file ? `http://localhost:3020/uploads/images/${path.basename(file.path)}` : null);
+        ].map(file => file ? `https://api.pdf.tajgateways.com/uploads/images/${path.basename(file.path)}` : null);
 
         const updatedData = {
             ...req.body,

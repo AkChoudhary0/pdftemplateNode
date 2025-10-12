@@ -2197,7 +2197,6 @@ exports.generateItinerary = async (req, res) => {
         let exclusions = data.exclusions.map(item => `<li class="tours-item">${item}</li>`).join("");
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
-        let nights = Math.floor((updatedCheckout - updatedCheckin) / (1000 * 60 * 60 * 24));
         let convertedDollar = data.price * rateUSD
         let convertedInr = (data.price * rateINR) + 1
         console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
@@ -2212,9 +2211,6 @@ exports.generateItinerary = async (req, res) => {
             isSic: data.isAirportDropSic ? "SIC" : "PVT vehicle",
             checkout: updatedCheckin.toLocaleDateString('en-GB'),
             hotelData: JSON.stringify(mergedHotels),
-            // hotelName: getHotel.name,
-            // hotelStar: Number(getHotel.star),
-            // hotelImage: "http://localhost:3020/" + getHotel.image,
             itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
             dollar: convertedDollar.toFixed(2),
