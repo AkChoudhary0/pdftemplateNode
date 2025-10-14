@@ -10,6 +10,7 @@ router.post("/login", userController.loginUser);
 router.post("/convert-pdf", userController.convertPdf);
 router.get("/get-pdfs", userController.getPdfs);
 router.post("/generateItinerary", userController.generateItinerary);
+router.get("/getItineraryData", userController.getItineraryData);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
 router.post("/addUser", userController.addUser);
 router.get("/getUsers", userController.getUsers);

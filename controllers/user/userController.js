@@ -2294,7 +2294,7 @@ exports.generateItinerary = async (req, res) => {
     }
 };
 
-exports.getItinerayData = async (req, res) => {
+exports.getItineraryData = async (req, res) => {
     try {
         let data = await ITINERARYDATA.find().sort({ createdAt: -1 })
         res.send({
