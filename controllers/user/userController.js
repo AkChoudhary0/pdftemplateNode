@@ -2,6 +2,7 @@ require("dotenv").config()
 const userService = require("../../services/userService/userService")
 const constants = require("../../config/constants")
 const generatedPdfs = require("../../models/user/generatedPdfs")
+const ITINERARYDATA = require("../../models/user/itineraryData")
 const fs = require("fs");
 const path = require("path");
 const pdf = require("html-pdf-node");
@@ -2159,6 +2160,7 @@ const puppeteer = require("puppeteer");
 exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
+        let saveItineraryData = await ITINERARYDATA(data).save()
         data.locations = data.locationsArray
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
@@ -2291,6 +2293,24 @@ exports.generateItinerary = async (req, res) => {
         })
     }
 };
+
+exports.getItinerayData = async (req, res) => {
+    try {
+        let data = await ITINERARYDATA.find().sort({ createdAt: -1 })
+        res.send({
+            code: constants.successCode,
+            message: "Data found",
+            data: data
+        })
+
+    } catch (err) {
+        res.send({
+            code: constants.catchError,
+            message: err.message,
+            stack: err.stack
+        })
+    }
+}
 
 exports.locations = async (req, res) => {
     try {
