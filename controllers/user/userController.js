@@ -2160,7 +2160,10 @@ const puppeteer = require("puppeteer");
 exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
-        let saveItineraryData = await ITINERARYDATA(data).save()
+        let saveItineraryData = await ITINERARYDATA({
+            data: data,
+            hostName:data.hostName
+        }).save()
         data.locations = data.locationsArray
         // Read your HTML file
         const htmlPath = path.join(__dirname, "index.html");
