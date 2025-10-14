@@ -1,5 +1,7 @@
 const Location = require("../models/user/Location");
 const path = require("path");
+const fs = require("fs");
+
 
 // 📍 Get all locations
 const getLocations = async (req, res) => {
@@ -79,11 +81,36 @@ const updateLocation = async (req, res) => {
 const deleteLocation = async (req, res) => {
     try {
         const { id } = req.params;
-        const deleted = await Location.findByIdAndDelete(id);
-        if (!deleted) return res.status(404).json({ message: "Location not found" });
-        res.status(200).json({ message: "Location deleted successfully" });
+        const location = await Location.findById(id);
+
+        if (!location) {
+            return res.status(404).json({ message: "Location not found" });
+        }
+
+        // 🧹 Delete images from local uploads folder
+        const images = [location.img, location.img1, location.img2].filter(Boolean);
+
+        images.forEach((imgUrl) => {
+            try {
+                // Extract file name from the full URL
+                const fileName = path.basename(imgUrl);
+                const filePath = path.join(__dirname, "../uploads/images", fileName);
+
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath); // delete the image file
+                }
+            } catch (err) {
+                console.error("Error deleting image:", err);
+            }
+        });
+
+        // 🗑️ Delete location document from DB
+        await Location.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Location and images deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: "Error deleting location", error });
+        console.error("Error deleting location:", error);
+        res.status(500).json({ message: "Error deleting location", error: error.message });
     }
 };
 
