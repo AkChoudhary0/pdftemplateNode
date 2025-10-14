@@ -742,10 +742,10 @@ exports.convertPdf = async (req, res) => {
                                 <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">See below
                                     details of your booking.</p>
                             </td>
-                            <td style="width: 40%;text-align: end;">
-                                <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">
-                                    AgentName:Mairaz Pasha</p>
-                            </td>
+                            // <td style="width: 40%;text-align: end;">
+                            //     <p style="padding-left: 10px; font-size: 13px; line-height: 13px;">
+                            //         AgentName:Mairaz Pasha</p>
+                            // </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="background-color: #f5811f; height: 1px; margin-top: 30px;">
