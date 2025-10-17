@@ -6,32 +6,19 @@ const generatedPdfs = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users"
     },
-    pdfUrl: {
-        type: String,
+    serialId: {
+        type: Number,
+        unique: true,
+        required: true
     },
-    type: {
-        type: String,
-    },
-    name: {
-        type: String,
-    },
-    flightDate1:{
-        type: Date,
-    },
-    flightDate2:{
-        type: Date,
-        default: null
-    },
-     price: {
-        type: String,
-    },
-    fileName: {
-        type: String,
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    },
+    pdfUrl: String,
+    type: String,
+    name: String,
+    flightDate1: Date,
+    flightDate2: { type: Date, default: null },
+    price: String,
+    fileName: String,
+    date: { type: Date, default: Date.now },
 }, { timestamps: true })
 
 module.exports = mongoose.model("generatedPdfs", generatedPdfs)

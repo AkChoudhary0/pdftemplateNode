@@ -12,6 +12,8 @@ const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
 const { base } = require("../../models/user/userModel")
+const getNextSequence = require("../../services/userService/getNextSequence");
+
 
 const hotels = [
     {
@@ -106,7 +108,7 @@ exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
         let user = await userService.findOneUser({ email: data.email });
-        
+
         let updatedLocation = []
         // for(let i=0;i<itineraryLocations.length;i++){
         //     let location = itineraryLocations[i];
@@ -116,7 +118,7 @@ exports.loginUser = async (req, res) => {
         //     location.vip_price = 400,
         //     updatedLocation.push(location);
         // }
-        
+
         // res.send({
         //     data:updatedLocation
         // })
@@ -335,7 +337,10 @@ exports.convertPdf = async (req, res) => {
 
         // let fileName = data.name + "-" + new Date()
         let fileName = `${data.type}-${Date.now()}.pdf`;
+        const serialId = await getNextSequence("pdfSerial");
+
         let saveObject = {
+            serialId: serialId,
             userId: data.userId || null,
             type: data.type,           // save form type
             name: data.name,           // use same key as frontend
@@ -2122,7 +2127,7 @@ Bed type is subjected to the availability</p>
 
 exports.getPdfs = async (req, res) => {
     try {
-        let data = await generatedPdfs.find().sort({ createdAt: -1 })
+        let data = await generatedPdfs.find().sort({ serialId: -1 })
         res.send({
             code: constants.successCode,
             message: "Data found",
@@ -2137,6 +2142,7 @@ exports.getPdfs = async (req, res) => {
         })
     }
 }
+
 
 exports.getGeneratedPdf = async (req, res) => {
     try {
@@ -2162,7 +2168,7 @@ exports.generateItinerary = async (req, res) => {
         let data = req.body
         let saveItineraryData = await ITINERARYDATA({
             data: data,
-            hostName:data.hostName
+            hostName: data.hostName
         }).save()
         data.locations = data.locationsArray
         // Read your HTML file
@@ -2220,7 +2226,7 @@ exports.generateItinerary = async (req, res) => {
             inr: convertedInr.toFixed(2),
             toursList: toursListHtml,
             inclusions: inclusions,
-            exclusions:exclusions,
+            exclusions: exclusions,
             airportPickup: data.airportPickupLocation,
             airportDrop: data.airportDropLocation,
             price: data.isPrice
