@@ -1,15 +1,10 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const generatedPdfs = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: "users"
-    },
-    serialId: {
-        type: Number,
-        unique: true,
-        required: true
     },
     pdfUrl: String,
     type: String,
@@ -19,6 +14,6 @@ const generatedPdfs = new Schema({
     price: String,
     fileName: String,
     date: { type: Date, default: Date.now },
-}, { timestamps: true })
+}, { timestamps: true });
 
-module.exports = mongoose.model("generatedPdfs", generatedPdfs)
+module.exports = mongoose.model("generatedPdfs", generatedPdfs);

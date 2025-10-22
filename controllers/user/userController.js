@@ -12,7 +12,6 @@ const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
 const { base } = require("../../models/user/userModel")
-const getNextSequence = require("../../services/userService/getNextSequence");
 
 
 const hotels = [
@@ -337,10 +336,8 @@ exports.convertPdf = async (req, res) => {
 
         // let fileName = data.name + "-" + new Date()
         let fileName = `${data.type}-${Date.now()}.pdf`;
-        const serialId = await getNextSequence("pdfSerial");
 
         let saveObject = {
-            serialId: serialId,
             userId: data.userId || null,
             type: data.type,           // save form type
             name: data.name,           // use same key as frontend
@@ -2127,7 +2124,7 @@ Bed type is subjected to the availability</p>
 
 exports.getPdfs = async (req, res) => {
     try {
-        let data = await generatedPdfs.find().sort({ serialId: -1 })
+        let data = await generatedPdfs.find().sort({createdAt: -1 })
         res.send({
             code: constants.successCode,
             message: "Data found",
@@ -2206,7 +2203,7 @@ exports.generateItinerary = async (req, res) => {
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
         let convertedDollar = data.price * rateUSD
-        let convertedInr = (data.price * (rateINR + 1))
+        let convertedInr = (data.price * rateINR) + 1
         console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
         let dataToUpdate = {
             adult: data.persons.adults,
@@ -2233,7 +2230,7 @@ exports.generateItinerary = async (req, res) => {
                 ? `
         <div class="section">
             <div
-                style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:5px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
+                style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:15px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
                 <h3 style="margin:0; font-size:1.2rem; font-weight:600; color:#336666;">
                     Total Net Price
                 </h3>
