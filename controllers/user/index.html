@@ -34,7 +34,7 @@
         }
 
         .logo img {
-            max-width: 180px;
+            max-width: 150px;
             margin-top: 20px;
             margin-bottom: 10px;
         }
@@ -53,6 +53,7 @@
             line-height: 1.4;
             margin: 0 0 15px 0;
             color: #aaaaaa;
+            margin-bottom: 0px;
             font-weight: 550;
         }
 
@@ -121,8 +122,8 @@
         }
 
         .day-block {
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
             border-bottom: 1px solid #ccc;
             overflow: hidden;
         }
@@ -149,6 +150,14 @@
             font-weight: 550;
         }
 
+        .tag-name {
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0 0 15px 0;
+            color: #aaaaaa;
+            font-weight: 550;
+        }
+
         .day-block p {
             font-size: 14px;
             line-height: 1.6;
@@ -167,7 +176,7 @@
 
         .section-title {
             color: #006666;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 20px;
             text-transform: uppercase;
         }
@@ -175,15 +184,16 @@
         .list {
             margin: 0;
             padding-left: 20px;
+            font-size: 12px;
         }
 
         .list-item {
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .cancel-policy {
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .cancel-policy p {
@@ -206,7 +216,7 @@
         }
 
         .outer-section {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .footer-section {
@@ -224,6 +234,7 @@
         .tours-list {
             padding-left: 20px;
             margin: 0;
+            font-size: 13px;
         }
 
         .tours-item {
@@ -237,7 +248,7 @@
             font-weight: bold;
             font-size: 18px;
             margin-bottom: 20px;
-            margin-top: 40px;
+            margin-top: 0px;
         }
 
         .quotation-body {
@@ -283,15 +294,15 @@
             display: flex;
             justify-content: left;
             align-items: center;
-            margin-top: 25px;
+            margin-top: 5px;
         }
 
         .images-section img {
-            width: 150px;
+            width: 82px;
             float: left;
             margin-right: 20px;
             border-radius: 4px;
-            height: 110px;
+            height: 60px;
         }
 
         .icons-row {
@@ -307,8 +318,8 @@
         }
 
         .icon-box img {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             margin-bottom: 8px;
         }
 
@@ -358,7 +369,7 @@
 
         .tours-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             /* 2 columns */
             gap: 8px;
             /* space between items */
@@ -400,6 +411,39 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 20px auto 10px auto;
+        }
+
+        .header-top .logo img {
+            width: 140px;
+            height: auto;
+        }
+
+        .agency-info {
+            text-align: right;
+            font-size: 13px;
+            color: #004d40;
+            line-height: 0.8;
+        }
+
+        .agency-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #00796b;
+            margin: 0 0 4px 0;
+        }
+
+        @media print {
+            .header-top {
+                page-break-inside: avoid;
+            }
+        }
     </style>
 </head>
 
@@ -414,18 +458,35 @@
     <!-- <div class="logo">
         <img src="http://localhost:3020/uploads/images/logo.jpeg" alt="Taj Royal Travels Logo">
     </div> -->
-    {{logo}}
+
+    <!-- Header Top: Logo Left, Address Right -->
+    <div class="header-top">
+        <div class="logo"> {{logo}} </div>
+        <div class="agency-info">
+            <h3>DUBAI</h3>
+            <p>Guest Name: {{hostName}}</p>
+            <p>{{night}} Nights / {{day}} Days | For {{adult}} Adults,
+                {{child}} Child, {{infant}} Infant</p>
+            <p>{{checkin}} to {{checkout}}</p>
+        </div>
+    </div> <!-- Title -->
+    <!-- Details -->
+    <!-- <div class="title">DUBAI</div> 
+    <div class="details"> Guest Name: {{hostName}} <br> {{night}} Nights / {{day}} Days | For {{adult}} Adults,
+        {{child}} Child, {{infant}} Infant <br> {{checkin}} to {{checkout}} </div> -->
+
+    <!-- {{logo}} -->
 
     <!-- Title -->
-    <div class="title">DUBAI</div>
+    <!-- <div class="title">DUBAI</div> -->
 
     <!-- Details -->
-    <div class="details">
-        Guest Name: {{hostName}} <br>
-        <!-- Query Id.: #QID027404 <br> -->
-        {{night}} Nights / {{day}} Days | For {{adult}} Adults, {{child}} Child, {{infant}} Infant <br>
+    <!-- <div class="details">
+        Guest Name: {{hostName}} <br> -->
+    <!-- Query Id.: #QID027404 <br> -->
+    <!-- {{night}} Nights / {{day}} Days | For {{adult}} Adults, {{child}} Child, {{infant}} Infant <br>
         {{checkin}} to {{checkout}}
-    </div>
+    </div> -->
 
 
     <div class="footer-section">
@@ -438,7 +499,7 @@
     {{price}}
 
     <!-- Destinations Covered -->
-     <div class="section" id="hotelSection">
+    <div class="section" id="hotelSection">
         <h2>HOTELS</h2>
         <p style="text-align:center;" class="details">UAE</p>
     </div>
@@ -446,7 +507,7 @@
     <!-- Hotel Section -->
     <div class="section">
         <div class="hotel-outer" id="hotelContainer"></div>
-    </div> -->
+    </div>
     <!-- <div class="section">
         <div class="hotel-outer">
             <div class="hotel-card">
@@ -696,7 +757,7 @@
     <script>
         // Injected from server-side (make sure it's stringified JSON!)
         const itinerary = JSON.parse('{{itineraryData}}')
-
+     
         const itineraryContainer = document.querySelector("#itinerary");
 
         // First, group all items by day
@@ -724,8 +785,7 @@
                 const section = document.createElement("div");
                 section.className = "location-section";
                 section.innerHTML = `
-      <h2 class="detail-title">${item.title}</h2>
-      <div class="tag">${item.tag}</div>
+      <h2 class="detail-title">${item.title} <span class="tag-name">(${item.tag})</span> </h2>
       ${item.description.map(d => `<p>${d}</p>`).join("")}
       <div class="images-section">
         <img src="${item.img}" alt="${item.title}">
@@ -775,7 +835,8 @@
         // });
 
         // --- HOTEL SECTION ---
-        const hotels = JSON.parse(`{{hotelData}}`);
+         const hotels = JSON.parse('{{hotelData}}');
+         
 
         const hotelContainer = document.getElementById("hotelContainer");
         hotels.forEach(hotel => {
