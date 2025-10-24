@@ -44,7 +44,7 @@ app.use("/api-v1/hotels", hotelRoute);
 app.use("/api-v1/locations",locationRoute);
 
 // Start the server
-const PORT = process.env.port ; 
+const PORT = process.env.port || 3020 ; 
 app.listen(PORT, () => {
   console.log(` Server running at http://localhost:${PORT}`);
 });

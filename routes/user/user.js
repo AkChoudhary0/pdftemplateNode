@@ -12,6 +12,7 @@ router.get("/get-pdfs", userController.getPdfs);
 router.post("/generateItinerary", userController.generateItinerary);
 router.get("/getItineraryData", userController.getItineraryData);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
+router.delete("/delete-pdf/:id", userController.deletePdf);
 router.post("/addUser", userController.addUser);
 router.get("/getUsers", userController.getUsers);
 router.get("/getUserById/:userId", userController.getUserById);
@@ -21,4 +22,3 @@ router.put("/changePassword/:userId", userController.updatePassword);
 router.get("/getGeneratedPdf/:name", userController.getGeneratedPdf);
 
 module.exports = router;
-    

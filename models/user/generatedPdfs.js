@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const generatedPdfs = new Schema({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: "users"
-    },
-    pdfUrl: String,
+const generatedPdfsSchema = new Schema({
+    userId: { type: Schema.Types.ObjectId, ref: "users" },
+    pdfUrl: { type: String, required: true },
     type: String,
     name: String,
     flightDate1: Date,
@@ -16,4 +13,4 @@ const generatedPdfs = new Schema({
     date: { type: Date, default: Date.now },
 }, { timestamps: true });
 
-module.exports = mongoose.model("generatedPdfs", generatedPdfs);
+module.exports = mongoose.model("generatedPdfs", generatedPdfsSchema);
