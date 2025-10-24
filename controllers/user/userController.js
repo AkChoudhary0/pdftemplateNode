@@ -2180,14 +2180,14 @@ exports.deletePdf = async (req, res) => {
 
         // === Success Response ===
         return res.status(200).json({
-            code: constants.SUCCESS_CODE || 200,
+            code: constants.successCode || 200,
             message: "PDF deleted successfully",
         });
 
     } catch (err) {
         console.error("❌ Error deleting PDF:", err);
         return res.status(500).json({
-            code: constants.ERROR_CODE || 500,
+            code: constants.errorCode || 500,
             message: "Failed to delete PDF",
             error: err.message,
         });
