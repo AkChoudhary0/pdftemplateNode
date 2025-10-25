@@ -2239,7 +2239,7 @@ exports.generateItinerary = async (req, res) => {
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
         let convertedDollar = data.price * rateUSD
-        let convertedInr = (data.price * rateINR) + 1
+        let convertedInr = (data.price * (rateINR+1))
         console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
         let dataToUpdate = {
             adult: data.persons.adults,
