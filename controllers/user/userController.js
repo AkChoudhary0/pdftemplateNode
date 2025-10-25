@@ -2285,6 +2285,11 @@ exports.generateItinerary = async (req, res) => {
         // http://localhost:3020/uploads/hotelImage/1759041189996-69368886.jpg
         // console.log(getHotel);
 
+        dataToUpdate.itineraryData = JSON.stringify(itineraryData)
+            .replace(/</g, '\\u003c')   // prevent </script> breaking
+            .replace(/>/g, '\\u003e')
+            .replace(/&/g, '\\u0026');
+
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
             // if (key !== "itineraryData") {
@@ -2292,6 +2297,8 @@ exports.generateItinerary = async (req, res) => {
             htmlContent = htmlContent.replace(regex, value);
             // }
         });
+
+
 
         // Set HTML content
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });
