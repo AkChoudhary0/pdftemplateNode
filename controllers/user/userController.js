@@ -2124,7 +2124,7 @@ Bed type is subjected to the availability</p>
 
 exports.getPdfs = async (req, res) => {
     try {
-        let data = await generatedPdfs.find().sort({createdAt: -1 })
+        let data = await generatedPdfs.find().sort({ createdAt: -1 })
         res.send({
             code: constants.successCode,
             message: "Data found",
@@ -2157,6 +2157,42 @@ exports.getGeneratedPdf = async (req, res) => {
         })
     }
 }
+
+exports.deletePdf = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("DELETE PDF hit:", req.params.id);
+
+
+        // === Find and delete the PDF in one go ===
+        const pdfData = await generatedPdfs.findOneAndDelete({ _id: id });
+
+        if (!pdfData) {
+            return res.status(404).json({
+                code: constants.NOT_FOUND_CODE || 404,
+                message: "PDF not found",
+            });
+        }
+
+        // === Build full file path ===
+        const pdfPath = path.join(process.cwd(), pdfData.pdfUrl);
+
+
+        // === Success Response ===
+        return res.status(200).json({
+            code: constants.successCode || 200,
+            message: "PDF deleted successfully",
+        });
+
+    } catch (err) {
+        console.error("❌ Error deleting PDF:", err);
+        return res.status(500).json({
+            code: constants.errorCode || 500,
+            message: "Failed to delete PDF",
+            error: err.message,
+        });
+    }
+};
 
 const puppeteer = require("puppeteer");
 
@@ -2273,9 +2309,9 @@ exports.generateItinerary = async (req, res) => {
 
         await browser.close();
         let saveObject = {
-            type: data.type,           // save form type
-            name: data.hostName,           // use same key as frontend
-            price: data.price,         // save price
+            type: data.type,
+            name: data.hostName,
+            price: data.price,
             flightDate1: data.dates.from,
             flightDate2: data.dates.to,
             pdfUrl: `/uploads/${fileName}`,
@@ -2317,6 +2353,10 @@ exports.getItineraryData = async (req, res) => {
         })
     }
 }
+
+
+
+
 
 exports.locations = async (req, res) => {
     try {
@@ -2381,3 +2421,5 @@ exports.locations = async (req, res) => {
         })
     }
 }
+
+
