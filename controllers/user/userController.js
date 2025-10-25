@@ -2253,7 +2253,7 @@ exports.generateItinerary = async (req, res) => {
             checkout: updatedCheckin.toLocaleDateString('en-GB'),
             hotelData: JSON.stringify(mergedHotels),
             // itineraryData: JSON.stringify(itineraryData),
-            itineraryData: itineraryData,
+            itineraryData: JSON.stringify(itineraryData),
             pickupSic: data.isAirportPickUpSic ? "SIC" : "PVT vehicle",
             dollar: convertedDollar.toFixed(2),
             aed: data.price.toFixed(2),
