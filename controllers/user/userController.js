@@ -2283,10 +2283,7 @@ exports.generateItinerary = async (req, res) => {
     </div>`: ""
         }
 
-        // http://localhost:3020/uploads/hotelImage/1759041189996-69368886.jpg
-        // console.log(getHotel);
-
-
+        console.log("dataToUpdate", dataToUpdate)
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
             // if (key !== "itineraryData") {
