@@ -754,7 +754,7 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
         // Injected from server-side (make sure it's stringified JSON!)
         // const itinerary = JSON.parse('{{itineraryData}}')
         const itinerary = JSON.parse(`{{itineraryData}}`);
@@ -857,7 +857,110 @@
         });
 
 
-    </script>
+    </script> -->
+
+    <script>
+    // ✅ Parse injected JSON safely
+    const itinerary = JSON.parse(`{{itineraryData}}`);
+    const hotels = JSON.parse(`{{hotelData}}`);
+
+    const itineraryContainer = document.querySelector("#itinerary");
+    const hotelContainer = document.getElementById("hotelContainer");
+
+    // -----------------------------
+    // 🗓️ ITINERARY SECTION
+    // -----------------------------
+    if (Array.isArray(itinerary) && itinerary.length > 0) {
+        // Group by "day"
+        const groupedByDay = itinerary.reduce((acc, item) => {
+            if (!acc[item.day]) acc[item.day] = [];
+            acc[item.day].push(item);
+            return acc;
+        }, {});
+
+        // Render day-wise
+        Object.keys(groupedByDay)
+            .sort((a, b) => a - b)
+            .forEach(day => {
+                const items = groupedByDay[day];
+
+                // Day label
+                const dayLabel = document.createElement("div");
+                dayLabel.className = "day-label";
+                dayLabel.innerHTML = `<span>&#9733;</span> DAY ${day} <span>&#9654;</span>`;
+
+                // Day block
+                const dayBlock = document.createElement("div");
+                dayBlock.className = "day-block";
+
+                items.forEach(item => {
+                    const section = document.createElement("div");
+                    section.className = "location-section";
+
+                    // Image section
+                    const imageSection = [item.img, item.img1, item.img2]
+                        .filter(Boolean)
+                        .map(img => `<img src="${img}" alt="${item.title}">`)
+                        .join("");
+
+                    // Description section
+                    const descriptionHTML = Array.isArray(item.description)
+                        ? item.description.map(d => `<p>${d}</p>`).join("")
+                        : "";
+
+                    // Render HTML for this item
+                    section.innerHTML = `
+                        <h2 class="detail-title">
+                            ${item.title}
+                            <span class="tag-name">(${item.tag || ""})</span>
+                        </h2>
+                        ${descriptionHTML}
+                        <div class="images-section">${imageSection}</div>
+                        ${item.note ? `<p class="note"><em>${item.note}</em></p>` : ""}
+                        <hr>
+                    `;
+
+                    dayBlock.appendChild(section);
+                });
+
+                itineraryContainer.appendChild(dayLabel);
+                itineraryContainer.appendChild(dayBlock);
+            });
+    } else {
+        itineraryContainer.innerHTML = `<p>No itinerary details available.</p>`;
+    }
+
+    // -----------------------------
+    // 🏨 HOTEL SECTION
+    // -----------------------------
+    if (Array.isArray(hotels) && hotels.length > 0) {
+        hotels.forEach(hotel => {
+            const h = hotel._doc || hotel; // Handle nested mongoose-style doc
+            const Breakfast = hotel.isBreakfastIncluded ? "Breakfast" : "-";
+
+            // Handle image path
+            const imageUrl = h.image
+                ? (h.image.startsWith("http") ? h.image : `http://localhost:3020/${h.image}`)
+                : "https://via.placeholder.com/300x200?text=No+Image";
+
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            card.innerHTML = `
+                <img src="${imageUrl}" alt="${h.name}">
+                <div class="hotel-info">
+                    <h3>${h.name} <span>(${h.star || "-"} Star)</span></h3>
+                    <p><b>Staying Dates:</b> ${hotel.checkIn || "-"} - ${hotel.checkOut || "-"}</p>
+                    <p><b>Destination:</b> ${h.address || "-"}</p>
+                    <p><b>Meal Plan:</b> ${Breakfast}</p>
+                </div>
+            `;
+            hotelContainer.appendChild(card);
+        });
+    } else {
+        hotelContainer.innerHTML = `<p>No hotel details available.</p>`;
+    }
+</script>
+
 
 </body>
 
