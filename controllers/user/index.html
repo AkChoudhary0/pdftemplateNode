@@ -757,7 +757,7 @@
     <script>
         // Injected from server-side (make sure it's stringified JSON!)
         // const itinerary = JSON.parse('{{itineraryData}}')
-        const itinerary = JSON.parse('{{itineraryData}}')
+        const itinerary = {{itineraryData}}
      
         const itineraryContainer = document.querySelector("#itinerary");
 
@@ -836,6 +836,7 @@
         // });
 
         // --- HOTEL SECTION ---
+        //  const hotels = JSON.parse('{{hotelData}}');
          const hotels = JSON.parse('{{hotelData}}');
          
 
