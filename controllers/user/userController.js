@@ -2356,9 +2356,6 @@ exports.getItineraryData = async (req, res) => {
 }
 
 
-
-
-
 exports.locations = async (req, res) => {
     try {
         let locations = [
