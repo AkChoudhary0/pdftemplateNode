@@ -2296,7 +2296,7 @@ exports.generateItinerary = async (req, res) => {
 
         // Set HTML content
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-        console.log("kkkkk", req.body)
+
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
         if (req.body.fileType == "pdf") {
@@ -2332,7 +2332,53 @@ exports.generateItinerary = async (req, res) => {
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
             const convert = require('html-docx-js');
-            const docxBlob = convert.asBlob(htmlContent); // blob output
+            let dummy = `<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Itinerary Sample</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #222;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dubai Itinerary</h1>
+
+    <p>Hello, this is a sample itinerary document exported to DOCX.</p>
+
+    <h3>Day Plan</h3>
+
+    <table>
+        <tr>
+            <th>Day</th>
+            <th>Activity</th>
+        </tr>
+        <tr>
+            <td>Day 1</td>
+            <td>City Tour</td>
+        </tr>
+        <tr>
+            <td>Day 2</td>
+            <td>Desert Safari</td>
+        </tr>
+    </table>
+
+    <p style="margin-top: 20px;">Thank you for choosing us!</p>
+
+</body>
+</html>`
+
+            const docxBlob = convert.asBlob(dummy); // blob output
 
             // Convert Blob to Buffer
             const arrayBuffer = await docxBlob.arrayBuffer();
