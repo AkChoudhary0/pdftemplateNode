@@ -106,7 +106,7 @@ exports.signupUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
-        let user = await userService.findOneUser({  email: { $regex: new RegExp(`^${data.email}$`, "i") }});
+        let user = await userService.findOneUser({ email: { $regex: new RegExp(`^${data.email}$`, "i") } });
 
         let updatedLocation = []
         // for(let i=0;i<itineraryLocations.length;i++){
@@ -2291,12 +2291,12 @@ exports.generateItinerary = async (req, res) => {
             // }
         });
 
-        console.log("kkkkk",req.body)
+        console.log("kkkkk", req.body)
 
 
         // Set HTML content
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-        console.log("kkkkk",req.body)
+        console.log("kkkkk", req.body)
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
         if (req.body.fileType == "pdf") {
@@ -2328,14 +2328,15 @@ exports.generateItinerary = async (req, res) => {
             })
         } else if (req.body.fileType == "docx") {
             console.log("inside docx")
-            // Generate DOCX
-            let fileName = `itinerary/${Date.now()}.docx`
+            let fileName = `itinerary/${Date.now()}.docx`;
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
             const convert = require('html-docx-js');
-            const docx = convert.asBlob(htmlContent);   // convert html to docx
 
-            fs.writeFileSync(outputPath, docx);
+            // Convert HTML to Buffer for Node
+            const docxBuffer = convert.asBuffer(htmlContent);
+
+            fs.writeFileSync(outputPath, docxBuffer);
             await browser.close();
             let saveObject = {
                 type: data.type,
@@ -2354,7 +2355,7 @@ exports.generateItinerary = async (req, res) => {
                 message: "PDF generated successfully",
             })
 
-        }else{
+        } else {
             res.send({
                 code: constants.errorCode,
                 message: "PDF generation failed Invalid type",
