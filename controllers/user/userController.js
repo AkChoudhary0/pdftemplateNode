@@ -2330,45 +2330,57 @@ exports.generateItinerary = async (req, res) => {
         } else if (req.body.fileType == "docx") {
             console.log("inside docx");
 
-            let pdfName = `itinerary/${Date.now()}.pdf`;
-            let docxName = pdfName.replace(".pdf", ".docx");
+            let pdfFileName = `itinerary/${Date.now()}.pdf`;
+            let docxFileName = pdfFileName.replace(".pdf", ".docx");
 
-            const pdfPath = path.join(__dirname, "..", "..", "uploads", pdfName);
-            const docxPath = path.join(__dirname, "..", "..", "uploads", docxName);
+            const pdfPath = path.join(__dirname, "..", "..", "uploads", pdfFileName);
+            const docxPath = path.join(__dirname, "..", "..", "uploads", docxFileName);
 
-            // ✅ First create PDF (same quality)
+            // ✅ Create PDF First (same like PDF logic)
             await page.setContent(htmlContent, { waitUntil: "networkidle0" });
             await page.pdf({
                 path: pdfPath,
                 format: "A4",
                 printBackground: true,
+                margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
             });
 
             await browser.close();
 
-            // ✅ Convert PDF → DOCX (keeps full design)
-            const { pdfToDocx } = require('@cyberberry/pdf-to-docx');
+            // ✅ Convert PDF → DOCX using LibreOffice
+            const { exec } = require("child_process");
 
-            await pdfToDocx(pdfPath, docxPath);
+            exec(`soffice --headless --convert-to docx "${pdfPath}" --outdir "${path.dirname(pdfPath)}"`,
+                async (error, stdout, stderr) => {
 
-            let saveObject = {
-                type: data.type,
-                name: data.hostName,
-                price: data.price,
-                flightDate1: data.dates.from,
-                flightDate2: data.dates.to,
-                pdfUrl: `/uploads/${docxName}`,
-                fileName: docxName,
-                date: data.date || new Date()
-            }
+                    if (error) {
+                        return res.send({
+                            code: constants.errorCode,
+                            message: "DOCX conversion failed",
+                            error: error.message
+                        });
+                    }
 
-            let saveData = await generatedPdfs(saveObject).save()
+                    // ✅ Save in DB as usual
+                    let saveObject = {
+                        type: data.type,
+                        name: data.hostName,
+                        price: data.price,
+                        flightDate1: data.dates.from,
+                        flightDate2: data.dates.to,
+                        pdfUrl: `/uploads/${docxFileName}`,
+                        fileName: docxFileName,
+                        date: data.date || new Date()
+                    };
 
-            res.send({
-                code: constants.successCode,
-                message: "DOCX generated successfully with original design",
-                data: saveData
-            });
+                    let saveData = await generatedPdfs(saveObject).save();
+
+                    res.send({
+                        code: constants.successCode,
+                        message: "DOCX generated successfully with exact layout",
+                        data: saveData
+                    });
+                });
         } else {
             res.send({
                 code: constants.errorCode,
