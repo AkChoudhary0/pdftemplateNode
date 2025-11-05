@@ -2299,7 +2299,7 @@ exports.generateItinerary = async (req, res) => {
         console.log("kkkkk",req.body)
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-        if (req.body.fileType == "docx") {
+        if (req.body.fileType == "pdf") {
             let fileName = `itinerary/${Date.now()}.pdf`
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
             await page.pdf({
