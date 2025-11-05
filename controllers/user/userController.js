@@ -2299,7 +2299,7 @@ exports.generateItinerary = async (req, res) => {
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
         if (req.body.fileType == "pdf") {
-        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+            await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
             let fileName = `itinerary/${Date.now()}.pdf`
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
@@ -2328,45 +2328,48 @@ exports.generateItinerary = async (req, res) => {
                 data: saveData
             })
         } else if (req.body.fileType == "docx") {
-    console.log("inside docx");
+            console.log("inside docx");
 
-    const HTMLtoDOCX = require('html-to-docx');
+            let pdfName = `itinerary/${Date.now()}.pdf`;
+            let docxName = pdfName.replace(".pdf", ".docx");
 
-    let fileName = `itinerary/${Date.now()}.docx`;
-    const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
+            const pdfPath = path.join(__dirname, "..", "..", "uploads", pdfName);
+            const docxPath = path.join(__dirname, "..", "..", "uploads", docxName);
 
-    // ✅ Load HTML in Puppeteer so all JS executes
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+            // ✅ First create PDF (same quality)
+            await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+            await page.pdf({
+                path: pdfPath,
+                format: "A4",
+                printBackground: true,
+            });
 
-    // ✅ Get the fully rendered HTML (after JS fills itinerary & hotel data)
-    const finalHTML = await page.content();
+            await browser.close();
 
-    // ✅ Convert rendered HTML -> DOCX Buffer
-    const buffer = await HTMLtoDOCX(finalHTML, null);
+            // ✅ Convert PDF → DOCX (keeps full design)
+            const { pdfToDocx } = require('@cyberberry/pdf-to-docx');
 
-    fs.writeFileSync(outputPath, buffer);
+            await pdfToDocx(pdfPath, docxPath);
 
-    await browser.close();
+            let saveObject = {
+                type: data.type,
+                name: data.hostName,
+                price: data.price,
+                flightDate1: data.dates.from,
+                flightDate2: data.dates.to,
+                pdfUrl: `/uploads/${docxName}`,
+                fileName: docxName,
+                date: data.date || new Date()
+            }
 
-    let saveObject = {
-        type: data.type,
-        name: data.hostName,
-        price: data.price,
-        flightDate1: data.dates.from,
-        flightDate2: data.dates.to,
-        pdfUrl: `/uploads/${fileName}`,
-        fileName: fileName,
-        date: data.date || new Date()
-    }
+            let saveData = await generatedPdfs(saveObject).save()
 
-    let saveData = await generatedPdfs(saveObject).save()
-
-    res.send({
-        code: constants.successCode,
-        message: "DOCX generated successfully",
-        data: saveData
-    });
-}else {
+            res.send({
+                code: constants.successCode,
+                message: "DOCX generated successfully with original design",
+                data: saveData
+            });
+        } else {
             res.send({
                 code: constants.errorCode,
                 message: "PDF generation failed Invalid type",
