@@ -2367,7 +2367,7 @@ exports.generateItinerary = async (req, res) => {
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
             // ✅ Convert HTML -> DOCX Buffer
-            const buffer = await HTMLtoDOCX(dummy, null);
+            const buffer = await HTMLtoDOCX(htmlContent, null);
 
             fs.writeFileSync(outputPath, buffer);
 
