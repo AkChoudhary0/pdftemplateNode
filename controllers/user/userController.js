@@ -2352,7 +2352,6 @@ exports.generateItinerary = async (req, res) => {
             res.send({
                 code: constants.successCode,
                 message: "PDF generated successfully",
-                data: saveData
             })
 
         }else{
