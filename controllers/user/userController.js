@@ -2328,79 +2328,76 @@ exports.generateItinerary = async (req, res) => {
                 data: saveData
             })
         } else if (req.body.fileType == "docx") {
-            console.log("inside docx");
+    console.log("inside docx");
 
-            let pdfFileName = `itinerary/${Date.now()}.pdf`;
-            let docxFileName = pdfFileName.replace(".pdf", ".docx");
+    let pdfFileName = `itinerary/${Date.now()}.pdf`;
+    let docxFileName = pdfFileName.replace(".pdf", ".docx");
 
-            const pdfPath = path.join(__dirname, "..", "..", "uploads", pdfFileName);
-            const outputDir = path.join(__dirname, "..", "..", "uploads");
-            const docxPath = path.join(outputDir, docxFileName);
+    const pdfPath = path.join(__dirname, "..", "..", "uploads", pdfFileName);
+    const outputDir = path.join(__dirname, "..", "..", "uploads");
+    const docxPath = path.join(outputDir, docxFileName);
+    const tempDocPath = pdfPath.replace(".pdf", ".doc");
 
-            // ✅ Create PDF first
-            await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-            await page.pdf({
-                path: pdfPath,
-                format: "A4",
-                printBackground: true,
-                margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
-            });
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+    await page.pdf({
+        path: pdfPath,
+        format: "A4",
+        printBackground: true,
+        margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
+    });
+    await browser.close();
 
-            await browser.close();
+    const { exec } = require("child_process");
 
-            const { exec } = require("child_process");
+    const command = `
+        libreoffice --headless --convert-to doc "${pdfPath}" --outdir "${outputDir}" &&
+        libreoffice --headless --convert-to docx "${tempDocPath}" --outdir "${outputDir}"
+    `;
 
-            // ✅ Use `libreoffice` instead of `soffice`
-            const command = `libreoffice --headless --convert-to docx "${pdfPath}" --outdir "${outputDir}"`;
+    exec(command, async (error, stdout, stderr) => {
+        console.log({ stdout, stderr });
 
-            console.log("Running command:", command);
-
-            exec(command, async (error, stdout, stderr) => {
-                console.log("STDOUT:", stdout);
-                console.log("STDERR:", stderr);
-
-                if (error) {
-                    return res.send({
-                        code: 500,
-                        message: "DOCX conversion failed",
-                        error: error.message,
-                        stderr
-                    });
-                }
-
-                // ✅ confirm DOCX exists
-                if (!fs.existsSync(docxPath)) {
-                    return res.send({
-                        code: 401,
-                        message: "DOCX file was not generated",
-                        stdout,
-                        stderr
-                    });
-                }
-
-                // ✅ save to DB
-                let saveObject = {
-                    type: data.type,
-                    name: data.hostName,
-                    price: data.price,
-                    flightDate1: data.dates.from,
-                    flightDate2: data.dates.to,
-                    pdfUrl: `/uploads/${docxFileName}`,
-                    fileName: docxFileName,
-                    date: data.date || new Date()
-                };
-
-                let saveData = await generatedPdfs(saveObject).save();
-
-                res.send({
-                    code: constants.successCode,
-                    message: "DOCX generated successfully",
-                    data: saveData
-                });
+        if (error) {
+            return res.send({
+                code: 500,
+                message: "DOCX conversion failed",
+                error: error.message,
+                stderr
             });
         }
 
-        else {
+        // ✅ check final file
+        if (!fs.existsSync(docxPath)) {
+            return res.send({
+                code: 401,
+                message: "DOCX file was not generated",
+                stdout,
+                stderr
+            });
+        }
+
+        // ✅ Save to DB
+        let saveObject = {
+            type: data.type,
+            name: data.hostName,
+            price: data.price,
+            flightDate1: data.dates.from,
+            flightDate2: data.dates.to,
+            pdfUrl: `/uploads/${docxFileName}`,
+            fileName: docxFileName,
+            date: data.date || new Date()
+        };
+
+        let saveData = await generatedPdfs(saveObject).save();
+
+        res.send({
+            code: constants.successCode,
+            message: "DOCX generated successfully",
+            data: saveData
+        });
+    });
+}
+ else {
             res.send({
                 code: constants.errorCode,
                 message: "PDF generation failed Invalid type",
