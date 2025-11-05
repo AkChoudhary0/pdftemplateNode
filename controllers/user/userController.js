@@ -2266,13 +2266,13 @@ exports.generateItinerary = async (req, res) => {
             price: data.isPrice
                 ? `
         <div class="section">
-            <div
-                style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:15px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
-                <h3 style="margin:0; font-size:1.2rem; font-weight:600; color:#336666;">
+           <div
+                style="display:flex; justify-content:space-between; align-items:center; border: 1px solid #336666; padding:10px 20px; border-radius:10px; font-family:Arial, sans-serif; margin:20px auto;">
+                <h3 style="margin:0; font-size:1rem; font-weight:600; color:#336666;">
                     Total Net Price
                 </h3>
-                <span style="font-size:1.2rem; font-weight:bold; color:#000;">
-                    AED ${data.price.toFixed(2)}, $${convertedDollar.toFixed(2)}, INR ${convertedInr.toFixed(2)}
+               <span style="font-size:1rem; font-weight:bold; color:#000;">
+                    AED ${data.price.toFixed(2)},  $${convertedDollar.toFixed(2)},  ₹ ${convertedInr.toFixed(2)}
                 </span>
             </div>
         </div>

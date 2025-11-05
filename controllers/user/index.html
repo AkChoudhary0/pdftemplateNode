@@ -97,7 +97,7 @@
 
         .hotel-info h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 12px;
         }
 
         .hotel-info h3 span {
@@ -177,7 +177,7 @@
         .section-title {
             color: #006666;
             margin-bottom: 15px;
-            font-size: 15px;
+            font-size: 18px;
             text-transform: uppercase;
         }
 
@@ -386,7 +386,7 @@
 
         .hotel-outer {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             /* 2 cards per row */
             gap: 20px;
         }
@@ -497,6 +497,8 @@
     </div>
 
     {{price}}
+
+
 
     <!-- Destinations Covered -->
     <div class="section" id="hotelSection">
@@ -721,12 +723,14 @@
     <!-- Footer -->
     <div class="footer">
         <div class="footer-item">
-            <img src="https://flagcdn.com/w40/ae.png" alt="UAE Flag" width="50" height="15" style="width: 20px; height: 15px !important;">
+            <img src="https://flagcdn.com/w40/ae.png" alt="UAE Flag" width="50" height="15"
+                style="width: 20px; height: 15px !important;">
 
             <span>+971 542122766</span>
         </div>
         <div class="footer-item">
-            <img src="https://flagcdn.com/w40/in.png" alt="India Flag" width="50" height="15" style="width: 20px; height: 15px !important;">
+            <img src="https://flagcdn.com/w40/in.png" alt="India Flag" width="50" height="15"
+                style="width: 20px; height: 15px !important;">
             <span>+91 9371000044</span>
         </div>
         <div class="footer-item">
@@ -856,6 +860,29 @@
         // ✅ Parse injected JSON safely
         const itinerary = JSON.parse(`{{itineraryData}}`);
         const hotels = JSON.parse(`{{hotelData}}`);
+        // const hotels = [
+        //     {
+        //         "name": "THE CANVAS HOTEL BUR DUBAI",
+        //         "checkIn": "2025-12-27",
+        //         "checkOut": "2026-01-02",
+        //         "breakfastIncluded": true,
+        //         "hotelPrice": 50000
+        //     },
+        //     {
+        //         "name": "THE CANVAS HOTEL BUR DUBAI",
+        //         "checkIn": "2025-12-27",
+        //         "checkOut": "2026-01-02",
+        //         "breakfastIncluded": true,
+        //         "hotelPrice": 50000
+        //     },
+        //     {
+        //         "name": "THE CANVAS HOTEL BUR DUBAI",
+        //         "checkIn": "2025-12-27",
+        //         "checkOut": "2026-01-02",
+        //         "breakfastIncluded": true,
+        //         "hotelPrice": 50000
+        //     }
+        // ]
 
         const itineraryContainer = document.querySelector("#itinerary");
         const hotelContainer = document.getElementById("hotelContainer");
@@ -880,7 +907,7 @@
                     // Day label
                     const dayLabel = document.createElement("div");
                     dayLabel.className = "day-label";
-                    dayLabel.innerHTML = `<span>&#9733;</span><strong> DAY ${day}</strong> <span>&#9654;</span>`;
+                    dayLabel.innerHTML = `<span>&#9733;</span> DAY <strong>${day}</strong> <span>&#9654;</span>`;
 
                     // Day block
                     const dayBlock = document.createElement("div");
