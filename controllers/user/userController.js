@@ -106,7 +106,7 @@ exports.signupUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         let data = req.body;
-        let user = await userService.findOneUser({ email: data.email });
+        let user = await userService.findOneUser({  email: { $regex: new RegExp(`^${data.email}$`, "i") }});
 
         let updatedLocation = []
         // for(let i=0;i<itineraryLocations.length;i++){
