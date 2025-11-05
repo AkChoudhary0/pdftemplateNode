@@ -2295,11 +2295,12 @@ exports.generateItinerary = async (req, res) => {
 
 
         // Set HTML content
-        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
         if (req.body.fileType == "pdf") {
+        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+
             let fileName = `itinerary/${Date.now()}.pdf`
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
             await page.pdf({
@@ -2327,70 +2328,45 @@ exports.generateItinerary = async (req, res) => {
                 data: saveData
             })
         } else if (req.body.fileType == "docx") {
-            console.log("inside docx");
+    console.log("inside docx");
 
-            const HTMLtoDOCX = require('html-to-docx');
+    const HTMLtoDOCX = require('html-to-docx');
 
-            let dummy = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Itinerary Sample</title>
-        <style>
-            body { font-family: Arial, sans-serif; }
-            h1 { text-align: center; }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-            }
-            table, th, td {
-                border: 1px solid #222;
-                padding: 8px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Dubai Itinerary</h1>
-        <p>Hello, this is a sample itinerary document exported to DOCX.</p>
-        <h3>Day Plan</h3>
-        <table>
-            <tr><th>Day</th><th>Activity</th></tr>
-            <tr><td>Day 1</td><td>City Tour</td></tr>
-            <tr><td>Day 2</td><td>Desert Safari</td></tr>
-        </table>
-    </body>
-    </html>`;
+    let fileName = `itinerary/${Date.now()}.docx`;
+    const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
-            let fileName = `itinerary/${Date.now()}.docx`;
-            const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
+    // ✅ Load HTML in Puppeteer so all JS executes
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
-            // ✅ Convert HTML -> DOCX Buffer
-            const buffer = await HTMLtoDOCX(htmlContent, null);
+    // ✅ Get the fully rendered HTML (after JS fills itinerary & hotel data)
+    const finalHTML = await page.content();
 
-            fs.writeFileSync(outputPath, buffer);
+    // ✅ Convert rendered HTML -> DOCX Buffer
+    const buffer = await HTMLtoDOCX(finalHTML, null);
 
-            // save to DB as before
-            let saveObject = {
-                type: data.type,
-                name: data.hostName,
-                price: data.price,
-                flightDate1: data.dates.from,
-                flightDate2: data.dates.to,
-                pdfUrl: `/uploads/${fileName}`,
-                fileName: fileName,
-                date: data.date || new Date()
-            }
+    fs.writeFileSync(outputPath, buffer);
 
-            let saveData = await generatedPdfs(saveObject).save()
+    await browser.close();
 
-            res.send({
-                code: constants.successCode,
-                message: "DOCX generated successfully",
-                data: saveData
-            });
-        } else {
+    let saveObject = {
+        type: data.type,
+        name: data.hostName,
+        price: data.price,
+        flightDate1: data.dates.from,
+        flightDate2: data.dates.to,
+        pdfUrl: `/uploads/${fileName}`,
+        fileName: fileName,
+        date: data.date || new Date()
+    }
+
+    let saveData = await generatedPdfs(saveObject).save()
+
+    res.send({
+        code: constants.successCode,
+        message: "DOCX generated successfully",
+        data: saveData
+    });
+}else {
             res.send({
                 code: constants.errorCode,
                 message: "PDF generation failed Invalid type",
