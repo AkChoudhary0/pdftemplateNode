@@ -2239,8 +2239,8 @@ exports.generateItinerary = async (req, res) => {
         let updatedCheckin = new Date(data.dates.from)
         let updatedCheckout = new Date(data.dates.to)
         let convertedDollar = data.price * rateUSD
-        let convertedInr = (data.price * (rateINR+1))
-        console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
+        let convertedInr = (data.price * (rateINR + 1))
+        // console.log("convertedDollar, convertedInr", convertedDollar, convertedInr)
         let dataToUpdate = {
             adult: data.persons.adults,
             hostName: data.hostName,
@@ -2283,7 +2283,6 @@ exports.generateItinerary = async (req, res) => {
     </div>`: ""
         }
 
-        console.log("dataToUpdate", dataToUpdate)
         // Replace other payload keys if needed
         Object.entries(dataToUpdate).forEach(([key, value]) => {
             // if (key !== "itineraryData") {
@@ -2292,40 +2291,78 @@ exports.generateItinerary = async (req, res) => {
             // }
         });
 
+        console.log("kkkkk",req.body)
 
 
         // Set HTML content
         await page.setContent(htmlContent, { waitUntil: "networkidle0" });
-
+        console.log("kkkkk",req.body)
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-        let fileName = `itinerary/${Date.now()}.pdf`
-        const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
-        await page.pdf({
-            path: outputPath,
-            format: "A4",
-            printBackground: true,
-            margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
-        });
+        if (req.body.fileType == "docx") {
+            let fileName = `itinerary/${Date.now()}.pdf`
+            const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
+            await page.pdf({
+                path: outputPath,
+                format: "A4",
+                printBackground: true,
+                margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
+            });
+            await browser.close();
+            let saveObject = {
+                type: data.type,
+                name: data.hostName,
+                price: data.price,
+                flightDate1: data.dates.from,
+                flightDate2: data.dates.to,
+                pdfUrl: `/uploads/${fileName}`,
+                fileName: fileName,
+                date: data.date || new Date()
+            }
+            let saveData = await generatedPdfs(saveObject).save()
+            console.log(`PDF generated at: ${outputPath}`);
+            res.send({
+                code: constants.successCode,
+                message: "PDF generated successfully",
+                data: saveData
+            })
+        } else if (req.body.fileType == "docx") {
+            console.log("inside docx")
+            // Generate DOCX
+            let fileName = `itinerary/${Date.now()}.docx`
+            const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
-        await browser.close();
-        let saveObject = {
-            type: data.type,
-            name: data.hostName,
-            price: data.price,
-            flightDate1: data.dates.from,
-            flightDate2: data.dates.to,
-            pdfUrl: `/uploads/${fileName}`,
-            fileName: fileName,
-            date: data.date || new Date()
+            const convert = require('html-docx-js');
+            const docx = convert.asBlob(htmlContent);   // convert html to docx
+
+            fs.writeFileSync(outputPath, docx);
+            await browser.close();
+            let saveObject = {
+                type: data.type,
+                name: data.hostName,
+                price: data.price,
+                flightDate1: data.dates.from,
+                flightDate2: data.dates.to,
+                pdfUrl: `/uploads/${fileName}`,
+                fileName: fileName,
+                date: data.date || new Date()
+            }
+            let saveData = await generatedPdfs(saveObject).save()
+            console.log(`PDF generated at: ${outputPath}`);
+            res.send({
+                code: constants.successCode,
+                message: "PDF generated successfully",
+                data: saveData
+            })
+
+        }else{
+            res.send({
+                code: constants.errorCode,
+                message: "PDF generation failed Invalid type",
+                data: saveData
+            })
         }
-        let saveData = await generatedPdfs(saveObject).save()
-        console.log(`PDF generated at: ${outputPath}`);
-        res.send({
-            code: constants.successCode,
-            message: "PDF generated successfully",
-            data: saveData
-        })
+
         //
         // return outputPath;
     } catch (error) {
