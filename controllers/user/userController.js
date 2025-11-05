@@ -2332,11 +2332,13 @@ exports.generateItinerary = async (req, res) => {
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
             const convert = require('html-docx-js');
+            const docxBlob = convert.asBlob(htmlContent); // blob output
 
-            // Convert HTML to Buffer for Node
-            const docxBuffer = convert.asBuffer(htmlContent);
+            // Convert Blob to Buffer
+            const arrayBuffer = await docxBlob.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
 
-            fs.writeFileSync(outputPath, docxBuffer);
+            fs.writeFileSync(outputPath, buffer);
             await browser.close();
             let saveObject = {
                 type: data.type,
