@@ -2327,65 +2327,51 @@ exports.generateItinerary = async (req, res) => {
                 data: saveData
             })
         } else if (req.body.fileType == "docx") {
-            console.log("inside docx")
+            console.log("inside docx");
+
+            const HTMLtoDOCX = require('html-to-docx');
+
+            let dummy = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Itinerary Sample</title>
+        <style>
+            body { font-family: Arial, sans-serif; }
+            h1 { text-align: center; }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            table, th, td {
+                border: 1px solid #222;
+                padding: 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Dubai Itinerary</h1>
+        <p>Hello, this is a sample itinerary document exported to DOCX.</p>
+        <h3>Day Plan</h3>
+        <table>
+            <tr><th>Day</th><th>Activity</th></tr>
+            <tr><td>Day 1</td><td>City Tour</td></tr>
+            <tr><td>Day 2</td><td>Desert Safari</td></tr>
+        </table>
+    </body>
+    </html>`;
+
             let fileName = `itinerary/${Date.now()}.docx`;
             const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
 
-            const convert = require('html-docx-js');
-            let dummy = `<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Itinerary Sample</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        h1 { text-align: center; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        table, th, td {
-            border: 1px solid #222;
-            padding: 8px;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Dubai Itinerary</h1>
-
-    <p>Hello, this is a sample itinerary document exported to DOCX.</p>
-
-    <h3>Day Plan</h3>
-
-    <table>
-        <tr>
-            <th>Day</th>
-            <th>Activity</th>
-        </tr>
-        <tr>
-            <td>Day 1</td>
-            <td>City Tour</td>
-        </tr>
-        <tr>
-            <td>Day 2</td>
-            <td>Desert Safari</td>
-        </tr>
-    </table>
-
-    <p style="margin-top: 20px;">Thank you for choosing us!</p>
-
-</body>
-</html>`
-
-            const docxBlob = convert.asBlob(dummy); // blob output
-
-            // Convert Blob to Buffer
-            const arrayBuffer = await docxBlob.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
+            // ✅ Convert HTML -> DOCX Buffer
+            const buffer = await HTMLtoDOCX(dummy, null);
 
             fs.writeFileSync(outputPath, buffer);
-            await browser.close();
+
+            // save to DB as before
             let saveObject = {
                 type: data.type,
                 name: data.hostName,
@@ -2396,13 +2382,14 @@ exports.generateItinerary = async (req, res) => {
                 fileName: fileName,
                 date: data.date || new Date()
             }
+
             let saveData = await generatedPdfs(saveObject).save()
-            console.log(`PDF generated at: ${outputPath}`);
+
             res.send({
                 code: constants.successCode,
-                message: "PDF generated successfully",
-            })
-
+                message: "DOCX generated successfully",
+                data: saveData
+            });
         } else {
             res.send({
                 code: constants.errorCode,
