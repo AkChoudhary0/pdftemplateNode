@@ -2339,7 +2339,7 @@ exports.generateItinerary = async (req, res) => {
         if (req.body.fileType == "docx") {
             const inputPath = path.join(__dirname, "uploads", "itinerary", "1762537916529.pdf");
 
-            const fileName = `${Date.now()}.docx`;  // ✅ only filename, no extra itinerary
+            fileName = `${Date.now()}.docx`;  // ✅ only filename, no extra itinerary
             const outputPath = path.join(__dirname, "uploads", "itinerary", fileName);
 
             console.log({ inputPath, outputPath });
