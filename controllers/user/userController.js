@@ -2343,7 +2343,7 @@ exports.generateItinerary = async (req, res) => {
         });
         await browser.close();
         if(req.body.fileType == "docx"){
-            let inputPath = "https://api.pdf.tajgateways.com/"+`uploads/${fileName}`
+            let inputPath = "https://api.pdf.tajgateways.com/"+`uploads/1762537916529.pdf`
             fileName = `itinerary/${Date.now()}.docx`
             let outputPath = "https://api.pdf.tajgateways.com/"+`uploads/${fileName.replace(".pdf", ".docx")}`
             convertPDFtoDocx(inputPath, outputPath)
