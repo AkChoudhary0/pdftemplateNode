@@ -12,6 +12,8 @@ const bcrypt = require("bcrypt")
 const jwtToken = require("jsonwebtoken")
 const { date } = require("joi")
 const { base } = require("../../models/user/userModel")
+const PDFParser = require("pdf-parse");
+const { Document, Packer, Paragraph } = require("docx");
 
 
 const hotels = [
@@ -2196,6 +2198,36 @@ exports.deletePdf = async (req, res) => {
 
 const puppeteer = require("puppeteer");
 
+
+async function convertPDFtoDocx(inputPath, outputPath) {
+    try {
+        // read PDF
+        const pdfData = fs.readFileSync(inputPath);
+
+        // extract text
+        const pdfContent = await PDFParser(pdfData);
+
+        // create Word document
+        const doc = new Document({
+            sections: [{
+                children: [
+                    new Paragraph(pdfContent.text)
+                ]
+            }]
+        });
+
+        // write .docx file
+        const buffer = await Packer.toBuffer(doc);
+        fs.writeFileSync(outputPath, buffer);
+
+        console.log("✅ PDF converted & saved:", outputPath);
+    } catch (e) {
+        console.log("❌ Error converting file:", e);
+    }
+}
+
+
+
 exports.generateItinerary = async (req, res) => {
     try {
         let data = req.body
@@ -2298,79 +2330,84 @@ exports.generateItinerary = async (req, res) => {
 
         // Generate PDF
         // const outputPath = path.join(__dirname, "Dubai-Itinerary.pdf");
-        if (req.body.fileType == "pdf") {
-            await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+        // if (req.body.fileType == "pdf") {
+        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
-            let fileName = `itinerary/${Date.now()}.pdf`
-            const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
-            await page.pdf({
-                path: outputPath,
-                format: "A4",
-                printBackground: true,
-                margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
-            });
-            await browser.close();
-            let saveObject = {
-                type: data.type,
-                name: data.hostName,
-                price: data.price,
-                flightDate1: data.dates.from,
-                flightDate2: data.dates.to,
-                pdfUrl: `/uploads/${fileName}`,
-                fileName: fileName,
-                date: data.date || new Date()
-            }
-            let saveData = await generatedPdfs(saveObject).save()
-            console.log(`PDF generated at: ${outputPath}`);
-            res.send({
-                code: constants.successCode,
-                message: "PDF generated successfully",
-                data: saveData
-            })
-        } else if (req.body.fileType == "docx") {
-            console.log("inside docx");
-
-            const HTMLtoDOCX = require('html-docx-js');
-            const { JSDOM } = require("jsdom");
-
-            let docxFileName = `itinerary/${Date.now()}.docx`;
-            const docxPath = path.join(__dirname, "..", "..", "uploads", docxFileName);
-
-            // ✅ Convert HTML → DOCX Buffer using JSDOM + html-docx-js
-            const dom = new JSDOM(htmlContent);
-            const document = dom.window.document;
-
-            const docxBuffer = HTMLtoDOCX.asBlob(document.documentElement.outerHTML);
-
-            // ✅ save file in uploads
-            fs.writeFileSync(docxPath, docxBuffer);
-
-            let saveObject = {
-                type: data.type,
-                name: data.hostName,
-                price: data.price,
-                flightDate1: data.dates.from,
-                flightDate2: data.dates.to,
-                pdfUrl: `/uploads/${docxFileName}`,
-                fileName: docxFileName,
-                date: data.date || new Date()
-            }
-
-            let saveData = await generatedPdfs(saveObject).save();
-
-            res.send({
-                code: constants.successCode,
-                message: "DOCX generated successfully",
-                data: saveData
-            });
+        let fileName = `itinerary/${Date.now()}.pdf`
+        const outputPath = path.join(__dirname, "..", "..", "uploads", fileName);
+        await page.pdf({
+            path: outputPath,
+            format: "A4",
+            printBackground: true,
+            margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
+        });
+        await browser.close();
+        if(req.body.fileType == "docx"){
+            let inputPath = "https://api.pdf.tajgateways.com/"+`/uploads/${fileName}`
+            let outputPath = "https://api.pdf.tajgateways.com/"+`/uploads/${fileName.replace(".pdf", ".docx")}`
+            convertPDFtoDocx(inputPath, outputPath)
         }
-        else {
-            res.send({
-                code: constants.errorCode,
-                message: "PDF generation failed Invalid type",
-                data: saveData
-            })
+
+        let saveObject = {
+            type: data.type,
+            name: data.hostName,
+            price: data.price,
+            flightDate1: data.dates.from,
+            flightDate2: data.dates.to,
+            pdfUrl: `/uploads/${fileName}`,
+            fileName: fileName,
+            date: data.date || new Date()
         }
+        let saveData = await generatedPdfs(saveObject).save()
+        console.log(`PDF generated at: ${outputPath}`);
+        res.send({
+            code: constants.successCode,
+            message: "PDF generated successfully",
+            data: saveData
+        })
+        // } else if (req.body.fileType == "docx") {
+        //     console.log("inside docx");
+
+        //     const HTMLtoDOCX = require('html-docx-js');
+        //     const { JSDOM } = require("jsdom");
+
+        //     let docxFileName = `itinerary/${Date.now()}.docx`;
+        //     const docxPath = path.join(__dirname, "..", "..", "uploads", docxFileName);
+
+        //     // ✅ Convert HTML → DOCX Buffer using JSDOM + html-docx-js
+        //     const dom = new JSDOM(htmlContent);
+        //     const document = dom.window.document;
+
+        //     const docxBuffer = HTMLtoDOCX.asBlob(document.documentElement.outerHTML);
+
+        //     // ✅ save file in uploads
+        //     fs.writeFileSync(docxPath, docxBuffer);
+
+        //     let saveObject = {
+        //         type: data.type,
+        //         name: data.hostName,
+        //         price: data.price,
+        //         flightDate1: data.dates.from,
+        //         flightDate2: data.dates.to,
+        //         pdfUrl: `/uploads/${docxFileName}`,
+        //         fileName: docxFileName,
+        //         date: data.date || new Date()
+        //     }
+
+        //     let saveData = await generatedPdfs(saveObject).save();
+
+        //     res.send({
+        //         code: constants.successCode,
+        //         message: "DOCX generated successfully",
+        //         data: saveData
+        //     });
+        // } else {
+        //     res.send({
+        //         code: constants.errorCode,
+        //         message: "PDF generation failed Invalid type",
+        //         data: saveData
+        //     })
+        // }
 
         //
         // return outputPath;
