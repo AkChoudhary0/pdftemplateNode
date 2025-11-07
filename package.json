@@ -15,7 +15,7 @@
     "mongoose": "^8.17.1",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
-    "pdf-parse": "^2.4.5",
+    "pdf-parse": "^1.1.1",
     "puppeteer": "^24.22.0"
   }
 }
