@@ -391,6 +391,19 @@
             gap: 20px;
         }
 
+        @media (max-width: 1220px) {
+            .hotel-outer {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobile (1 card per row) */
+        @media (max-width: 600px) {
+            .hotel-outer {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .quotation-row {
             display: flex;
             justify-content: space-between;
@@ -858,29 +871,32 @@
 
     <script>
         // ✅ Parse injected JSON safely
-        const itinerary = JSON.parse(`{{itineraryData}}`);
-        const hotels = JSON.parse(`{{hotelData}}`);
+         const itinerary = JSON.parse(`{{itineraryData}}`);
+         const hotels = JSON.parse(`{{hotelData}}`);
         // const hotels = [
         //     {
         //         "name": "THE CANVAS HOTEL BUR DUBAI",
         //         "checkIn": "2025-12-27",
         //         "checkOut": "2026-01-02",
         //         "breakfastIncluded": true,
-        //         "hotelPrice": 50000
+        //         "hotelPrice": 50000,
+        //         "image": "https://www.airebooker.com/wp-content/uploads/2025/08/ai-book-features.png"
         //     },
         //     {
         //         "name": "THE CANVAS HOTEL BUR DUBAI",
         //         "checkIn": "2025-12-27",
         //         "checkOut": "2026-01-02",
         //         "breakfastIncluded": true,
-        //         "hotelPrice": 50000
+        //         "hotelPrice": 50000,
+        //         "image": "https://www.airebooker.com/wp-content/uploads/2025/08/ai-book-features.png"
         //     },
         //     {
         //         "name": "THE CANVAS HOTEL BUR DUBAI",
         //         "checkIn": "2025-12-27",
         //         "checkOut": "2026-01-02",
         //         "breakfastIncluded": true,
-        //         "hotelPrice": 50000
+        //         "hotelPrice": 50000,
+        //         "image": "https://www.airebooker.com/wp-content/uploads/2025/08/ai-book-features.png"
         //     }
         // ]
 
