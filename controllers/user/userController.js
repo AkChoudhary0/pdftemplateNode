@@ -2201,22 +2201,15 @@ const puppeteer = require("puppeteer");
 
 async function convertPDFtoDocx(inputPath, outputPath) {
     try {
-        // read PDF
         const pdfData = fs.readFileSync(inputPath);
-
-        // extract text
         const pdfContent = await PDFParser(pdfData);
 
-        // create Word document
         const doc = new Document({
             sections: [{
-                children: [
-                    new Paragraph(pdfContent.text)
-                ]
+                children: [new Paragraph(pdfContent.text)]
             }]
         });
 
-        // write .docx file
         const buffer = await Packer.toBuffer(doc);
         fs.writeFileSync(outputPath, buffer);
 
@@ -2225,6 +2218,7 @@ async function convertPDFtoDocx(inputPath, outputPath) {
         console.log("❌ Error converting file:", e);
     }
 }
+
 
 
 
@@ -2343,14 +2337,16 @@ exports.generateItinerary = async (req, res) => {
         });
         await browser.close();
         if (req.body.fileType == "docx") {
-            // let inputPath = "https://api.pdf.tajgateways.com/"+`uploads/1762537916529.pdf`
             const inputPath = path.join(__dirname, "uploads", "itinerary", "1762537916529.pdf");
-            fileName = `itinerary/${Date.now()}.docx`
-            // let outputPath = "https://api.pdf.tajgateways.com/"+`uploads/${fileName.replace(".pdf", ".docx")}`
-            const outputPath = path.join(__dirname, "uploads", "itinerary", fileName.replace(".pdf", ".docx"));
-            convertPDFtoDocx(inputPath, outputPath)
 
+            const fileName = `${Date.now()}.docx`;  // ✅ only filename, no extra itinerary
+            const outputPath = path.join(__dirname, "uploads", "itinerary", fileName);
+
+            console.log({ inputPath, outputPath });
+
+            convertPDFtoDocx(inputPath, outputPath);
         }
+
 
         let saveObject = {
             type: data.type,
