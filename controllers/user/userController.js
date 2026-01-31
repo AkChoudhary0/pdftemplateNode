@@ -16,61 +16,326 @@ const PDFParser = require("pdf-parse");
 const { Document, Packer, Paragraph } = require("docx");
 
 
+// const hotels = [
+//     {
+//         "hotel": "Citymax Hotel Bur Dubai",
+//         "street": "Mankhool and Kuwait Street",
+//         "area": "Bur Dubai",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Grand Excelsior Hotel Bur Dubai",
+//         "street": "Al Kuwait St",
+//         "area": "Bur Dubai",
+//         "country": "Dubai, United Arab Emirates"
+//     },
+//     {
+//         "hotel": "Wescott Hotel Bur Dubai",
+//         "street": "Al Souq Al Kabeer",
+//         "area": "Bur Dubai",
+//         "country": "Dubai, United Arab Emirates"
+//     },
+//     {
+//         "hotel": "Admiral Plaza Hotel Bur Dubai",
+//         "street": "Khalid Bin Walid Road, Al Nahdha Street",
+//         "area": "Bur Dubai",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Park Regis Hotel Bur Dubai",
+//         "street": "Khalid Bin Al Waleed St",
+//         "area": "Bur Dubai (Near Burjuman Metro Station)",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Double Tree By Hilton Bur Dubai",
+//         "street": "Al Mankhool Road",
+//         "area": "Bur Dubai",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Regent Palace Hotel Al Karama",
+//         "street": "Khalid Bin Al Waleed Rd",
+//         "area": "Al Karama",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Fortune Karama Hotel",
+//         "street": "2 17A St",
+//         "area": "Al Karama (Near Karama Metro Station)",
+//         "country": "Dubai, UAE"
+//     },
+//     {
+//         "hotel": "Savoy Suites Hotel Apartments Bur Dubai",
+//         "street": "Street #12",
+//         "area": "Mankhool, Bur Dubai",
+//         "country": "Dubai, UAE"
+//     }
+// ];
+
+
+
 const hotels = [
-    {
-        "hotel": "Citymax Hotel Bur Dubai",
-        "street": "Mankhool and Kuwait Street",
-        "area": "Bur Dubai",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Grand Excelsior Hotel Bur Dubai",
-        "street": "Al Kuwait St",
-        "area": "Bur Dubai",
-        "country": "Dubai, United Arab Emirates"
-    },
-    {
-        "hotel": "Wescott Hotel Bur Dubai",
-        "street": "Al Souq Al Kabeer",
-        "area": "Bur Dubai",
-        "country": "Dubai, United Arab Emirates"
-    },
-    {
-        "hotel": "Admiral Plaza Hotel Bur Dubai",
-        "street": "Khalid Bin Walid Road, Al Nahdha Street",
-        "area": "Bur Dubai",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Park Regis Hotel Bur Dubai",
-        "street": "Khalid Bin Al Waleed St",
-        "area": "Bur Dubai (Near Burjuman Metro Station)",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Double Tree By Hilton Bur Dubai",
-        "street": "Al Mankhool Road",
-        "area": "Bur Dubai",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Regent Palace Hotel Al Karama",
-        "street": "Khalid Bin Al Waleed Rd",
-        "area": "Al Karama",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Fortune Karama Hotel",
-        "street": "2 17A St",
-        "area": "Al Karama (Near Karama Metro Station)",
-        "country": "Dubai, UAE"
-    },
-    {
-        "hotel": "Savoy Suites Hotel Apartments Bur Dubai",
-        "street": "Street #12",
-        "area": "Mankhool, Bur Dubai",
-        "country": "Dubai, UAE"
-    }
+  {
+    "hotel": "Admiral Plaza Hotel Bur Dubai",
+    "street": "Khalid Bin Walid Road, Al Nahdha Street",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "ANANTARA HOTEL D.T DXB",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "AVANI HOTEL DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "CITY MAX HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Citymax Hotel Bur Dubai",
+    "street": "Mankhool and Kuwait Street",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "CROWN PLAZA DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "DOLPHIN HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "DOUBLE TREE BY HILTON B.D",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Double Tree By Hilton Bur Dubai",
+    "street": "Al Mankhool Road",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "FORTUNE GRAND DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "FORTUNE KARMA HOTEL",
+    "street": "2 17A St",
+    "area": "Al Karama (Near Karama Metro Station)",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "FORTUNE PEARL DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "FOUR POINT BY SHERATON",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "FOUR POINT SHERATON (D.T)",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "GEVORA HOTEL (D.T DXB)",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Grand Excelsior Hotel Bur Dubai",
+    "street": "Al Kuwait St",
+    "area": "Bur Dubai",
+    "country": "Dubai, United Arab Emirates"
+  },
+  {
+    "hotel": "KNIGHT CASTLE DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "ORCHID HOTEL DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "PARK REGIS HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Park Regis Hotel Bur Dubai",
+    "street": "Khalid Bin Al Waleed St",
+    "area": "Bur Dubai (Near Burjuman Metro Station)",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "RAINTREE HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "RAMADA BY WHYNDAM DEIRA",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Regent Palace Hotel Al Karama",
+    "street": "Khalid Bin Al Waleed Rd",
+    "area": "Al Karama",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "ROYAL ASCOTT HOTEL B.D",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "ROYAL TULIP HOTEL DEIRA DXB",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SAFFORAN BATIQUE DEIRA DXB",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Savoy Suites Hotel Apartments Bur Dubai",
+    "street": "Street #12",
+    "area": "Mankhool, Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SEA VIEW HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SIGNATURE HOTEL DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SOFITEL DOWNTOWN DXB",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SUNDAY HOLIDAY BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "SUNDAY INT HOLIDAY (D.T)",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "THE CANVAS HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "VERSALIS BY VIRAS DEIRA DUBAI",
+    "street": "",
+    "area": "Deira",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Voco: Dubai",
+    "street": "",
+    "area": "Downtown Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "WESCOTT HOTEL BUR DUBAI",
+    "street": "",
+    "area": "Bur Dubai",
+    "country": "Dubai, UAE"
+  },
+  {
+    "hotel": "Wescott Hotel Bur Dubai",
+    "street": "Al Souq Al Kabeer",
+    "area": "Bur Dubai",
+    "country": "Dubai, United Arab Emirates"
+  },
+
+  // 🇦🇲 ARMENIA
+  {
+    "hotel": "Royal Plaza by Stellar Hotels, Yerevan",
+    "street": "Tumanyan Street",
+    "area": "Kentron",
+    "country": "Yerevan, Armenia"
+  },
+  {
+    "hotel": "DoubleTree by Hilton Hotel Yerevan City Centre",
+    "street": "Grigor Lusavorich Street",
+    "area": "Kentron",
+    "country": "Yerevan, Armenia"
+  },
+  {
+    "hotel": "Ramada Hotel & Suites by Wyndham Yerevan",
+    "street": "Pavstos Buzand Street",
+    "area": "Kentron",
+    "country": "Yerevan, Armenia"
+  },
+  {
+    "hotel": "Ani Grand Hotel Yerevan",
+    "street": "Abovyan Street",
+    "area": "Kentron",
+    "country": "Yerevan, Armenia"
+  },
+  {
+    "hotel": "Europe Hotel Yerevan",
+    "street": "Hanrapetutyan Street",
+    "area": "Kentron",
+    "country": "Yerevan, Armenia"
+  },
+  {
+    "hotel": "Radisson Blu Hotel, Yerevan",
+    "street": "Azatutyan Avenue",
+    "area": "Arabkir",
+    "country": "Yerevan, Armenia"
+  }
 ];
 
 
